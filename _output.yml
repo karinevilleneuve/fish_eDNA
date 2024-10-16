@@ -1,0 +1,6 @@
+bookdown::gitbook:
+  css: style.css
+  config:
+    toc:
+    edit: https://github.com/karinevilleneuve/fish_eDNA/master/%s
+
