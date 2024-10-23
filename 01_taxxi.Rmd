@@ -1,0 +1,85 @@
+## Taxonomy cross validation by identity (TAXXI) {-}
+
+Cross-validation by identity (CVI) models varying distances between query sequences and reference sequences. A reference with known taxonomies is split into test and training sets such that for all test sequences, the most similar training sequence has a given identity (*d*). This is repeated for different identities, enabling assessment of prediction accuracy at varying distances from the reference.
+
+Some important definitions : 
+
+- The *lowest common rank* (LCR) of two sequences is the lowest rank where both have the same taxon name.
+- The *most probable lowest common rank* (MLR) for a pair of sequences with identity *d* is defined as the LCR with highest probability. MLRs can be summarized by giving the rank identity threshold (RIT) for each rank *r*.
+- The *rank identity threshold* (RIT) for each rank *r* is defined as the minimum identity for which MLR(d) = *r*. For example, if MLR(100) = species, MLR(99) = genus, MLR(98) = genus, ... MLR(94) = genus and MLR(93) = family, then RIT(species) = 100 and RIT(genus) = 94. 
+- The *top-hit identity distribution* (THID) is the distances from a reference database.
+
+<img style="padding:30px" src="data/taxxi_figures.jpg" align="left" width="20%"/>
+
+\
+*R* is the reference dataset divided into four disjoint subsets *S*, *T*, *W* and *Z*.\
+*S* is the **test set** while the **training set** is *A*, which is formed by the union of *T*and *W*.\
+*T* is the set of top hits for sequences in *S*, which are constrained to have identities in the range *d* ± σ \
+(where σ specifies the maximum allowed deviation from the desired identity (*d*)).\
+*W* contains reference sequences with identity < *d*; these are retained to create the largest possible training set. \
+*Z* contains sequences which cannot be assigned to *S*, *T* or *W* without violating the identity constraint.
+
+<br clear="left"/>
+
+### Making a benchmark dataset{-}
+
+The `distmx_split_identity` command from [USEARCH](https://www.drive5.com/usearch/manual/cvi.html) divides sequences into subsets such that the top-hit identity is a given value. This is used to create test-training pairs for cross-validation by identity. Input is a distance matrix created by the `calc_distmx command`. As per methods described in [Edgar (2018)](https://peerj.com/articles/4652/#p-3) maximum allowed deviation (σ) from *d* used : σ = 1% for *d* = 90% and σ = 0.5% for *d* = 99, 97 and 95%.  
+
+Testing with available databases (barque COI [[3](https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/)], RDP COI V5.1.0 [[5](https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0)], RDP 12S [[10](https://github.com/terrimporter/12SfishClassifier/releases/tag/v1.0.1)] and barque 12S [[11](https://github.com/enormandeau/barque/blob/master/03_databases/12S.fasta.gz)]). \ 
+Following code was adapted from [Donhauser *et al.* (2024)](https://doi.org/10.1016/j.ecoinf.2024.102817) and cross-validated with the [USEARCH](https://www.drive5.com/usearch/manual/cvi.html) documentation. 
+
+Remove tab spaces in sequence name (for RDP databases specifically)
+```{bash, eval = FALSE}
+for i in *.fasta ; do sed -i 's/\t/_/g' $i ; done 
+```
+
+To create the distance matrix the following code was executed from a bash script called `run_distmx.sh` using nohup. 
+```{bash, eval = FALSE}
+for i in *.fasta ; do ~/usearch -calc_distmx $i -maxdist 0.2 -termdist 0.3 -tabbedout ${i%%.*}_distmax.txt; done
+```
+
+Notes : 
+```
+Issue with barque_coi : Memory limit of 32-bit process exceeded, 64-bit build required..
+Size of COI databases, barque vs RDP : 
+
+- barque_coi : 1,215,952,678
+- rdp_coi :    1,708,094,361
+``` 
+
+To create training and test datasets at different % identity the following code was executed from a bash script called `run_splitid.sh` using nohup. 
+```{bash, eval = FALSE}
+for i in *.fasta ; do
+        ~/usearch -distmx_split_identity ${i%%.*}_distmax.txt -mindist 0.025 -maxdist 0.035 -tabbedout ${i%%.*}.97.subsets.txt
+        ~/usearch -distmx_split_identity ${i%%.*}_distmax.txt -mindist 0.045 -maxdist 0.055 -tabbedout ${i%%.*}.95.subsets.txt
+        ~/usearch -distmx_split_identity ${i%%.*}_distmax.txt -mindist 0.095 -maxdist 0.105 -tabbedout ${i%%.*}.90.subsets.txt
+done
+```
+
+Output is a tabbed text given by the -tabbedout option. Fields are:
+
+- Col1 - `Subset name` : there are four subsets with names `1`, `2`, `1x` and `2x`.
+- Col2 - `Label1` : label1 is the label of a sequence in the subset given by Col1.
+- Col3 - `Label2` : label2 is the top hit in the other subset (1 or 2)
+- Col4 - `Dist`   : distance between Label1 and Label2.
+
+Subsets `1` and `2` have top hits to each other in the specified range. Subset `1x` has lower identities with subset `2`, and can therefore be added to the training set if subset `2` is the query set. Similarly, subset `2x` has lower identities with subset `1` and can be added to the training set if subset `1` is the query
+
+```{bash, eval = FALSE}
+for i in *.subsets.txt ; do awk '$1==1 || $1=="1x" {print $2}' $i > $i.trainingIDs.txt; awk '$1==2 {print $2}' $i > $i.testIDs.txt; done 
+```
+
+Create fasta file with test and training set at each identity based on list
+```{bash, eval = FALSE}
+for i in *.trainingIDs.txt ; do seqkit grep -n -f $i ${i%%.*}.fasta > $i.trainning.fasta ; done
+for i in *.testIDs.txt ; do seqkit grep -n -f $i {i%%.*}.fasta > $i.test.fasta ; done 
+```
+
+Modify header to be in this format : 
+>gi_636560836;tax=d:Bacteria,p:Firmicutes,c:Bacilli,o:Bacillales,f:Alicyclobacillaceae,g:Alicyclobacillus;
+
+https://scikit-learn.org/stable/modules/cross_validation.html 
+
+Edgar_anacapa_BLCA_classifier_test_config.sh to test for TAXXI matrics
+
+

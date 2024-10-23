@@ -1,0 +1,70 @@
+,Species,Order,Family,Occurrence,FishBase name,Name in Country,12S barque,12S RDP,COI barque,COI RDP
+1,Acipenser fulvescens,Acipenseriformes,Acipenseridae,native ,Lake sturgeon ,Esturgeon jaune ,Yes,Yes,Yes,Yes
+2,Anguilla rostrata,Anguilliformes,Anguillidae,introduced ,American eel ,,Yes,Yes,Yes,Yes
+3,Carassius auratus,Cypriniformes,Cyprinidae,introduced ,Goldfish ,Cyprin doré ,Yes,Yes,Yes,Yes
+4,Carassius gibelio,Cypriniformes,Cyprinidae,introduced ,Prussian carp ,,Yes,Yes,Yes,Yes
+5,Carpiodes cyprinus,Cypriniformes,Catostomidae,native ,Quillback ,,Yes,No,Yes,Yes
+6,Catostomus catostomus,Cypriniformes,Catostomidae,native ,Longnose sucker ,Meunier rouge ,Yes,Yes,Yes,Yes
+7,Catostomus commersonii,Cypriniformes,Catostomidae,native ,White sucker ,Meunier noir ,Yes,Yes,Yes,Yes
+8,Catostomus macrocheilus,Cypriniformes,Catostomidae,native ,Largescale sucker ,Meunier à grandes écailles ,No,No,Yes,Yes
+9,Catostomus platyrhynchus,Cypriniformes,Catostomidae,native ,Mountain sucker ,Meunier des montagnes ,No,No,Yes,Yes
+10,Chrosomus eos,Cypriniformes,Leuciscidae,native ,Northern redbelly dace ,Ventre rouge du nord ,No,Yes,Yes,Yes
+11,Chrosomus neogaeus,Cypriniformes,Leuciscidae,native ,Finescale dace ,Ventre citron ,No,No,Yes,Yes
+12,Coregonus artedi,Salmoniformes,Salmonidae,native ,Cisco ,Cisco de lac ,Yes,Yes,Yes,Yes
+13,Coregonus clupeaformis,Salmoniformes,Salmonidae,native ,Lake whitefish ,Grand corégone ,Yes,Yes,Yes,Yes
+14,Coregonus zenithicus,Salmoniformes,Salmonidae,native ,Shortjaw cisco ,Cisco à mâchoires égales ,No,No,Yes,Yes
+15,Cottus bairdii,Perciformes/Cottoidei,Cottidae,native ,Mottled sculpin ,Chabot tacheté ,Yes,Yes,Yes,Yes
+16,Cottus cognatus,Perciformes/Cottoidei,Cottidae,native ,Slimy sculpin ,Chabot visqueux ,Yes,No,Yes,Yes
+17,Cottus confusus,Perciformes/Cottoidei,Cottidae,native ,Shorthead sculpin ,Chabot à tête courte ,No,No,Yes,Yes
+18,Cottus ricei,Perciformes/Cottoidei,Cottidae,native ,Spoonhead sculpin ,Chabot à tête plate ,Yes,No,Yes,Yes
+19,Couesius plumbeus,Cypriniformes,Leuciscidae,native ,Lake chub ,Méné de lac ,Yes,Yes,Yes,Yes
+20,Culaea inconstans,Perciformes/Gasterosteoidei,Gasterosteidae,native ,Brook stickleback ,Épinoche à cinq épines ,Yes,Yes,Yes,Yes
+21,Esox lucius,Esociformes,Esocidae,native ,Northern pike ,Grand brochet ,Yes,Yes,Yes,Yes
+22,Etheostoma exile,Perciformes/Percoidei,Percidae,native ,Iowa darter ,Weed darter ,Yes,No,Yes,Yes
+23,Gambusia affinis,Cyprinodontiformes,Poeciliidae,introduced ,Mosquitofish ,Gambusie ,Yes,Yes,Yes,Yes
+24,Gasterosteus aculeatus,Perciformes/Gasterosteoidei,Gasterosteidae,introduced ,Three-spined stickleback ,Épinoche à trois épines ,Yes,Yes,Yes,Yes
+25,Hiodon alosoides,Hiodontiformes,Hiodontidae,native ,Goldeye ,La Queche ,Yes,Yes,Yes,Yes
+26,Hiodon tergisus,Hiodontiformes,Hiodontidae,native ,Mooneye ,Laquaiche argentée ,Yes,Yes,Yes,Yes
+27,Hybognathus argyritis,Cypriniformes,Leuciscidae,native ,Western silvery minnow ,,No,No,Yes,Yes
+28,Hybognathus hankinsoni,Cypriniformes,Leuciscidae,native ,Brassy minnow ,Mémé laiton ,Yes,No,Yes,Yes
+29,Lepomis gibbosus,Centrarchiformes,Centrarchidae,introduced ,Pumpkinseed ,Crapet-soleil ,Yes,Yes,Yes,Yes
+30,Lethenteron camtschaticum,Petromyzontiformes,Petromyzontidae,native ,Arctic lamprey ,Lamproie arctique ,Yes,Yes,Yes,Yes
+31,Lota lota,Gadiformes,Lotidae,native ,Burbot ,Lotte ,Yes,Yes,Yes,Yes
+32,Margariscus nachtriebi,Cypriniformes,Leuciscidae,native ,Northern pearl dace ,,No,No,No,No
+33,Micropterus dolomieu,Centrarchiformes,Centrarchidae,introduced ,Smallmouth bass ,Achigan à petite bouche ,Yes,Yes,Yes,Yes
+34,Micropterus salmoides,Centrarchiformes,Centrarchidae,introduced ,Largemouth black bass ,Achigan à grande bouche ,Yes,Yes,Yes,Yes
+35,Moxostoma anisurum,Cypriniformes,Catostomidae,native ,Silver redhorse ,Suceur blanc ,Yes,No,Yes,Yes
+36,Moxostoma macrolepidotum,Cypriniformes,Catostomidae,native ,Shorthead redhorse ,Suceur rouge ,Yes,No,Yes,Yes
+37,Myoxocephalus thompsonii,Perciformes/Cottoidei,Cottidae,native ,Deepwater sculpin ,,No,No,Yes,Yes
+38,Notropis atherinoides,Cypriniformes,Leuciscidae,native ,Emerald shiner ,Méné émeraude ,Yes,Yes,Yes,Yes
+39,Notropis blennius,Cypriniformes,Leuciscidae,native ,River shiner ,,No,No,Yes,Yes
+40,Notropis hudsonius,Cypriniformes,Leuciscidae,native ,Spottail shiner ,Queue à tache noire ,Yes,Yes,Yes,Yes
+41,Noturus flavus,Siluriformes,Ictaluridae,native ,Stonecat ,,Yes,No,Yes,Yes
+42,Oncorhynchus aguabonita,Salmoniformes,Salmonidae,introduced ,Golden trout ,Truite dorée ,No,No,No,No
+43,Oncorhynchus kisutch,Salmoniformes,Salmonidae,introduced ,Coho salmon ,Saumon coho ,Yes,Yes,Yes,Yes
+44,Oncorhynchus mykiss,Salmoniformes,Salmonidae,native ,Rainbow trout ,Truite-arc-en-ciel ,Yes,Yes,Yes,Yes
+45,Oncorhynchus nerka,Salmoniformes,Salmonidae,introduced ,Sockeye salmon ,Hísṇ ,Yes,Yes,Yes,Yes
+46,Perca flavescens,Perciformes/Percoidei,Percidae,native ,American yellow perch ,Perchaude ,Yes,Yes,Yes,Yes
+47,Percina caprodes,Perciformes/Percoidei,Percidae,native ,Logperch ,Dard-perche ,Yes,No,Yes,Yes
+48,Percopsis omiscomaycus,Percopsiformes,Percopsidae,native ,Trout-perch ,Omisco ,Yes,No,Yes,Yes
+49,Pimephales promelas,Cypriniformes,Leuciscidae,native ,Fathead minnow ,,Yes,Yes,Yes,Yes
+50,Platygobio gracilis,Cypriniformes,Leuciscidae,native ,Flathead chub ,Méné à tête plate ,Yes,Yes,Yes,Yes
+51,Poecilia latipinna,Cyprinodontiformes,Poeciliidae,introduced ,Sailfin molly ,Molliénésie á voilure ,Yes,Yes,Yes,Yes
+52,Prosopium coulterii,Salmoniformes,Salmonidae,native ,Pygmy whitefish ,Ménomini pygmée ,No,No,Yes,Yes
+53,Prosopium cylindraceum,Salmoniformes,Salmonidae,native ,Round whitefish ,Ménomini rond ,Yes,Yes,Yes,Yes
+54,Prosopium williamsoni,Salmoniformes,Salmonidae,native ,Mountain whitefish ,Grayling ,Yes,Yes,Yes,Yes
+55,Ptychocheilus oregonensis,Cypriniformes,Leuciscidae,native ,Northern pikeminnow ,Sauvagesse du nord ,No,No,Yes,Yes
+56,Pungitius pungitius,Perciformes/Gasterosteoidei,Gasterosteidae,native ,Ninespine stickleback ,Épinoche à neuf épines ,Yes,Yes,Yes,Yes
+57,Rhinichthys cataractae,Cypriniformes,Leuciscidae,native ,Longnose dace ,Naseux des rapides ,Yes,Yes,Yes,Yes
+58,Richardsonius balteatus,Cypriniformes,Leuciscidae,native ,Redside shiner ,Méné rose ,Yes,Yes,Yes,Yes
+59,Rubricatochromis bimaculatus,Cichliformes,Cichlidae,introduced ,Jewelfish ,Cichlidé à deux taches ,No,No,No,No
+60,Salmo salar,Salmoniformes,Salmonidae,introduced ,Atlantic salmon ,Saumon atlantique ,Yes,Yes,Yes,Yes
+61,Salmo trutta,Salmoniformes,Salmonidae,introduced ,Sea trout ,Truite brune ,Yes,Yes,Yes,Yes
+62,Salvelinus alpinus,Salmoniformes,Salmonidae,introduced ,Arctic char ,Omble chevalier ,Yes,Yes,Yes,Yes
+63,Salvelinus confluentus,Salmoniformes,Salmonidae,native ,Bull trout ,Omble à tête plate ,No,No,Yes,Yes
+64,Salvelinus fontinalis,Salmoniformes,Salmonidae,introduced ,Brook trout ,Truite ,Yes,Yes,Yes,Yes
+65,Salvelinus malma,Salmoniformes,Salmonidae,introduced ,Dolly varden ,Dolly Varden ,No,Yes,Yes,Yes
+66,Salvelinus namaycush,Salmoniformes,Salmonidae,native ,Lake trout ,Touladi ,Yes,Yes,Yes,Yes
+67,Sander canadensis,Perciformes/Percoidei,Percidae,native ,Sauger ,Doré noir ,Yes,Yes,Yes,Yes
+68,Sander vitreus,Perciformes/Percoidei,Percidae,native ,Walleye ,Doré ,Yes,Yes,Yes,Yes
+69,Thymallus arcticus,Salmoniformes,Salmonidae,native ,Arctic grayling ,,Yes,Yes,Yes,Yes

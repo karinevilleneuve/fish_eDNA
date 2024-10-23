@@ -4,26 +4,24 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Fish eDNA</title>
-  <meta name="description" content="Fish eDNA" />
+  <title>Our dataset | Fish-eDNA.knit</title>
+  <meta name="description" content="" />
   <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Fish eDNA" />
+  <meta property="og:title" content="Our dataset | Fish-eDNA.knit" />
   <meta property="og:type" content="book" />
   
   
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Fish eDNA" />
+  <meta name="twitter:title" content="Our dataset | Fish-eDNA.knit" />
   
   
   
 
-<meta name="author" content="Karine Villeneuve" />
 
 
-<meta name="date" content="2024-10-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +29,7 @@
   
   
 
-
+<link rel="next" href="code.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -52,8 +50,81 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.33/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <style type="text/css">
   
@@ -73,7 +144,29 @@
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path=""><a href="#our-dataset"><i class="fa fa-check"></i>Our dataset</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Our dataset</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#alberta-fishes"><i class="fa fa-check"></i>Alberta fishes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#worklfows-and-their-associated-available-databases"><i class="fa fa-check"></i>Worklfows and their associated available databases</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#representation-of-alberta-freshwater-fishes-in-databases"><i class="fa fa-check"></i>Representation of Alberta freshwater fishes in databases</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#comparing-pipelines-with-available-databases"><i class="fa fa-check"></i>Comparing pipelines with available databases</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dada2"><i class="fa fa-check"></i>DADA2</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#barque"><i class="fa fa-check"></i>Barque</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#curating-databases"><i class="fa fa-check"></i>Curating databases</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#taxonomy-cross-validation-by-identity-taxxi"><i class="fa fa-check"></i>Taxonomy cross validation by identity (TAXXI)</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#making-a-benchmark-dataset"><i class="fa fa-check"></i>Making a benchmark dataset</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="code.html"><a href="code.html"><i class="fa fa-check"></i>Code</a>
+<ul>
+<li class="chapter" data-level="" data-path="code.html"><a href="code.html#evaluating-representation-in-databases"><i class="fa fa-check"></i>Evaluating representation in databases</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="supplementary-data.html"><a href="supplementary-data.html"><i class="fa fa-check"></i>Supplementary data</a></li>
 </ul>
 
       </nav>
@@ -83,7 +176,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fish eDNA</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
           </h1>
         </div>
 
@@ -91,62 +184,155 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Fish eDNA</h1>
-<p class="author"><em>Karine Villeneuve</em></p>
-<p class="date"><em>2024-10-16</em></p>
-</div>
+<!--bookdown:title:end-->
+<!--bookdown:title:start-->
 <div id="our-dataset" class="section level1 unnumbered hasAnchor">
-<h1>Our dataset<a href="#our-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>I was given the following dataset of fastq files which were generated by (1) collecting 18 water samples from rivers and lakes near oil-sands extraction site in the province of Alberta, Canada (see map below), (2) filtering the water samples, (3) extracting the DNA collected on the filer, and (4) sequencing the extracted DNA. For each sample collected, two different marker genes were used to amplify and sequence distinct DNA regions : the <strong>12S</strong> ribosomal RNA gene and the mitochondrial cytochrome oxidase subunit (<strong>COI</strong>).</p>
-<p><strong>Amplified regions details</strong></p>
-<table style="width:100%;">
-<colgroup>
-<col width="8%" />
-<col width="8%" />
-<col width="27%" />
-<col width="27%" />
-<col width="20%" />
-<col width="8%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Marker</th>
-<th>Names</th>
-<th>Forward primer sequence</th>
-<th>Reverse primer sequence</th>
-<th>Fragment size (bp)</th>
-<th>Source</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>12S</td>
-<td>MiFish-U</td>
-<td>CCGGTAAAACTCGTGCCAGC</td>
-<td>CATAGTGGGGTATCTAATCCCAGTTTG</td>
-<td>247</td>
-<td><a href="DOI:%5B10.1111/mec.14395" class="uri">DOI:[10.1111/mec.14395</a>](<a href="https://doi.org/10.1111/mec.14395" class="uri">https://doi.org/10.1111/mec.14395</a>)</td>
-</tr>
-<tr class="even">
-<td>COI</td>
-<td>COI-PS1</td>
-<td>CGTATTTGGYGCYTGRGCCGGRATAGT</td>
-<td>CARAARCTYATRTTRTTYATTCG</td>
-<td>163-158</td>
-<td><a href="DOI:%5B10.1098/rsos.150088" class="uri">DOI:[10.1098/rsos.150088</a>](<a href="https://doi.org/10.1098/rsos.150088" class="uri">https://doi.org/10.1098/rsos.150088</a>)</td>
-</tr>
-</tbody>
-</table>
+<h1>Our dataset<a href="index.html#our-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>18 water samples collected from rivers and lakes near oil-sands extraction sites in the province of Alberta, Canada. Collected water was filtered and DNA collected on the filers was extracted and sequenced. For each sample collected, two different marker genes were used to amplify and sequence distinct DNA regions : the <strong>12S</strong> ribosomal RNA gene and the mitochondrial cytochrome oxidase subunit (<strong>COI</strong>).</p>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-e3d8e4e6936f7f0ec952" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-e3d8e4e6936f7f0ec952">{"x":{"filter":"none","vertical":false,"caption":"<caption>Amplified regions details<\/caption>","data":[[" 12S      "," COI      "],[" MiFish-U "," COI-PS1  "],[" CCGGTAAAACTCGTGCCAGC        "," CGTATTTGGYGCYTGRGCCGGRATAGT "],[" CATAGTGGGGTATCTAATCCCAGTTTG "," CARAARCTYATRTTRTTYATTCG     "],["247"," 163-158              "],["https://doi.org/10.1111/mec.14395","https://doi.org/10.1098/rsos.150088"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> Marker<\/th>\n      <th>Names<\/th>\n      <th>Forward primer sequence<\/th>\n      <th>Reverse primer sequence<\/th>\n      <th>Fragment size (bp)<\/th>\n      <th>Source<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"t","paging":false,"ordering":false,"initComplete":"function(settings, json) {\n$(this.api().table().header()).css({'font-size': '10px'});\n}","columnDefs":[{"name":" Marker","targets":0},{"name":"Names","targets":1},{"name":"Forward primer sequence","targets":2},{"name":"Reverse primer sequence","targets":3},{"name":"Fragment size (bp)","targets":4},{"name":"Source","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'10px'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'10px'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'10px'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'10px'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'10px'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'10px'});\n}"}},"evals":["options.initComplete","options.rowCallback"],"jsHooks":[]}</script>
+<div id="alberta-fishes" class="section level2 unnumbered hasAnchor">
+<h2>Alberta fishes<a href="index.html#alberta-fishes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><a href="https://www.fishbase.se/search.php">Fishbase</a> was used to generate the following list of Alberta freshwater fishes.</p>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-257b064f8168a3b9c7c4" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-257b064f8168a3b9c7c4">{"x":{"filter":"none","vertical":false,"data":[["Acipenser fulvescens","Anguilla rostrata","Carassius auratus","Carassius gibelio","Carpiodes cyprinus","Catostomus catostomus","Catostomus commersonii","Catostomus macrocheilus","Catostomus platyrhynchus","Chrosomus eos","Chrosomus neogaeus","Coregonus artedi","Coregonus clupeaformis","Coregonus zenithicus","Cottus bairdii","Cottus cognatus","Cottus confusus","Cottus ricei","Couesius plumbeus","Culaea inconstans","Esox lucius","Etheostoma exile","Gambusia affinis","Gasterosteus aculeatus","Hiodon alosoides","Hiodon tergisus","Hybognathus argyritis","Hybognathus hankinsoni","Lepomis gibbosus","Lethenteron camtschaticum","Lota lota","Margariscus nachtriebi","Micropterus dolomieu","Micropterus salmoides","Moxostoma anisurum","Moxostoma macrolepidotum","Myoxocephalus thompsonii","Notropis atherinoides","Notropis blennius","Notropis hudsonius","Noturus flavus","Oncorhynchus aguabonita","Oncorhynchus kisutch","Oncorhynchus mykiss","Oncorhynchus nerka","Perca flavescens","Percina caprodes","Percopsis omiscomaycus","Pimephales promelas","Platygobio gracilis","Poecilia latipinna","Prosopium coulterii","Prosopium cylindraceum","Prosopium williamsoni","Ptychocheilus oregonensis","Pungitius pungitius","Rhinichthys cataractae","Richardsonius balteatus","Rubricatochromis bimaculatus","Salmo salar","Salmo trutta","Salvelinus alpinus","Salvelinus confluentus","Salvelinus fontinalis","Salvelinus malma","Salvelinus namaycush","Sander canadensis","Sander vitreus","Thymallus arcticus"],["Acipenseriformes","Anguilliformes","Cypriniformes","Cypriniformes","Cypriniformes","Cypriniformes","Cypriniformes","Cypriniformes","Cypriniformes","Cypriniformes","Cypriniformes","Salmoniformes","Salmoniformes","Salmoniformes","Perciformes/Cottoidei","Perciformes/Cottoidei","Perciformes/Cottoidei","Perciformes/Cottoidei","Cypriniformes","Perciformes/Gasterosteoidei","Esociformes","Perciformes/Percoidei","Cyprinodontiformes","Perciformes/Gasterosteoidei","Hiodontiformes","Hiodontiformes","Cypriniformes","Cypriniformes","Centrarchiformes","Petromyzontiformes","Gadiformes","Cypriniformes","Centrarchiformes","Centrarchiformes","Cypriniformes","Cypriniformes","Perciformes/Cottoidei","Cypriniformes","Cypriniformes","Cypriniformes","Siluriformes","Salmoniformes","Salmoniformes","Salmoniformes","Salmoniformes","Perciformes/Percoidei","Perciformes/Percoidei","Percopsiformes","Cypriniformes","Cypriniformes","Cyprinodontiformes","Salmoniformes","Salmoniformes","Salmoniformes","Cypriniformes","Perciformes/Gasterosteoidei","Cypriniformes","Cypriniformes","Cichliformes","Salmoniformes","Salmoniformes","Salmoniformes","Salmoniformes","Salmoniformes","Salmoniformes","Salmoniformes","Perciformes/Percoidei","Perciformes/Percoidei","Salmoniformes"],["Acipenseridae","Anguillidae","Cyprinidae","Cyprinidae","Catostomidae","Catostomidae","Catostomidae","Catostomidae","Catostomidae","Leuciscidae","Leuciscidae","Salmonidae","Salmonidae","Salmonidae","Cottidae","Cottidae","Cottidae","Cottidae","Leuciscidae","Gasterosteidae","Esocidae","Percidae","Poeciliidae","Gasterosteidae","Hiodontidae","Hiodontidae","Leuciscidae","Leuciscidae","Centrarchidae","Petromyzontidae","Lotidae","Leuciscidae","Centrarchidae","Centrarchidae","Catostomidae","Catostomidae","Cottidae","Leuciscidae","Leuciscidae","Leuciscidae","Ictaluridae","Salmonidae","Salmonidae","Salmonidae","Salmonidae","Percidae","Percidae","Percopsidae","Leuciscidae","Leuciscidae","Poeciliidae","Salmonidae","Salmonidae","Salmonidae","Leuciscidae","Gasterosteidae","Leuciscidae","Leuciscidae","Cichlidae","Salmonidae","Salmonidae","Salmonidae","Salmonidae","Salmonidae","Salmonidae","Salmonidae","Percidae","Percidae","Salmonidae"],["native ","introduced ","introduced ","introduced ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","introduced ","introduced ","native ","native ","native ","native ","introduced ","native ","native ","native ","introduced ","introduced ","native ","native ","native ","native ","native ","native ","native ","introduced ","introduced ","native ","introduced ","native ","native ","native ","native ","native ","introduced ","native ","native ","native ","native ","native ","native ","native ","introduced ","introduced ","introduced ","introduced ","native ","introduced ","introduced ","native ","native ","native ","native "],["Lake sturgeon ","American eel ","Goldfish ","Prussian carp ","Quillback ","Longnose sucker ","White sucker ","Largescale sucker ","Mountain sucker ","Northern redbelly dace ","Finescale dace ","Cisco ","Lake whitefish ","Shortjaw cisco ","Mottled sculpin ","Slimy sculpin ","Shorthead sculpin ","Spoonhead sculpin ","Lake chub ","Brook stickleback ","Northern pike ","Iowa darter ","Mosquitofish ","Three-spined stickleback ","Goldeye ","Mooneye ","Western silvery minnow ","Brassy minnow ","Pumpkinseed ","Arctic lamprey ","Burbot ","Northern pearl dace ","Smallmouth bass ","Largemouth black bass ","Silver redhorse ","Shorthead redhorse ","Deepwater sculpin ","Emerald shiner ","River shiner ","Spottail shiner ","Stonecat ","Golden trout ","Coho salmon ","Rainbow trout ","Sockeye salmon ","American yellow perch ","Logperch ","Trout-perch ","Fathead minnow ","Flathead chub ","Sailfin molly ","Pygmy whitefish ","Round whitefish ","Mountain whitefish ","Northern pikeminnow ","Ninespine stickleback ","Longnose dace ","Redside shiner ","Jewelfish ","Atlantic salmon ","Sea trout ","Arctic char ","Bull trout ","Brook trout ","Dolly varden ","Lake trout ","Sauger ","Walleye ","Arctic grayling "],["Esturgeon jaune ","","Cyprin doré ","","","Meunier rouge ","Meunier noir ","Meunier à grandes écailles ","Meunier des montagnes ","Ventre rouge du nord ","Ventre citron ","Cisco de lac ","Grand corégone ","Cisco à mâchoires égales ","Chabot tacheté ","Chabot visqueux ","Chabot à tête courte ","Chabot à tête plate ","Méné de lac ","Épinoche à cinq épines ","Grand brochet ","Weed darter ","Gambusie ","Épinoche à trois épines ","La Queche ","Laquaiche argentée ","","Mémé laiton ","Crapet-soleil ","Lamproie arctique ","Lotte ","","Achigan à petite bouche ","Achigan à grande bouche ","Suceur blanc ","Suceur rouge ","","Méné émeraude ","","Queue à tache noire ","","Truite dorée ","Saumon coho ","Truite-arc-en-ciel ","Hísṇ ","Perchaude ","Dard-perche ","Omisco ","","Méné à tête plate ","Molliénésie á voilure ","Ménomini pygmée ","Ménomini rond ","Grayling ","Sauvagesse du nord ","Épinoche à neuf épines ","Naseux des rapides ","Méné rose ","Cichlidé à deux taches ","Saumon atlantique ","Truite brune ","Omble chevalier ","Omble à tête plate ","Truite ","Dolly Varden ","Touladi ","Doré noir ","Doré ",""]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Species<\/th>\n      <th>Order<\/th>\n      <th>Family<\/th>\n      <th>Occurrence<\/th>\n      <th>FishBase name<\/th>\n      <th>Name in Country<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"initComplete":"function(settings, json) {\n$(this.api().table().header()).css({'font-size': '11px'});\n}","columnDefs":[{"name":"Species","targets":0},{"name":"Order","targets":1},{"name":"Family","targets":2},{"name":"Occurrence","targets":3},{"name":"FishBase name","targets":4},{"name":"Name in Country","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'11px'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'11px'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'11px'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'11px'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'11px'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'11px'});\n}"}},"evals":["options.initComplete","options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="worklfows-and-their-associated-available-databases" class="section level2 unnumbered hasAnchor">
+<h2>Worklfows and their associated available databases<a href="index.html#worklfows-and-their-associated-available-databases" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-f805598dd74ef44c17a8" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-f805598dd74ef44c17a8">{"x":{"filter":"none","vertical":false,"data":[["DADA2 [4]","DADA2 [4]","barque [2]","barque [2]"],["Ribosomal Database Project (RDP) classifier [8]","Ribosomal Database Project (RDP) classifier [8]","VSEARCH [9]","VSEARCH [9]"],["12S","COI","12S","COI"],["12S fish Classifier v1.0.1 [10] ","Eukaryote CO1 Classifier [5]","12S formatted for barque [11]","COI  formatted for Barque [3]"],["Mitochondrial Genome Database of Fish (MitoFish) [6]","National Center for Biotechnology Information (NCBI) [7]","Mitochondrial Genome Database of Fish (MitoFish) [6]","Barcode of Life Database (BOLD) [1]"],["V1.0.1","V5.1.0",null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Workflow<\/th>\n      <th>Classifier<\/th>\n      <th>Marker<\/th>\n      <th>Database name<\/th>\n      <th>Orignial database queried<\/th>\n      <th>Version<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"t","paging":false,"ordering":false,"initComplete":"function(settings, json) {\n$(this.api().table().header()).css({'font-size': '11px'});\n}","columnDefs":[{"name":"Workflow","targets":0},{"name":"Classifier","targets":1},{"name":"Marker","targets":2},{"name":"Database name","targets":3},{"name":"Orignial database queried","targets":4},{"name":"Version","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'11px'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'11px'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'11px'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'11px'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'11px'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'11px'});\n}"}},"evals":["options.initComplete","options.rowCallback"],"jsHooks":[]}</script>
+<p><strong>Links</strong></p>
+<ul>
+<li>[1] <a href="https://www.boldsystems.org/">Barcode of life (BOLD)</a></li>
+<li>[2] <a href="https://github.com/enormandeau/barque">barque workflow</a></li>
+<li>[3] <a href="https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/">COI formatted for Barque</a></li>
+<li>[4] <a href="https://benjjneb.github.io/dada2/ITS_workflow.html">DADA2 workflow</a></li>
+<li>[5] <a href="https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0">Eukaryote CO1 Classifier</a></li>
+<li>[6] <a href="https://mitofish.aori.u-tokyo.ac.jp/">Mitochondrial Genome Database of Fish (MitoFish)</a></li>
+<li>[7] <a href="https://www.ncbi.nlm.nih.gov/">National Center for Biotechnology Information (NCBI)</a></li>
+<li>[8] <a href="https://github.com/rdpstaff/classifier">Ribosomal Database Project (RDP) classifier</a></li>
+<li>[9] <a href="https://github.com/torognes/vsearch">VSEARCH</a></li>
+<li>[10] <a href="https://github.com/terrimporter/12SfishClassifier/releases/tag/v1.0.1">12S fish Classifier v1.0.1</a></li>
+<li>[11] <a href="https://github.com/enormandeau/barque/blob/master/03_databases/12S.fasta.gz">12S formatted for barque</a></li>
+</ul>
+<div id="representation-of-alberta-freshwater-fishes-in-databases" class="section level3 unnumbered hasAnchor">
+<h3>Representation of Alberta freshwater fishes in databases<a href="index.html#representation-of-alberta-freshwater-fishes-in-databases" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Original code to evaluate if the fish from Alberta were present in each of the databases (<a href="https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/">3</a>, <a href="https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0">5</a> , <a href="https://github.com/terrimporter/12SfishClassifier/releases/tag/v1.0.1">10</a>, <a href="https://github.com/enormandeau/barque/blob/master/03_databases/12S.fasta.gz">11</a>) can be found [here][Evaluation representation in databases].</p>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-be4e56211f731e80e954" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-be4e56211f731e80e954">{"x":{"filter":"none","vertical":false,"data":[["Acipenser fulvescens","Anguilla rostrata","Carassius auratus","Carassius gibelio","Carpiodes cyprinus","Catostomus catostomus","Catostomus commersonii","Catostomus macrocheilus","Catostomus platyrhynchus","Chrosomus eos","Chrosomus neogaeus","Coregonus artedi","Coregonus clupeaformis","Coregonus zenithicus","Cottus bairdii","Cottus cognatus","Cottus confusus","Cottus ricei","Couesius plumbeus","Culaea inconstans","Esox lucius","Etheostoma exile","Gambusia affinis","Gasterosteus aculeatus","Hiodon alosoides","Hiodon tergisus","Hybognathus argyritis","Hybognathus hankinsoni","Lepomis gibbosus","Lethenteron camtschaticum","Lota lota","Margariscus nachtriebi","Micropterus dolomieu","Micropterus salmoides","Moxostoma anisurum","Moxostoma macrolepidotum","Myoxocephalus thompsonii","Notropis atherinoides","Notropis blennius","Notropis hudsonius","Noturus flavus","Oncorhynchus aguabonita","Oncorhynchus kisutch","Oncorhynchus mykiss","Oncorhynchus nerka","Perca flavescens","Percina caprodes","Percopsis omiscomaycus","Pimephales promelas","Platygobio gracilis","Poecilia latipinna","Prosopium coulterii","Prosopium cylindraceum","Prosopium williamsoni","Ptychocheilus oregonensis","Pungitius pungitius","Rhinichthys cataractae","Richardsonius balteatus","Rubricatochromis bimaculatus","Salmo salar","Salmo trutta","Salvelinus alpinus","Salvelinus confluentus","Salvelinus fontinalis","Salvelinus malma","Salvelinus namaycush","Sander canadensis","Sander vitreus","Thymallus arcticus"],["Acipenseriformes","Anguilliformes","Cypriniformes","Cypriniformes","Cypriniformes","Cypriniformes","Cypriniformes","Cypriniformes","Cypriniformes","Cypriniformes","Cypriniformes","Salmoniformes","Salmoniformes","Salmoniformes","Perciformes/Cottoidei","Perciformes/Cottoidei","Perciformes/Cottoidei","Perciformes/Cottoidei","Cypriniformes","Perciformes/Gasterosteoidei","Esociformes","Perciformes/Percoidei","Cyprinodontiformes","Perciformes/Gasterosteoidei","Hiodontiformes","Hiodontiformes","Cypriniformes","Cypriniformes","Centrarchiformes","Petromyzontiformes","Gadiformes","Cypriniformes","Centrarchiformes","Centrarchiformes","Cypriniformes","Cypriniformes","Perciformes/Cottoidei","Cypriniformes","Cypriniformes","Cypriniformes","Siluriformes","Salmoniformes","Salmoniformes","Salmoniformes","Salmoniformes","Perciformes/Percoidei","Perciformes/Percoidei","Percopsiformes","Cypriniformes","Cypriniformes","Cyprinodontiformes","Salmoniformes","Salmoniformes","Salmoniformes","Cypriniformes","Perciformes/Gasterosteoidei","Cypriniformes","Cypriniformes","Cichliformes","Salmoniformes","Salmoniformes","Salmoniformes","Salmoniformes","Salmoniformes","Salmoniformes","Salmoniformes","Perciformes/Percoidei","Perciformes/Percoidei","Salmoniformes"],["Acipenseridae","Anguillidae","Cyprinidae","Cyprinidae","Catostomidae","Catostomidae","Catostomidae","Catostomidae","Catostomidae","Leuciscidae","Leuciscidae","Salmonidae","Salmonidae","Salmonidae","Cottidae","Cottidae","Cottidae","Cottidae","Leuciscidae","Gasterosteidae","Esocidae","Percidae","Poeciliidae","Gasterosteidae","Hiodontidae","Hiodontidae","Leuciscidae","Leuciscidae","Centrarchidae","Petromyzontidae","Lotidae","Leuciscidae","Centrarchidae","Centrarchidae","Catostomidae","Catostomidae","Cottidae","Leuciscidae","Leuciscidae","Leuciscidae","Ictaluridae","Salmonidae","Salmonidae","Salmonidae","Salmonidae","Percidae","Percidae","Percopsidae","Leuciscidae","Leuciscidae","Poeciliidae","Salmonidae","Salmonidae","Salmonidae","Leuciscidae","Gasterosteidae","Leuciscidae","Leuciscidae","Cichlidae","Salmonidae","Salmonidae","Salmonidae","Salmonidae","Salmonidae","Salmonidae","Salmonidae","Percidae","Percidae","Salmonidae"],["native ","introduced ","introduced ","introduced ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","native ","introduced ","introduced ","native ","native ","native ","native ","introduced ","native ","native ","native ","introduced ","introduced ","native ","native ","native ","native ","native ","native ","native ","introduced ","introduced ","native ","introduced ","native ","native ","native ","native ","native ","introduced ","native ","native ","native ","native ","native ","native ","native ","introduced ","introduced ","introduced ","introduced ","native ","introduced ","introduced ","native ","native ","native ","native "],["Lake sturgeon ","American eel ","Goldfish ","Prussian carp ","Quillback ","Longnose sucker ","White sucker ","Largescale sucker ","Mountain sucker ","Northern redbelly dace ","Finescale dace ","Cisco ","Lake whitefish ","Shortjaw cisco ","Mottled sculpin ","Slimy sculpin ","Shorthead sculpin ","Spoonhead sculpin ","Lake chub ","Brook stickleback ","Northern pike ","Iowa darter ","Mosquitofish ","Three-spined stickleback ","Goldeye ","Mooneye ","Western silvery minnow ","Brassy minnow ","Pumpkinseed ","Arctic lamprey ","Burbot ","Northern pearl dace ","Smallmouth bass ","Largemouth black bass ","Silver redhorse ","Shorthead redhorse ","Deepwater sculpin ","Emerald shiner ","River shiner ","Spottail shiner ","Stonecat ","Golden trout ","Coho salmon ","Rainbow trout ","Sockeye salmon ","American yellow perch ","Logperch ","Trout-perch ","Fathead minnow ","Flathead chub ","Sailfin molly ","Pygmy whitefish ","Round whitefish ","Mountain whitefish ","Northern pikeminnow ","Ninespine stickleback ","Longnose dace ","Redside shiner ","Jewelfish ","Atlantic salmon ","Sea trout ","Arctic char ","Bull trout ","Brook trout ","Dolly varden ","Lake trout ","Sauger ","Walleye ","Arctic grayling "],["Esturgeon jaune ","","Cyprin doré ","","","Meunier rouge ","Meunier noir ","Meunier à grandes écailles ","Meunier des montagnes ","Ventre rouge du nord ","Ventre citron ","Cisco de lac ","Grand corégone ","Cisco à mâchoires égales ","Chabot tacheté ","Chabot visqueux ","Chabot à tête courte ","Chabot à tête plate ","Méné de lac ","Épinoche à cinq épines ","Grand brochet ","Weed darter ","Gambusie ","Épinoche à trois épines ","La Queche ","Laquaiche argentée ","","Mémé laiton ","Crapet-soleil ","Lamproie arctique ","Lotte ","","Achigan à petite bouche ","Achigan à grande bouche ","Suceur blanc ","Suceur rouge ","","Méné émeraude ","","Queue à tache noire ","","Truite dorée ","Saumon coho ","Truite-arc-en-ciel ","Hísṇ ","Perchaude ","Dard-perche ","Omisco ","","Méné à tête plate ","Molliénésie á voilure ","Ménomini pygmée ","Ménomini rond ","Grayling ","Sauvagesse du nord ","Épinoche à neuf épines ","Naseux des rapides ","Méné rose ","Cichlidé à deux taches ","Saumon atlantique ","Truite brune ","Omble chevalier ","Omble à tête plate ","Truite ","Dolly Varden ","Touladi ","Doré noir ","Doré ",""],["Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","No","No","No","Yes","Yes","No","Yes","Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes","Yes","No","Yes","No","Yes","Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","No","Yes","Yes","Yes","No","Yes","Yes","Yes","No","Yes","No","Yes","Yes","Yes","Yes"],["Yes","Yes","Yes","Yes","No","Yes","Yes","No","No","Yes","No","Yes","Yes","No","Yes","No","No","No","Yes","Yes","Yes","No","Yes","Yes","Yes","Yes","No","No","Yes","Yes","Yes","No","Yes","Yes","No","No","No","Yes","No","Yes","No","No","Yes","Yes","Yes","Yes","No","No","Yes","Yes","Yes","No","Yes","Yes","No","Yes","Yes","Yes","No","Yes","Yes","Yes","No","Yes","Yes","Yes","Yes","Yes","Yes"],["Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes"],["Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Species<\/th>\n      <th>Order<\/th>\n      <th>Family<\/th>\n      <th>Occurrence<\/th>\n      <th>FishBase name<\/th>\n      <th>Name in Country<\/th>\n      <th>12S barque<\/th>\n      <th>12S RDP<\/th>\n      <th>COI barque<\/th>\n      <th>COI RDP<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"t","paging":false,"ordering":false,"initComplete":"function(settings, json) {\n$(this.api().table().header()).css({'font-size': '11px'});\n}","columnDefs":[{"name":"Species","targets":0},{"name":"Order","targets":1},{"name":"Family","targets":2},{"name":"Occurrence","targets":3},{"name":"FishBase name","targets":4},{"name":"Name in Country","targets":5},{"name":"12S barque","targets":6},{"name":"12S RDP","targets":7},{"name":"COI barque","targets":8},{"name":"COI RDP","targets":9}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'11px'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'11px'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'11px'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'11px'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'11px'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'11px'});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'font-size':'11px'});\nvar value=data[7]; $(this.api().cell(row, 7).node()).css({'font-size':'11px'});\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'font-size':'11px'});\nvar value=data[9]; $(this.api().cell(row, 9).node()).css({'font-size':'11px'});\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'background-color':value == \"Yes\" ? \"#DeF7E9\" : value == \"No\" ? \"#ff7f7f\" : null,'background-size':'50%','background-position':'center'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background-color':value == \"Yes\" ? \"#DeF7E9\" : value == \"No\" ? \"#ff7f7f\" : null,'background-size':'50%','background-position':'center'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'background-color':value == \"Yes\" ? \"#DeF7E9\" : value == \"No\" ? \"#ff7f7f\" : null,'background-size':'50%','background-position':'center'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'background-color':value == \"Yes\" ? \"#DeF7E9\" : value == \"No\" ? \"#ff7f7f\" : null,'background-size':'50%','background-position':'center'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'background-color':value == \"Yes\" ? \"#DeF7E9\" : value == \"No\" ? \"#ff7f7f\" : null,'background-size':'50%','background-position':'center'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'background-color':value == \"Yes\" ? \"#DeF7E9\" : value == \"No\" ? \"#ff7f7f\" : null,'background-size':'50%','background-position':'center'});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'background-color':value == \"Yes\" ? \"#DeF7E9\" : value == \"No\" ? \"#ff7f7f\" : null,'background-size':'50%','background-position':'center'});\nvar value=data[7]; $(this.api().cell(row, 7).node()).css({'background-color':value == \"Yes\" ? \"#DeF7E9\" : value == \"No\" ? \"#ff7f7f\" : null,'background-size':'50%','background-position':'center'});\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'background-color':value == \"Yes\" ? \"#DeF7E9\" : value == \"No\" ? \"#ff7f7f\" : null,'background-size':'50%','background-position':'center'});\nvar value=data[9]; $(this.api().cell(row, 9).node()).css({'background-color':value == \"Yes\" ? \"#DeF7E9\" : value == \"No\" ? \"#ff7f7f\" : null,'background-size':'50%','background-position':'center'});\n}"}},"evals":["options.initComplete","options.rowCallback"],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="comparing-pipelines-with-available-databases" class="section level2 unnumbered hasAnchor">
+<h2>Comparing pipelines with available databases<a href="index.html#comparing-pipelines-with-available-databases" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="dada2" class="section level3 unnumbered hasAnchor">
+<h3>DADA2<a href="index.html#dada2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="s" class="section level4 unnumbered hasAnchor">
+<h4>12S<a href="index.html#s" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+</div>
+<div id="coi" class="section level4 unnumbered hasAnchor">
+<h4>COI<a href="index.html#coi" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>839 ASV | from these 839 ASVs, 20 (2.38 %) are species with a bootstrap level above 70 % | from these 20 species, 8 (40 %) are from class actinopteri | from these 8 actinopteri, 7 (87.5 %) are species of freshwater fishes found in Alberta.</p>
+</div>
+</div>
+<div id="barque" class="section level3 unnumbered hasAnchor">
+<h3>Barque<a href="index.html#barque" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+</div>
+<div id="curating-databases" class="section level2 unnumbered hasAnchor">
+<h2>Curating databases<a href="index.html#curating-databases" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><a href="https://forum.qiime2.org/t/building-a-coi-database-from-bold-references/16129" class="uri">https://forum.qiime2.org/t/building-a-coi-database-from-bold-references/16129</a></p>
+<p>Using <code>seqkit</code> tool to filter databases in order to keep only sequences of freshwater fishes found in Alberta</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-v</span> <span class="at">-n</span> <span class="at">-f</span> id_list.txt in.fasta <span class="op">&gt;</span> out.fasta</span></code></pre></div>
 
 </div>
+<div id="taxonomy-cross-validation-by-identity-taxxi" class="section level2 unnumbered hasAnchor">
+<h2>Taxonomy cross validation by identity (TAXXI)<a href="index.html#taxonomy-cross-validation-by-identity-taxxi" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Cross-validation by identity (CVI) models varying distances between query sequences and reference sequences. A reference with known taxonomies is split into test and training sets such that for all test sequences, the most similar training sequence has a given identity (<em>d</em>). This is repeated for different identities, enabling assessment of prediction accuracy at varying distances from the reference.</p>
+<p>Some important definitions :</p>
+<ul>
+<li>The <em>lowest common rank</em> (LCR) of two sequences is the lowest rank where both have the same taxon name.</li>
+<li>The <em>most probable lowest common rank</em> (MLR) for a pair of sequences with identity <em>d</em> is defined as the LCR with highest probability. MLRs can be summarized by giving the rank identity threshold (RIT) for each rank <em>r</em>.</li>
+<li>The <em>rank identity threshold</em> (RIT) for each rank <em>r</em> is defined as the minimum identity for which MLR(d) = <em>r</em>. For example, if MLR(100) = species, MLR(99) = genus, MLR(98) = genus, … MLR(94) = genus and MLR(93) = family, then RIT(species) = 100 and RIT(genus) = 94.</li>
+<li>The <em>top-hit identity distribution</em> (THID) is the distances from a reference database.</li>
+</ul>
+<p><img style="padding:30px" src="data/taxxi_figures.jpg" align="left" width="20%"/></p>
+<p><br />
+<em>R</em> is the reference dataset divided into four disjoint subsets <em>S</em>, <em>T</em>, <em>W</em> and <em>Z</em>.<br />
+<em>S</em> is the <strong>test set</strong> while the <strong>training set</strong> is <em>A</em>, which is formed by the union of <em>T</em>and <em>W</em>.<br />
+<em>T</em> is the set of top hits for sequences in <em>S</em>, which are constrained to have identities in the range <em>d</em> ± σ<br />
+(where σ specifies the maximum allowed deviation from the desired identity (<em>d</em>)).<br />
+<em>W</em> contains reference sequences with identity &lt; <em>d</em>; these are retained to create the largest possible training set.<br />
+<em>Z</em> contains sequences which cannot be assigned to <em>S</em>, <em>T</em> or <em>W</em> without violating the identity constraint.</p>
+<p><br clear="left"/></p>
+<div id="making-a-benchmark-dataset" class="section level3 unnumbered hasAnchor">
+<h3>Making a benchmark dataset<a href="index.html#making-a-benchmark-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <code>distmx_split_identity</code> command from <a href="https://www.drive5.com/usearch/manual/cvi.html">USEARCH</a> divides sequences into subsets such that the top-hit identity is a given value. This is used to create test-training pairs for cross-validation by identity. Input is a distance matrix created by the <code>calc_distmx command</code>. As per methods described in <a href="https://peerj.com/articles/4652/#p-3">Edgar (2018)</a> maximum allowed deviation (σ) from <em>d</em> used : σ = 1% for <em>d</em> = 90% and σ = 0.5% for <em>d</em> = 99, 97 and 95%.</p>
+<p>Testing with available databases (barque COI [<a href="https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/">3</a>], RDP COI V5.1.0 [<a href="https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0">5</a>], RDP 12S [<a href="https://github.com/terrimporter/12SfishClassifier/releases/tag/v1.0.1">10</a>] and barque 12S [<a href="https://github.com/enormandeau/barque/blob/master/03_databases/12S.fasta.gz">11</a>]).  
+Following code was adapted from <a href="https://doi.org/10.1016/j.ecoinf.2024.102817">Donhauser <em>et al.</em> (2024)</a> and cross-validated with the <a href="https://www.drive5.com/usearch/manual/cvi.html">USEARCH</a> documentation.</p>
+<p>Remove tab spaces in sequence name (for RDP databases specifically)</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="index.html#cb2-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/\t/_/g&#39;</span> <span class="va">$i</span> <span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
+<p>To create the distance matrix the following code was executed from a bash script called <code>run_distmx.sh</code> using nohup.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="index.html#cb3-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="ex">~/usearch</span> <span class="at">-calc_distmx</span> <span class="va">$i</span> <span class="at">-maxdist</span> 0.2 <span class="at">-termdist</span> 0.3 <span class="at">-tabbedout</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_distmax.txt<span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
+<p>Notes :</p>
+<pre><code>Issue with barque_coi : Memory limit of 32-bit process exceeded, 64-bit build required..
+Size of COI databases, barque vs RDP : 
+
+- barque_coi : 1,215,952,678
+- rdp_coi :    1,708,094,361</code></pre>
+<p>To create training and test datasets at different % identity the following code was executed from a bash script called <code>run_splitid.sh</code> using nohup.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="index.html#cb5-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.fasta <span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb5-2"><a href="index.html#cb5-2" tabindex="-1"></a>        <span class="ex">~/usearch</span> <span class="at">-distmx_split_identity</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_distmax.txt <span class="at">-mindist</span> 0.025 <span class="at">-maxdist</span> 0.035 <span class="at">-tabbedout</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.97.subsets.txt</span>
+<span id="cb5-3"><a href="index.html#cb5-3" tabindex="-1"></a>        <span class="ex">~/usearch</span> <span class="at">-distmx_split_identity</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_distmax.txt <span class="at">-mindist</span> 0.045 <span class="at">-maxdist</span> 0.055 <span class="at">-tabbedout</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.95.subsets.txt</span>
+<span id="cb5-4"><a href="index.html#cb5-4" tabindex="-1"></a>        <span class="ex">~/usearch</span> <span class="at">-distmx_split_identity</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_distmax.txt <span class="at">-mindist</span> 0.095 <span class="at">-maxdist</span> 0.105 <span class="at">-tabbedout</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.90.subsets.txt</span>
+<span id="cb5-5"><a href="index.html#cb5-5" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>Output is a tabbed text given by the -tabbedout option. Fields are:</p>
+<ul>
+<li>Col1 - <code>Subset name</code> : there are four subsets with names <code>1</code>, <code>2</code>, <code>1x</code> and <code>2x</code>.</li>
+<li>Col2 - <code>Label1</code> : label1 is the label of a sequence in the subset given by Col1.</li>
+<li>Col3 - <code>Label2</code> : label2 is the top hit in the other subset (1 or 2)</li>
+<li>Col4 - <code>Dist</code> : distance between Label1 and Label2.</li>
+</ul>
+<p>Subsets <code>1</code> and <code>2</code> have top hits to each other in the specified range. Subset <code>1x</code> has lower identities with subset <code>2</code>, and can therefore be added to the training set if subset <code>2</code> is the query set. Similarly, subset <code>2x</code> has lower identities with subset <code>1</code> and can be added to the training set if subset <code>1</code> is the query</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="index.html#cb6-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.subsets.txt <span class="kw">;</span> <span class="cf">do</span> <span class="fu">awk</span> <span class="st">&#39;$1==1 || $1==&quot;1x&quot; {print $2}&#39;</span> <span class="va">$i</span> <span class="op">&gt;</span> <span class="va">$i</span>.trainingIDs.txt<span class="kw">;</span> <span class="fu">awk</span> <span class="st">&#39;$1==2 {print $2}&#39;</span> <span class="va">$i</span> <span class="op">&gt;</span> <span class="va">$i</span>.testIDs.txt<span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
+<p>Create fasta file with test and training set at each identity based on list</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="index.html#cb7-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.trainingIDs.txt <span class="kw">;</span> <span class="cf">do</span> <span class="ex">seqkit</span> grep <span class="at">-n</span> <span class="at">-f</span> <span class="va">$i</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.fasta <span class="op">&gt;</span> <span class="va">$i</span>.trainning.fasta <span class="kw">;</span> <span class="cf">done</span></span>
+<span id="cb7-2"><a href="index.html#cb7-2" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.testIDs.txt <span class="kw">;</span> <span class="cf">do</span> <span class="ex">seqkit</span> grep <span class="at">-n</span> <span class="at">-f</span> <span class="va">$i</span> {i%%.<span class="pp">*</span>}.fasta <span class="op">&gt;</span> <span class="va">$i</span>.test.fasta <span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
+<p>Modify header to be in this format :
+&gt;gi_636560836;tax=d:Bacteria,p:Firmicutes,c:Bacilli,o:Bacillales,f:Alicyclobacillaceae,g:Alicyclobacillus;</p>
+<p><a href="https://scikit-learn.org/stable/modules/cross_validation.html" class="uri">https://scikit-learn.org/stable/modules/cross_validation.html</a></p>
+<p>Edgar_anacapa_BLCA_classifier_test_config.sh to test for TAXXI matrics</p>
+
+</div>
+</div>
+</div>
+<hr>
+<center>
+  <div class="footer">
+      Karine Villeneuve
+      <p : id="date"></p>
+<script>
+  // Get current date and time
+//  var now = new Date();
+//  var date = now.toLocaleString();
+//  n =  new Date();
+//  y = n.getFullYear();
+//  m = n.getMonth();
+//  d = n.getDate();
+//  document.getElementById("date").innerHTML = d + "/" + m + "/" + y;
+  n = new Date().toDateString()
+  document.getElementById("date").innerHTML = n
+  // Insert date and time into HTML
+//  document.getElementById("date").innerHTML = date;
+</script>
+  </div>
+</center>
             </section>
 
           </div>
         </div>
       </div>
 
-
+<a href="code.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

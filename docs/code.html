@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Fish-eDNA.knit</title>
+  <title>Code | Fish-eDNA.knit</title>
   <meta name="description" content="" />
   <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Fish-eDNA.knit" />
+  <meta property="og:title" content="Code | Fish-eDNA.knit" />
   <meta property="og:type" content="book" />
   
   
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Fish-eDNA.knit" />
+  <meta name="twitter:title" content="Code | Fish-eDNA.knit" />
   
   
   
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-
+<link rel="prev" href="index.html"/>
+<link rel="next" href="supplementary-data.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -184,11 +184,93 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="code" class="section level1 unnumbered hasAnchor">
+<h1>Code<a href="code.html#code" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="evaluating-representation-in-databases" class="section level2 unnumbered hasAnchor">
+<h2>Evaluating representation in databases<a href="code.html#evaluating-representation-in-databases" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<pre class="verbose"><code>#### ------------------------- Load libraries  ------------------------------------------------------####  
+
+library(Biostrings)
+library(tidyverse)
+
+#### ------------------------- Load list of Freshwater fishes from Alberta ------------------------- ####  
+
+
+alberta_fish = read.csv(&quot;/home/kvilleneuve/fish_edna/database/fishbase_alberta_freswater.csv&quot;, header = TRUE, check.names = FALSE)
+alberta_fish$Species = gsub(&quot; &quot;, &quot;_&quot;, alberta_fish$Species) # Replace space to underscore 
+
+
+### ------------------------- Load the databases -------------------------------------------------- #### 
+
+
+## RDP classifier ## 
+rdpcoi_raw = readDNAStringSet(&quot;/home/kvilleneuve/fish_edna/database/rdp_coiv5_1_0/mydata_ref/mytrainseq.fasta&quot;, format = &quot;fasta&quot;)
+rdp12s_raw = readDNAStringSet(&quot;/home/kvilleneuve/fish_edna/database/12Sfishclassifier/mydata_training/mytrainseq.fasta&quot;, format = &quot;fasta&quot;)
+
+## barque ##
+barquecoi_raw = readDNAStringSet(&quot;/home/kvilleneuve/fish_edna/database/bold_coi_for_barque_2023-09-12.fasta&quot;, format = &quot;fasta&quot;)
+barque12s_raw = readDNAStringSet(&quot;/home/kvilleneuve/fish_edna/database/barque_12S.fasta&quot;, format = &quot;fasta&quot;)
+
+
+### ------------------------- Parse databases dataframes  ----------------------------------------- #### 
+
+# Because the number of ranks differ between databases used with 
+# the RDP classifier and the barque workflow they are processed separately 
+
+## RDP databases 
+
+list_rdp_db = list(&quot;COI RDP&quot; = rdpcoi_raw, &quot;12S RDP&quot; = rdp12s_raw)
+list_rdp_taxa = list()
+i = 0 
+for (databases in list_rdp_db){
+  i = i + 1
+  rdp_db = as.data.frame(databases@ranges@NAMES)
+  rdp_taxa = rdp_db %&gt;% 
+    separate(`databases@ranges@NAMES`, c(&quot;Domain&quot;, &quot;Superkingdom&quot;, &quot;Kingdom&quot;, &quot;Phylum&quot;, &quot;Class&quot;, &quot;Order&quot;, &quot;Family&quot;, &quot;Genus&quot;, &quot;Species&quot;), &quot;;&quot;)
+  list_rdp_taxa[[i]] = rdp_taxa
+  names(list_rdp_taxa)[i] = names(list_rdp_db[i])
+}
+
+## barque databases 
+
+list_barque_db = list(&quot;12S barque&quot; = barque12s_raw, &quot;COI barque&quot; = barquecoi_raw)
+list_barque_taxa = list()
+i = 0 
+for (databases in list_barque_db){
+  i = i + 1
+  barque_db = as.data.frame(databases@ranges@NAMES) 
+  barque_taxa = barque_db %&gt;% 
+    separate(`databases@ranges@NAMES`, c(&quot;Family&quot;, &quot;Genus&quot;, &quot;sort_species&quot;), &quot;_&quot;)
+  barque_taxa$Species = paste(barque_taxa$Genus,&quot;_&quot;,barque_taxa$sort_species, sep =&quot;&quot;)
+  list_barque_taxa[[i]] = barque_taxa
+  names(list_barque_taxa)[i] = names(list_barque_db[i])
+}
+
+# After parsing each databases we combine them into as single list 
+# then we filter out fishes which are not found in their list of Alberta freshwater fishes
+
+jointlist_all_db = c(list_rdp_taxa, list_barque_taxa)
+list_filtered_db = list()
+i = 0
+for (databses in jointlist_all_db){
+  i = i + 1
+    filtered_db = databses %&gt;%
+    filter(Species %in% unique(alberta_fish$Species))
+  filtered_db_df = as.data.frame(unique(filtered_db$Species))
+  names(filtered_db_df) = &quot;Species&quot;
+  filtered_db_df[names(jointlist_all_db[i])] = &quot;Yes&quot;
+  list_filtered_db[[i]] = filtered_db_df
+}
+
+filtered_df = Reduce(function(...) merge(..., all=T), list_filtered_db)
+
+### ------------------------- Combine as dataframe as save output  ----------------------------------------- #### 
+
+final_df = merge(alberta_fish, filtered_df, by = &quot;Species&quot;, all = TRUE)
+final_df = gsub(&quot;_&quot;, &quot; &quot;, final_df$Species)
+write.csv(final_df, &quot;/home/kvilleneuve/fish_edna/results/represensation_albertafish_databases.csv&quot;, quote = FALSE)</code></pre>
+
+</div>
 </div>
 <hr>
 <center>
@@ -216,8 +298,8 @@ the table of contents to find the page you are looking for.</p>
           </div>
         </div>
       </div>
-
-
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="supplementary-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -248,7 +330,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/karinevilleneuve/fish_eDNA/master/%s",
+"link": "https://github.com/karinevilleneuve/fish_eDNA/master/02_code.Rmd",
 "text": "Edit"
 },
 "history": {

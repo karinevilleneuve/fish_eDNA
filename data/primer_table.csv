@@ -1,0 +1,3 @@
+﻿ Marker   , Names    , Forward primer sequence     , Reverse primer sequence     , Fragment size (bp)   , Source   
+ 12S      , MiFish-U , CCGGTAAAACTCGTGCCAGC        , CATAGTGGGGTATCTAATCCCAGTTTG ,247,https://doi.org/10.1111/mec.14395
+ COI      , COI-PS1  , CGTATTTGGYGCYTGRGCCGGRATAGT , CARAARCTYATRTTRTTYATTCG     , 163-158              ,https://doi.org/10.1098/rsos.150088

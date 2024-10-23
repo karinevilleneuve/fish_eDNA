@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Collecting data | Fish-eDNA.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Collecting data | Fish-eDNA.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Collecting data | Fish-eDNA.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.33/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Our dataset</a></li>
+<li class="chapter" data-level="" data-path="collecting-data.html"><a href="collecting-data.html"><i class="fa fa-check"></i>Collecting data</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="collecting-data" class="section level1 unnumbered hasAnchor">
+<h1>Collecting data<a href="collecting-data.html#collecting-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><a href="https://www.fishbase.se/search.php">Fishbase</a> was used to generate the following list of Alberta freshwater fishes.</p>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-2d9d295decfd9599e27c" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-2d9d295decfd9599e27c">{"x":{"filter":"none","vertical":false,"data":[[" 12S      "," COI      "],[" MiFish-U "," COI-PS1  "],[" CCGGTAAAACTCGTGCCAGC        "," CGTATTTGGYGCYTGRGCCGGRATAGT "],[" CATAGTGGGGTATCTAATCCCAGTTTG "," CARAARCTYATRTTRTTYATTCG     "],["247"," 163-158              "],["https://doi.org/10.1111/mec.14395","https://doi.org/10.1098/rsos.150088"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> Marker<\/th>\n      <th>Names<\/th>\n      <th>Forward primer sequence<\/th>\n      <th>Reverse primer sequence<\/th>\n      <th>Fragment size (bp)<\/th>\n      <th>Source<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"t","paging":true,"ordering":false,"initComplete":"function(settings, json) {\n$(this.api().table().header()).css({'font-size': '10px'});\n}","columnDefs":[{"name":" Marker","targets":0},{"name":"Names","targets":1},{"name":"Forward primer sequence","targets":2},{"name":"Reverse primer sequence","targets":3},{"name":"Fragment size (bp)","targets":4},{"name":"Source","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'10px'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'10px'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'10px'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'10px'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'10px'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'10px'});\n}"}},"evals":["options.initComplete","options.rowCallback"],"jsHooks":[]}</script>
+
+</div>
+<hr>
+<center>
+  <div class="footer">
+      Karine Villeneuve
+      <p : id="date"></p>
+<script>
+  // Get current date and time
+//  var now = new Date();
+//  var date = now.toLocaleString();
+//  n =  new Date();
+//  y = n.getFullYear();
+//  m = n.getMonth();
+//  d = n.getDate();
+//  document.getElementById("date").innerHTML = d + "/" + m + "/" + y;
+  n = new Date().toDateString()
+  document.getElementById("date").innerHTML = n
+  // Insert date and time into HTML
+//  document.getElementById("date").innerHTML = date;
+</script>
+  </div>
+</center>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/karinevilleneuve/fish_eDNA/master/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+}
+});
+});
+</script>
+
+</body>
+
+</html>

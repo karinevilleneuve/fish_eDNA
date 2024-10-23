@@ -13,10 +13,13 @@ pre code {
   white-space: inherit;
 }
 
-table {
-    display: block;
-    width: 30%;
-    width: max-content;
-    max-width: 30%;
-    overflow: auto;
+/* Footer */
+
+.footer {
+  font-family: "Lora", serif;
+  font-size: .85em;
+  color: #2ea8b3;
+}
+.book .book-body .page-wrapper .page-inner {
+  max-width: 1200px !important;
 }
