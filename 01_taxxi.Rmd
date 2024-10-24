@@ -12,12 +12,13 @@ Some important definitions :
 <img style="padding:30px" src="data/taxxi_figures.jpg" align="left" width="20%"/>
 
 \
-*R* is the reference dataset divided into four disjoint subsets *S*, *T*, *W* and *Z*.\
-*S* is the **test set** while the **training set** is *A*, which is formed by the union of *T*and *W*.\
-*T* is the set of top hits for sequences in *S*, which are constrained to have identities in the range *d* ± σ \
-(where σ specifies the maximum allowed deviation from the desired identity (*d*)).\
-*W* contains reference sequences with identity < *d*; these are retained to create the largest possible training set. \
-*Z* contains sequences which cannot be assigned to *S*, *T* or *W* without violating the identity constraint.
+- *R* is the reference dataset divided into four disjoint subsets *S*, *T*, *W* and *Z*.\
+- *S* is the **test set**.\
+- *A* is the **training set** formed by the union of *T* and *W*.\
+      - *T* is the set of top hits for sequences in *S*, which are constrained to have identities in the range *d* ± σ \
+            (where σ specifies the maximum allowed deviation from the desired identity (*d*)).\
+      - *W* contains reference sequences with identity < *d*; these are retained to create the largest possible training set. \
+      - *Z* contains sequences which cannot be assigned to *S*, *T* or *W* without violating the identity constraint.
 
 <br clear="left"/>
 
@@ -30,7 +31,7 @@ Following code was adapted from [Donhauser *et al.* (2024)](https://doi.org/10.1
 
 Remove tab spaces in sequence name (for RDP databases specifically)
 ```{bash, eval = FALSE}
-for i in *.fasta ; do sed -i 's/\t/_/g' $i ; done 
+for i in *.fasta ; do sed -i 's/\t/;/g' $i ; done 
 ```
 
 To create the distance matrix the following code was executed from a bash script called `run_distmx.sh` using nohup. 
@@ -72,14 +73,61 @@ for i in *.subsets.txt ; do awk '$1==1 || $1=="1x" {print $2}' $i > $i.trainingI
 Create fasta file with test and training set at each identity based on list
 ```{bash, eval = FALSE}
 for i in *.trainingIDs.txt ; do seqkit grep -n -f $i ${i%%.*}.fasta > $i.trainning.fasta ; done
-for i in *.testIDs.txt ; do seqkit grep -n -f $i {i%%.*}.fasta > $i.test.fasta ; done 
+for i in *.testIDs.txt ; do seqkit grep -n -f $i ${i%%.*}.fasta > $i.test.fasta ; done 
 ```
 
-Modify header to be in this format : 
->gi_636560836;tax=d:Bacteria,p:Firmicutes,c:Bacilli,o:Bacillales,f:Alicyclobacillaceae,g:Alicyclobacillus;
+Renaming the files to generate shorter names in following code 
+```{bash, eval = FASLE}
+for file in *.trainning.fasta ; do mv $file ${file//_rdp./_rdp_} ; done
+for file in *.test.fasta ; do mv $file ${file//_rdp./_rdp_} ; done
+``` 
 
-https://scikit-learn.org/stable/modules/cross_validation.html 
+### Trainning benchmark dataset {-}
 
-Edgar_anacapa_BLCA_classifier_test_config.sh to test for TAXXI matrics
+To train the newly generated training set for each identity level you need to generate a sequence file and a taxonomy file, each with special formatting requirements : 
+
+**Sequence file**
+
+The sequence file must be in fasta format and contain a unique identifier without any white space. The accession number makes a good identifier. Anything after the first white space is ignored. The following are acceptable:
+
+```
+>DQ248313
+ACGATTTTGACCCTTCGGGGTCGATCTCCAACCCT
+>JF735302 k__Fungi;p__Ascomycota;c__Sordariomycetes;o__Hypocreales;f__Nectriaceae;g__Dactylonectria;s__Dactylonectria_anthuriicol
+CCGAGTTTTCAACTC
+``` 
+
+**Taxonomy file**
+
+The taxonomy file is a tab-delimited text file beginning with a header giving the Sequence ID and names of ranks to be included, for example Domain, Phylum, Class, Order, Family, Genus, Species. The subsequent lines begin with the unique identifiers from the fasta file followed by the taxonomy for each sequence. There are two requirements for this file:
+
+There must be an entry for every rank in every line. Hyphen placeholders are allowed but are not recommended. “Convergent evolution” is not allowed. For example, the same genus cannot appear in two different families. If a rank does not exist, you can fill in the missing entries with hyphens as in the table below. This is what the script FormatRefDB.py  in CONSTAX does, but I do not recommend doing this. Using a hyphen as a place holder leads to a “ragged” classification that cannot be properly sorted by rank. Another option is to fill in the empty spaces with made-up but meaningful ranks as in the table below. The prefixes indicate the highest rank available. The absence of hyphen placeholders means that classification will not be ragged but include all ranks. Thus it will be possible to select, sort, and merge ranks when analyzing your data later.
+
+If you have accession IDs you can download the taxonomy from NCBI, or in some cases, as with the UNITE reference files, you can parse it from the sequence headers. In either case, some scripting is required to get everything into proper form. We definitely do not want to try typing in tens of thousands of lines without making any mistakes!
+
+Seq_ID	Kingdom	Phylum	Class	Order	Family	Genus	Species
+MG190602	Fungi	Ascomycota	Sordariomycetes	Hypocreales	o_Hypocreales	o_f_Hypocreales	Hypocreales_sp
+DQ655721	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	f_Nectriaceae	Nectriaceae_sp
+KM225681	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Thyronectria	Thyronectria_lamyi
+MF120484	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium	Fusarium_redolens
+
+Taxonomy format of RDP databases : 
+
+``` 
+>NC_031563	cellularOrganisms;Eukaryota;Metazoa;Chordata;Actinopteri;Cypriniformes;Cyprinidae;Aspiolucius;Aspiolucius_esocinus
+``` 
+
+Generated the following R script to parse header and generate the `ready4train_seqs.fasta` and `ready4train_taxonomy.txt`. 
+
+<span style="color:red"> !!! To do !!! What to do in cases where only few ranks are included in the sequence header (i.e. barque) ?  !!!  </span>
+
+Extract sequence header using grep 
+```{bash, eval = FALSE} 
+for i in *.trainning.fasta ; do grep -e ">" $i > ${i%%.*}_trainheader.txt ; done 
+```
+
+```{r, eval = FALSE}
+
+``` 
 
 
