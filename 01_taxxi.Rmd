@@ -39,14 +39,7 @@ To create the distance matrix the following code was executed from a bash script
 for i in *.fasta ; do ~/usearch -calc_distmx $i -maxdist 0.2 -termdist 0.3 -tabbedout ${i%%.*}_distmax.txt; done
 ```
 
-Notes : 
-```
-Issue with barque_coi : Memory limit of 32-bit process exceeded, 64-bit build required..
-Size of COI databases, barque vs RDP : 
-
-- barque_coi : 1,215,952,678
-- rdp_coi :    1,708,094,361
-``` 
+<span style="color:red"> !!! *Issue with barque_coi : Memory limit of 32-bit process exceeded, 64-bit build required..*  </span>
 
 To create training and test datasets at different % identity the following code was executed from a bash script called `run_splitid.sh` using nohup. 
 ```{bash, eval = FALSE}
@@ -77,7 +70,7 @@ for i in *.testIDs.txt ; do seqkit grep -n -f $i ${i%%.*}.fasta > $i.test.fasta 
 ```
 
 Renaming the files to generate shorter names in following code 
-```{bash, eval = FASLE}
+```{bash, eval = FALSE}
 for file in *.trainning.fasta ; do mv $file ${file//_rdp./_rdp_} ; done
 for file in *.test.fasta ; do mv $file ${file//_rdp./_rdp_} ; done
 ``` 
@@ -125,9 +118,4 @@ Extract sequence header using grep
 ```{bash, eval = FALSE} 
 for i in *.trainning.fasta ; do grep -e ">" $i > ${i%%.*}_trainheader.txt ; done 
 ```
-
-```{r, eval = FALSE}
-
-``` 
-
 
