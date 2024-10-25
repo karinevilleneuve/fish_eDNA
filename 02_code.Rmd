@@ -1,6 +1,5 @@
 # Code {-}
 
-
 ## Evaluating representation in databases {-}
 
 ```{verbose, python}
@@ -63,7 +62,7 @@ for (databases in list_barque_db){
 }
 
 # After parsing each databases we combine them into as single list 
-# then we filter out fishes which are not found in their list of Alberta freshwater fishes
+# then we filter out fishes which are not found in the list of Alberta freshwater fishes
 
 jointlist_all_db = c(list_rdp_taxa, list_barque_taxa)
 list_filtered_db = list()
@@ -80,9 +79,34 @@ for (databses in jointlist_all_db){
 
 filtered_df = Reduce(function(...) merge(..., all=T), list_filtered_db)
 
-### ------------------------- Combine as dataframe as save output  ----------------------------------------- #### 
+### ------------------------- Combine with dataframe of Alberta freshwater fishes and save output as csv  ----------------------------------------- #### 
 
 final_df = merge(alberta_fish, filtered_df, by = "Species", all = TRUE)
 final_df = gsub("_", " ", final_df$Species)
 write.csv(final_df, "/home/kvilleneuve/fish_edna/results/represensation_albertafish_databases.csv", quote = FALSE)
 ``` 
+
+## Workflows {-}
+
+### DADA2 {-}
+
+#### 12S {-}
+
+#### COI {-}
+
+839 ASV | from these 839 ASVs, 20 (2.38 %) are species with a bootstrap level above 70 % | from these 20 species, 8 (40 %) are from class actinopteri | from these 8 actinopteri, 7 (87.5 %) are species of freshwater fishes found in Alberta. 
+
+### Barque {-}
+
+## Curating databases {-}
+
+Using `seqkit` tool to filter databases in order to keep only sequences of freshwater fishes found in Alberta 
+
+```{bash, eval = FALSE}
+seqkit grep -v -n -f id_list.txt in.fasta > out.fasta
+```
+
+https://forum.qiime2.org/t/building-a-coi-database-from-bold-references/16129
+
+
+

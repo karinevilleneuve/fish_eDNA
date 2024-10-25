@@ -1,8 +1,10 @@
-## Taxonomy cross validation by identity (TAXXI) {-}
+# Taxonomy cross validation by identity (TAXXI) {-}
+
+Framework developped by Edgard (2018). Link to [article](https://peerj.com/articles/4652/) and [TAXXI website](https://drive5.com/taxxi/doc/index.html). 
 
 Cross-validation by identity (CVI) models varying distances between query sequences and reference sequences. A reference with known taxonomies is split into test and training sets such that for all test sequences, the most similar training sequence has a given identity (*d*). This is repeated for different identities, enabling assessment of prediction accuracy at varying distances from the reference.
 
-Some important definitions : 
+**Some important definitions :** 
 
 - The *lowest common rank* (LCR) of two sequences is the lowest rank where both have the same taxon name.
 - The *most probable lowest common rank* (MLR) for a pair of sequences with identity *d* is defined as the LCR with highest probability. MLRs can be summarized by giving the rank identity threshold (RIT) for each rank *r*.
@@ -22,7 +24,9 @@ Some important definitions :
 
 <br clear="left"/>
 
-### Making a benchmark dataset{-}
+**CVI performance metrics :**
+
+## Making a benchmark dataset{-}
 
 The `distmx_split_identity` command from [USEARCH](https://www.drive5.com/usearch/manual/cvi.html) divides sequences into subsets such that the top-hit identity is a given value. This is used to create test-training pairs for cross-validation by identity. Input is a distance matrix created by the `calc_distmx command`. As per methods described in [Edgar (2018)](https://peerj.com/articles/4652/#p-3) maximum allowed deviation (σ) from *d* used : σ = 1% for *d* = 90% and σ = 0.5% for *d* = 99, 97 and 95%.  
 
@@ -39,7 +43,7 @@ To create the distance matrix the following code was executed from a bash script
 for i in *.fasta ; do ~/usearch -calc_distmx $i -maxdist 0.2 -termdist 0.3 -tabbedout ${i%%.*}_distmax.txt; done
 ```
 
-<span style="color:red"> !!! *Issue with barque_coi : Memory limit of 32-bit process exceeded, 64-bit build required..*  </span>
+<span style="color:red"> !!! *Issue with barque_coi : Memory limit of 32-bit process exceeded, 64-bit build required..* </span>
 
 To create training and test datasets at different % identity the following code was executed from a bash script called `run_splitid.sh` using nohup. 
 ```{bash, eval = FALSE}
@@ -75,7 +79,7 @@ for file in *.trainning.fasta ; do mv $file ${file//_rdp./_rdp_} ; done
 for file in *.test.fasta ; do mv $file ${file//_rdp./_rdp_} ; done
 ``` 
 
-### Trainning benchmark dataset {-}
+## Trainning benchmark dataset {-}
 
 To train the newly generated training set for each identity level you need to generate a sequence file and a taxonomy file, each with special formatting requirements : 
 
@@ -85,37 +89,82 @@ The sequence file must be in fasta format and contain a unique identifier withou
 
 ```
 >DQ248313
-ACGATTTTGACCCTTCGGGGTCGATCTCCAACCCT
+ACGATTTTGACCCTTCGGGGTCGATCTCCAACCCTTCGGGGTCGATCGATTTTGACCCT
 >JF735302 k__Fungi;p__Ascomycota;c__Sordariomycetes;o__Hypocreales;f__Nectriaceae;g__Dactylonectria;s__Dactylonectria_anthuriicol
-CCGAGTTTTCAACTC
+CCGAGTTTTCAACTCGACCCTTCGGGGTCGTCGATCTCCAACCCGATCGATTTTGAACC
 ``` 
 
 **Taxonomy file**
 
-The taxonomy file is a tab-delimited text file beginning with a header giving the Sequence ID and names of ranks to be included, for example Domain, Phylum, Class, Order, Family, Genus, Species. The subsequent lines begin with the unique identifiers from the fasta file followed by the taxonomy for each sequence. There are two requirements for this file:
+The taxonomy file is a tab-delimited text file beginning with a header giving the Sequence ID and names of ranks to be included. There are two requirements for this file:
 
-There must be an entry for every rank in every line. Hyphen placeholders are allowed but are not recommended. “Convergent evolution” is not allowed. For example, the same genus cannot appear in two different families. If a rank does not exist, you can fill in the missing entries with hyphens as in the table below. This is what the script FormatRefDB.py  in CONSTAX does, but I do not recommend doing this. Using a hyphen as a place holder leads to a “ragged” classification that cannot be properly sorted by rank. Another option is to fill in the empty spaces with made-up but meaningful ranks as in the table below. The prefixes indicate the highest rank available. The absence of hyphen placeholders means that classification will not be ragged but include all ranks. Thus it will be possible to select, sort, and merge ranks when analyzing your data later.
+- There must be an entry for every rank in every line. 
+- Hyphen placeholders are allowed but are not recommended. 
+- “Convergent evolution” is not allowed. For example, the same genus cannot appear in two different families. 
+- Options for missing ranks : 
 
-If you have accession IDs you can download the taxonomy from NCBI, or in some cases, as with the UNITE reference files, you can parse it from the sequence headers. In either case, some scripting is required to get everything into proper form. We definitely do not want to try typing in tens of thousands of lines without making any mistakes!
+If a rank does not exist, you can fill in the missing entries with hyphens but it is not recommended as it can lead to a “ragged” classification that cannot be properly sorted by rank. Another option is to fill in the empty spaces with made-up but meaningful ranks as in the table below. The prefixes indicate the highest rank available. The absence of hyphen placeholders means that classification will not be ragged but include all ranks. Thus it will be possible to select, sort, and merge ranks when analyzing your data later.
 
-Seq_ID	Kingdom	Phylum	Class	Order	Family	Genus	Species
-MG190602	Fungi	Ascomycota	Sordariomycetes	Hypocreales	o_Hypocreales	o_f_Hypocreales	Hypocreales_sp
-DQ655721	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	f_Nectriaceae	Nectriaceae_sp
-KM225681	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Thyronectria	Thyronectria_lamyi
-MF120484	Fungi	Ascomycota	Sordariomycetes	Hypocreales	Nectriaceae	Fusarium	Fusarium_redolens
+Example format : 
 
-Taxonomy format of RDP databases : 
+| Seq_ID	| Kingdom	| Phylum | Class	| Order | Family |	Genus	Species |
+|---------|---------|--------|--------|-------|--------|----------------|
+| MG190602	| Fungi	| Ascomycota | Sordariomycetes | Hypocreales | o_Hypocreales | o_f_Hypocreales | Hypocreales_sp | 
+| MF120484 | Fungi | Ascomycota | Sordariomycetes | Hypocreales | Nectriaceae | Fusarium | Fusarium_redolens | 
 
-``` 
->NC_031563	cellularOrganisms;Eukaryota;Metazoa;Chordata;Actinopteri;Cypriniformes;Cyprinidae;Aspiolucius;Aspiolucius_esocinus
-``` 
+### Generate taxonomy and sequence file {-}
 
-Generated the following R script to parse header and generate the `ready4train_seqs.fasta` and `ready4train_taxonomy.txt`. 
-
-<span style="color:red"> !!! To do !!! What to do in cases where only few ranks are included in the sequence header (i.e. barque) ?  !!!  </span>
+**Taxonomy file**
 
 Extract sequence header using grep 
 ```{bash, eval = FALSE} 
 for i in *.trainning.fasta ; do grep -e ">" $i > ${i%%.*}_trainheader.txt ; done 
 ```
 
+Replace semi-colon with tabs and remove ">" 
+```{bash, eval = FALSE} 
+for i in *_trainheader.txt ; do sed -i 's/;/\t/g' $i ; done 
+for i in *_trainheader.txt ; do sed -i 's/>//g' $i ; done 
+```
+
+Add header (rank followed by column number i.e. `rank_1`, `rank_2`, etc.) to tab delimited 
+```{bash}
+for i in *_trainheader.txt ; do awk -i inplace 'BEGIN {OFS=FS="\t"} NR==1{for (i=1;i<=NF;i++) printf "%s%s", "rank_"i, i==NF?ORS:OFS}1' $i ; done
+``` 
+
+Notes : 
+```
+BEGIN {OFS=FS="\t"} sets the input and output delimiter to tab, instead of the default space. Change "\t" to your delimiter if its not tab.
+NR==1{} says to execute the actions only on the first line
+``` 
+<span style="color:red"> Pipe these commands </span>
+
+**Sequence file**
+
+Details and instructions regarding the installations of RDPtools can be found [here][03_supplementary_data].
+
+Replace semi-colon with tabs
+```{bash, eval = FALSE} 
+for i in *trainning.fasta ; do sed -i 's/;/\t/g' $i ; done 
+```
+
+```{bash} 
+python2 lineage2taxTrain.py 12S_rdp_90_trainheader.txt > 12S_rdp_90_ready4train_taxonomy.txt
+python2 addFullLineage.py 12S_rdp_90_trainheader.txt 12S_rdp_90.subsets.txt.trainingIDs.txt.trainning.fasta > 12S_rdp_90_ready4train_seqs.fasta
+
+rdp_classifier -Xmx10g classify -t 
+
+java -Xmx10g -jar /usr/local/RDPTools/classifier.jar train -o training_files -s ready4train_seqs.fasta -t ready4train_taxonomy.txt
+``` 
+
+
+https://jfq3.gitbook.io/rdptools-docker/rdptools-docker/installing-docker
+
+NC_003178
+
+## Obtaining CVI metrics {-}
+
+Let N be the number of sequences
+in the test set S, K be the number of sequences in S with known names, i.e., names which are present in the training set A, and L = N – K be the number of novel test sequences, i.e., sequences in S with names that are not present in A. Let TP be the number of names which are correctly predicted, MC the number of misclassification errors, OC the number of over-classification errors, and UC the number under- classification errors. The rate for each type of error is defined as the number of
+errors divided by the number of opportunities to make that error: OCR = OC/L (over-classification rate), UCR = UC/K (under-classification rate) and MCR = MC/K (misclassification rate). The true positive rate is TPR = TP/K, i.e., the number of correct names divided by the number of opportunities to correctly predict a name. Accuracy is calculated as Acc = TP/(K + OC), i.e., the number of correct predictions divided
+by the number of predictions for which correctness can be determined. The value of accuracy ranges from a maximum of one (no errors) to a minimum of zero (no correct predictions). It accounts for all test sequences with names that are known and/or predicted by the algorithm. Names which are not known and not predicted are excluded because correctness cannot be determined in these cases (see discussion of true negatives above). A metric is not reported if the denominator was less than 10, i.e., at least 10 test cases were required to calculate a rate. For each rank, I calculated the mean values of the metrics over all test/training pairs for all values of the top-hit identity (d). These are designated by the prefix Avg; for example, AvgAcc is the mean accuracy for a given rank, say genus. The averaged metrics should be realistic in the sense that their values will fall within the range typically encountered in practice, while noting that the THID for a given dataset may be quite different from the distribution which is implicitly modeled by averaging, i.e., equal numbers of query sequences with d = 100, 99, 97, 95 and 90
