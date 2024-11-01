@@ -1,10 +1,10 @@
 # Taxonomy cross validation by identity (TAXXI) {-}
 
-Framework developped by Edgard (2018). Link to [article](https://peerj.com/articles/4652/) and [TAXXI website](https://drive5.com/taxxi/doc/index.html). 
+Framework developed by Edgard (2018). Link to [article](https://peerj.com/articles/4652/) and [TAXXI website](https://drive5.com/taxxi/doc/index.html). 
 
 Cross-validation by identity (CVI) models varying distances between query sequences and reference sequences. A reference with known taxonomies is split into test and training sets such that for all test sequences, the most similar training sequence has a given identity (*d*). This is repeated for different identities, enabling assessment of prediction accuracy at varying distances from the reference.
 
-**Some important definitions :** 
+**Important definitions :** 
 
 - The *lowest common rank* (LCR) of two sequences is the lowest rank where both have the same taxon name.
 - The *most probable lowest common rank* (MLR) for a pair of sequences with identity *d* is defined as the LCR with highest probability. MLRs can be summarized by giving the rank identity threshold (RIT) for each rank *r*.
@@ -26,12 +26,11 @@ Cross-validation by identity (CVI) models varying distances between query sequen
 
 **CVI performance metrics :**
 
-## Making a benchmark dataset{-}
+## Generate benchmark datasets {-}
 
-The `distmx_split_identity` command from [USEARCH](https://www.drive5.com/usearch/manual/cvi.html) divides sequences into subsets such that the top-hit identity is a given value. This is used to create test-training pairs for cross-validation by identity. Input is a distance matrix created by the `calc_distmx command`. As per methods described in [Edgar (2018)](https://peerj.com/articles/4652/#p-3) maximum allowed deviation (σ) from *d* used : σ = 1% for *d* = 90% and σ = 0.5% for *d* = 99, 97 and 95%.  
+The `distmx_split_identity` command from [USEARCH](https://www.drive5.com/usearch/manual/cvi.html) divides sequences into subsets such that the top-hit identity is a given value. This is used to create test-training pairs for cross-validation by identity. Input is a distance matrix created by the `calc_distmx command`. As per the methods specified in Edgar (2018) maximum allowed deviation (σ) from *d* used : σ = 1% for *d* = 90% and σ = 0.5% for *d* = 99, 97 and 95%. The following code was adapted from [Donhauser *et al.* (2024)](https://doi.org/10.1016/j.ecoinf.2024.102817) and validated with available documentation from [USEARCH](https://www.drive5.com/usearch/manual/cvi.html). 
 
-Testing with available databases (barque COI [[3](https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/)], RDP COI V5.1.0 [[5](https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0)], RDP 12S [[10](https://github.com/terrimporter/12SfishClassifier/releases/tag/v1.0.1)] and barque 12S [[11](https://github.com/enormandeau/barque/blob/master/03_databases/12S.fasta.gz)]). \ 
-Following code was adapted from [Donhauser *et al.* (2024)](https://doi.org/10.1016/j.ecoinf.2024.102817) and cross-validated with the [USEARCH](https://www.drive5.com/usearch/manual/cvi.html) documentation. 
+Testing with available databases (barque COI [3](https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/), RDP COI V5.1.0 [5](https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0), RDP 12S [10](https://github.com/terrimporter/12SfishClassifier/releases/tag/v1.0.1) and barque 12S [11](https://github.com/enormandeau/barque/blob/master/03_databases/12S.fasta.gz)))
 
 Remove tab spaces in sequence name (for RDP databases specifically)
 ```{bash, eval = FALSE}
@@ -46,6 +45,7 @@ for i in *.fasta ; do ~/usearch -calc_distmx $i -maxdist 0.2 -termdist 0.3 -tabb
 <span style="color:red"> !!! *Issue with barque_coi : Memory limit of 32-bit process exceeded, 64-bit build required..* </span>
 
 To create training and test datasets at different % identity the following code was executed from a bash script called `run_splitid.sh` using nohup. 
+
 ```{bash, eval = FALSE}
 for i in *.fasta ; do
         ~/usearch -distmx_split_identity ${i%%.*}_distmax.txt -mindist 0.025 -maxdist 0.035 -tabbedout ${i%%.*}.97.subsets.txt
@@ -63,11 +63,14 @@ Output is a tabbed text given by the -tabbedout option. Fields are:
 
 Subsets `1` and `2` have top hits to each other in the specified range. Subset `1x` has lower identities with subset `2`, and can therefore be added to the training set if subset `2` is the query set. Similarly, subset `2x` has lower identities with subset `1` and can be added to the training set if subset `1` is the query
 
+Get sequence ID for training and test set. 
+
 ```{bash, eval = FALSE}
-for i in *.subsets.txt ; do awk '$1==1 || $1=="1x" {print $2}' $i > $i.trainingIDs.txt; awk '$1==2 {print $2}' $i > $i.testIDs.txt; done 
+for i in *.subsets.txt ; do awk '$1==1 || $1=="1x" {print $2}' $i > $i.trainingIDs.txt; awk '$1==2 {print $2}' $i > $i.testIDs.txt; done
 ```
 
-Create fasta file with test and training set at each identity based on list
+Create fasta file with test and training set at each identity, use subset 1 as training and subset 2 as test. If sekqit is installed throught conda activate base environnement first.
+
 ```{bash, eval = FALSE}
 for i in *.trainingIDs.txt ; do seqkit grep -n -f $i ${i%%.*}.fasta > $i.trainning.fasta ; done
 for i in *.testIDs.txt ; do seqkit grep -n -f $i ${i%%.*}.fasta > $i.test.fasta ; done 
@@ -79,7 +82,13 @@ for file in *.trainning.fasta ; do mv $file ${file//_rdp./_rdp_} ; done
 for file in *.test.fasta ; do mv $file ${file//_rdp./_rdp_} ; done
 ``` 
 
-## Trainning benchmark dataset {-}
+## Generate predictions for RDP Classifier {-}
+
+<span style="color:#3498db"> Notes : To install the RDP classifier I recommend downloading the package from source forge ([link](https://sourceforge.net/projects/rdp-classifier/)) as the Github is no longer maintained. Once the download is complete, unzip the folder and locate the file `classifer.jar` inside the directory `dist`.  </span>
+
+Following steps were adapted from John Quensen's tutorial ([link](https://john-quensen.com/tutorials/training-the-rdp-classifier/)) and available [scripts](https://github.com/mirand863/hitac/tree/main/benchmark) associated with publication by [Miranda (2020)](https://doi.org/10.1101/2020.04.24.014852).  
+
+### Required files {-}
 
 To train the newly generated training set for each identity level you need to generate a sequence file and a taxonomy file, each with special formatting requirements : 
 
@@ -112,59 +121,113 @@ Example format :
 | MG190602	| Fungi	| Ascomycota | Sordariomycetes | Hypocreales | o_Hypocreales | o_f_Hypocreales | Hypocreales_sp | 
 | MF120484 | Fungi | Ascomycota | Sordariomycetes | Hypocreales | Nectriaceae | Fusarium | Fusarium_redolens | 
 
-### Generate taxonomy and sequence file {-}
+**Scripts**
+
+- `lineage2taxTrain.py` 
+- `addFullLineage.py` 
+
+### Generate required files {-}
 
 **Taxonomy file**
 
-Extract sequence header using grep 
+Extract sequence header using grep. 
 ```{bash, eval = FALSE} 
 for i in *.trainning.fasta ; do grep -e ">" $i > ${i%%.*}_trainheader.txt ; done 
 ```
 
-Replace semi-colon with tabs and remove ">" 
+Replace semi-colon with tabs and remove ">". 
 ```{bash, eval = FALSE} 
-for i in *_trainheader.txt ; do sed -i 's/;/\t/g' $i ; done 
-for i in *_trainheader.txt ; do sed -i 's/>//g' $i ; done 
+for i in *.trainingIDs.txt ; do sed 's/;/\t/g' $i > ${i%%.*}.RDP_trainID.txt ; done 
+for i in *.RDP_trainID.txt ; do sed -i 's/>//g' $i ; done 
 ```
 
-Add header (rank followed by column number i.e. `rank_1`, `rank_2`, etc.) to tab delimited 
-```{bash}
-for i in *_trainheader.txt ; do awk -i inplace 'BEGIN {OFS=FS="\t"} NR==1{for (i=1;i<=NF;i++) printf "%s%s", "rank_"i, i==NF?ORS:OFS}1' $i ; done
+Add header (rank followed by column number i.e. `rank_1`, `rank_2`, etc.). 
+```{bash, eval = FALSE}
+for i in *.RDP_trainID.txt ; do awk -i inplace 'BEGIN {OFS=FS="\t"} NR==1{for (i=1;i<=NF;i++) printf "%s%s", "rank_"i, i==NF?ORS:OFS}1' $i ; done
 ``` 
 
-Notes : 
-```
-BEGIN {OFS=FS="\t"} sets the input and output delimiter to tab, instead of the default space. Change "\t" to your delimiter if its not tab.
-NR==1{} says to execute the actions only on the first line
-``` 
-<span style="color:red"> Pipe these commands </span>
+Details  : 
+
+- BEGIN {OFS=FS="\t"} sets the input and output delimiter to tab, instead of the default space. Change "\t" to your delimiter if its not tab.
+- NR==1{} says to execute the actions only on the first line
+
+<span style="color:red"> TO DO : Pipe these commands together </span>
 
 **Sequence file**
-
-Details and instructions regarding the installations of RDPtools can be found [here][03_supplementary_data].
 
 Replace semi-colon with tabs
 ```{bash, eval = FALSE} 
 for i in *trainning.fasta ; do sed -i 's/;/\t/g' $i ; done 
 ```
 
-```{bash} 
-python2 lineage2taxTrain.py 12S_rdp_90_trainheader.txt > 12S_rdp_90_ready4train_taxonomy.txt
-python2 addFullLineage.py 12S_rdp_90_trainheader.txt 12S_rdp_90.subsets.txt.trainingIDs.txt.trainning.fasta > 12S_rdp_90_ready4train_seqs.fasta
+```{bash, eval = FALSE} 
+for i in *.RDP_trainID.txt ; do python2 lineage2taxTrain.py $i > ${i%%.*}.ready4train_tax.txt ; done
+for i in *.trainning.fasta ; do python2 addFullLineage.py ${i%%.*}.RDP_trainID.txt $i > ${i%%.*}.ready4train_seqs.fasta ; done 
+```
 
-rdp_classifier -Xmx10g classify -t 
+### Train the set {-}
 
-java -Xmx10g -jar /usr/local/RDPTools/classifier.jar train -o training_files -s ready4train_seqs.fasta -t ready4train_taxonomy.txt
+```{bash, eval = FALSE}
+ for i in *.RDP_trainID.txt ; do java -Xmx10g -jar ~/rdp_classifier_2.14/dist/classifier.jar train -o ${i%%.*}_training_files -s ${i%%.*}.ready4train_seqs.fasta -t $i ; done
+```
+
+Output is a directory specified by the parameter `-o` which should contain the following files : 
+
+- bergeyTrainingTree.xml
+- genus_wordConditionalProbList.txt
+- logWordPrior.txt
+- wordConditionalProbIndexArr.txt
+
+Move into this newly created directory and create the file `rRNAClassifier.properties` with the following text : 
+
+```
+# Sample ResourceBundle properties file
+bergeyTree=bergeyTrainingTree.xml
+
+probabilityList=genus_wordConditionalProbList.txt
+
+probabilityIndex=wordConditionalProbIndexArr.txt
+
+wordPrior=logWordPrior.txt
+
+classifierVersion=RDP Naive Bayesian rRNA Classifier Version 2.14
 ``` 
 
+### Generate predictions {-}
 
-https://jfq3.gitbook.io/rdptools-docker/rdptools-docker/installing-docker
+```{bash, eval = FALSE}
+for i in *.ready4train_seqs.fasta ; 
+do  java -Xmx1g -jar ~/rdp_classifier_2.14/dist/classifier.jar -q ${i%%.*}.subsets.txt.testIDs.txt.test.fasta -t ./${i%%.*}_training_files/rRNAClassifier.properties -o ${i%%.*}.predictions.tsv ; done 
 
-NC_003178
+```
 
-## Obtaining CVI metrics {-}
+## Generate predictions for VSEARCH {-}
 
-Let N be the number of sequences
-in the test set S, K be the number of sequences in S with known names, i.e., names which are present in the training set A, and L = N – K be the number of novel test sequences, i.e., sequences in S with names that are not present in A. Let TP be the number of names which are correctly predicted, MC the number of misclassification errors, OC the number of over-classification errors, and UC the number under- classification errors. The rate for each type of error is defined as the number of
-errors divided by the number of opportunities to make that error: OCR = OC/L (over-classification rate), UCR = UC/K (under-classification rate) and MCR = MC/K (misclassification rate). The true positive rate is TPR = TP/K, i.e., the number of correct names divided by the number of opportunities to correctly predict a name. Accuracy is calculated as Acc = TP/(K + OC), i.e., the number of correct predictions divided
-by the number of predictions for which correctness can be determined. The value of accuracy ranges from a maximum of one (no errors) to a minimum of zero (no correct predictions). It accounts for all test sequences with names that are known and/or predicted by the algorithm. Names which are not known and not predicted are excluded because correctness cannot be determined in these cases (see discussion of true negatives above). A metric is not reported if the denominator was less than 10, i.e., at least 10 test cases were required to calculate a rate. For each rank, I calculated the mean values of the metrics over all test/training pairs for all values of the top-hit identity (d). These are designated by the prefix Avg; for example, AvgAcc is the mean accuracy for a given rank, say genus. The averaged metrics should be realistic in the sense that their values will fall within the range typically encountered in practice, while noting that the THID for a given dataset may be quite different from the distribution which is implicitly modeled by averaging, i.e., equal numbers of query sequences with d = 100, 99, 97, 95 and 90
+## CVI metrics {-}
+
+**Important definitions :** 
+
+- N  : number of sequences in the test set S, 
+- K  : number of sequences in S with known names (names which are present in the training set A)
+- L  : number of novel test sequences (= N – K) (sequences in S with names that are not present in A) 
+- TP : number of names which are correctly predicted 
+- MC : number of misclassification errors
+- OC : number of over-classification errors
+- UC : number under-classification errors 
+
+The rate for each type of error is defined as the number of errors divided by the number of opportunities to make that error:
+
+- OCR = OC/L (over-classification rate), 
+- UCR = UC/K (under-classification rate) 
+- MCR = MC/K (misclassification rate)
+- TPR = TP/K 
+- Acc = TP/(K + OC)
+
+For each rank the mean values of the metrics over all test/training pairs for all values of the top-hit identity (d) was calculated and is designated by prefix *Avg*. 
+
+- True-positive rate (*AvgTPR*) 
+- Under-classification errors (*AvgUCR*)
+- Misclassification rate (*AvgMCR*) 
+- Over-classification rate (*AvgOCR*)
+- Average L10Acc
+- Average accuracy (*AvgAcc*)

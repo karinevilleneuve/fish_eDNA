@@ -5,19 +5,19 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Taxonomy cross validation by identity (TAXXI) | Fish-eDNA.knit</title>
-  <meta name="description" content="Fish eDNA in Alberta" />
+  <meta name="description" content="" />
   <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Taxonomy cross validation by identity (TAXXI) | Fish-eDNA.knit" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:description" content="Fish eDNA in Alberta" />
+  
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Taxonomy cross validation by identity (TAXXI) | Fish-eDNA.knit" />
   
-  <meta name="twitter:description" content="Fish eDNA in Alberta" />
+  
   
 
 
@@ -144,33 +144,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Our dataset</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#our-dataset"><i class="fa fa-check"></i>Our dataset</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#alberta-fishes"><i class="fa fa-check"></i>Alberta fishes</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#worklfows-and-their-associated-available-databases"><i class="fa fa-check"></i>Worklfows and their associated available databases</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#worklfows-and-their-associated-available-databases"><i class="fa fa-check"></i>Worklfows and their associated available databases</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#representation-of-alberta-freshwater-fishes-in-databases"><i class="fa fa-check"></i>Representation of Alberta freshwater fishes in databases</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#comparing-pipelines-with-available-databases"><i class="fa fa-check"></i>Comparing pipelines with available databases</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dada2"><i class="fa fa-check"></i>DADA2</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#barque"><i class="fa fa-check"></i>Barque</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#curating-databases"><i class="fa fa-check"></i>Curating databases</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html"><i class="fa fa-check"></i>Taxonomy cross validation by identity (TAXXI)</a>
 <ul>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#making-a-benchmark-dataset"><i class="fa fa-check"></i>Making a benchmark dataset</a></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#trainning-benchmark-dataset"><i class="fa fa-check"></i>Trainning benchmark dataset</a>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-benchmark-datasets"><i class="fa fa-check"></i>Generate benchmark datasets</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions-for-rdp-classifier"><i class="fa fa-check"></i>Generate predictions for RDP Classifier</a>
 <ul>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-taxonomy-and-sequence-file"><i class="fa fa-check"></i>Generate taxonomy and sequence file</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#required-files"><i class="fa fa-check"></i>Required files</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-required-files"><i class="fa fa-check"></i>Generate required files</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#train-the-set"><i class="fa fa-check"></i>Train the set</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions"><i class="fa fa-check"></i>Generate predictions</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#obtaining-cvi-metrics"><i class="fa fa-check"></i>Obtaining CVI metrics</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions-for-vsearch"><i class="fa fa-check"></i>Generate predictions for VSEARCH</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cvi-metrics"><i class="fa fa-check"></i>CVI metrics</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="code.html"><a href="code.html"><i class="fa fa-check"></i>Code</a>
 <ul>
 <li class="chapter" data-level="" data-path="code.html"><a href="code.html#evaluating-representation-in-databases"><i class="fa fa-check"></i>Evaluating representation in databases</a></li>
 <li class="chapter" data-level="" data-path="code.html"><a href="code.html#workflows"><i class="fa fa-check"></i>Workflows</a>
 <ul>
-<li class="chapter" data-level="" data-path="code.html"><a href="code.html#dada2"><i class="fa fa-check"></i>DADA2</a></li>
-<li class="chapter" data-level="" data-path="code.html"><a href="code.html#barque"><i class="fa fa-check"></i>Barque</a></li>
+<li class="chapter" data-level="" data-path="code.html"><a href="code.html#dada2-1"><i class="fa fa-check"></i>DADA2</a></li>
+<li class="chapter" data-level="" data-path="code.html"><a href="code.html#barque-1"><i class="fa fa-check"></i>Barque</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="code.html"><a href="code.html#curating-databases"><i class="fa fa-check"></i>Curating databases</a></li>
+<li class="chapter" data-level="" data-path="code.html"><a href="code.html#curating-databases-1"><i class="fa fa-check"></i>Curating databases</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="supplementary-data.html"><a href="supplementary-data.html"><i class="fa fa-check"></i>Supplementary data</a></li>
+<li class="chapter" data-level="" data-path="supplementary-data.html"><a href="supplementary-data.html"><i class="fa fa-check"></i>Supplementary data</a>
+<ul>
+<li class="chapter" data-level="" data-path="supplementary-data.html"><a href="supplementary-data.html#installing-the-rdp-classifier"><i class="fa fa-check"></i>Installing the RDP classifier</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -190,9 +204,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="taxonomy-cross-validation-by-identity-taxxi" class="section level1 unnumbered hasAnchor">
 <h1>Taxonomy cross validation by identity (TAXXI)<a href="taxonomy-cross-validation-by-identity-taxxi.html#taxonomy-cross-validation-by-identity-taxxi" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Framework developped by Edgard (2018). Link to <a href="https://peerj.com/articles/4652/">article</a> and <a href="https://drive5.com/taxxi/doc/index.html">TAXXI website</a>.</p>
+<p>Framework developed by Edgard (2018). Link to <a href="https://peerj.com/articles/4652/">article</a> and <a href="https://drive5.com/taxxi/doc/index.html">TAXXI website</a>.</p>
 <p>Cross-validation by identity (CVI) models varying distances between query sequences and reference sequences. A reference with known taxonomies is split into test and training sets such that for all test sequences, the most similar training sequence has a given identity (<em>d</em>). This is repeated for different identities, enabling assessment of prediction accuracy at varying distances from the reference.</p>
-<p><strong>Some important definitions :</strong></p>
+<p><strong>Important definitions :</strong></p>
 <ul>
 <li>The <em>lowest common rank</em> (LCR) of two sequences is the lowest rank where both have the same taxon name.</li>
 <li>The <em>most probable lowest common rank</em> (MLR) for a pair of sequences with identity <em>d</em> is defined as the LCR with highest probability. MLRs can be summarized by giving the rank identity threshold (RIT) for each rank <em>r</em>.</li>
@@ -210,22 +224,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 - <em>Z</em> contains sequences which cannot be assigned to <em>S</em>, <em>T</em> or <em>W</em> without violating the identity constraint.</p>
 <p><br clear="left"/></p>
 <p><strong>CVI performance metrics :</strong></p>
-<div id="making-a-benchmark-dataset" class="section level2 unnumbered hasAnchor">
-<h2>Making a benchmark dataset<a href="taxonomy-cross-validation-by-identity-taxxi.html#making-a-benchmark-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The <code>distmx_split_identity</code> command from <a href="https://www.drive5.com/usearch/manual/cvi.html">USEARCH</a> divides sequences into subsets such that the top-hit identity is a given value. This is used to create test-training pairs for cross-validation by identity. Input is a distance matrix created by the <code>calc_distmx command</code>. As per methods described in <a href="https://peerj.com/articles/4652/#p-3">Edgar (2018)</a> maximum allowed deviation (σ) from <em>d</em> used : σ = 1% for <em>d</em> = 90% and σ = 0.5% for <em>d</em> = 99, 97 and 95%.</p>
-<p>Testing with available databases (barque COI [<a href="https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/">3</a>], RDP COI V5.1.0 [<a href="https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0">5</a>], RDP 12S [<a href="https://github.com/terrimporter/12SfishClassifier/releases/tag/v1.0.1">10</a>] and barque 12S [<a href="https://github.com/enormandeau/barque/blob/master/03_databases/12S.fasta.gz">11</a>]).  
-Following code was adapted from <a href="https://doi.org/10.1016/j.ecoinf.2024.102817">Donhauser <em>et al.</em> (2024)</a> and cross-validated with the <a href="https://www.drive5.com/usearch/manual/cvi.html">USEARCH</a> documentation.</p>
+<div id="generate-benchmark-datasets" class="section level2 unnumbered hasAnchor">
+<h2>Generate benchmark datasets<a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-benchmark-datasets" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <code>distmx_split_identity</code> command from <a href="https://www.drive5.com/usearch/manual/cvi.html">USEARCH</a> divides sequences into subsets such that the top-hit identity is a given value. This is used to create test-training pairs for cross-validation by identity. Input is a distance matrix created by the <code>calc_distmx command</code>. As per the methods specified in Edgar (2018) maximum allowed deviation (σ) from <em>d</em> used : σ = 1% for <em>d</em> = 90% and σ = 0.5% for <em>d</em> = 99, 97 and 95%. The following code was adapted from <a href="https://doi.org/10.1016/j.ecoinf.2024.102817">Donhauser <em>et al.</em> (2024)</a> and validated with available documentation from <a href="https://www.drive5.com/usearch/manual/cvi.html">USEARCH</a>.</p>
+<p>Testing with available databases (barque COI <a href="https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/">3</a>, RDP COI V5.1.0 <a href="https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0">5</a>, RDP 12S <a href="https://github.com/terrimporter/12SfishClassifier/releases/tag/v1.0.1">10</a> and barque 12S <a href="https://github.com/enormandeau/barque/blob/master/03_databases/12S.fasta.gz">11</a>))</p>
 <p>Remove tab spaces in sequence name (for RDP databases specifically)</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb1-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/\t/;/g&#39;</span> <span class="va">$i</span> <span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb2-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/\t/;/g&#39;</span> <span class="va">$i</span> <span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
 <p>To create the distance matrix the following code was executed from a bash script called <code>run_distmx.sh</code> using nohup.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb2-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="ex">~/usearch</span> <span class="at">-calc_distmx</span> <span class="va">$i</span> <span class="at">-maxdist</span> 0.2 <span class="at">-termdist</span> 0.3 <span class="at">-tabbedout</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_distmax.txt<span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb3-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="ex">~/usearch</span> <span class="at">-calc_distmx</span> <span class="va">$i</span> <span class="at">-maxdist</span> 0.2 <span class="at">-termdist</span> 0.3 <span class="at">-tabbedout</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_distmax.txt<span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
 <p><span style="color:red"> !!! <em>Issue with barque_coi : Memory limit of 32-bit process exceeded, 64-bit build required..</em> </span></p>
 <p>To create training and test datasets at different % identity the following code was executed from a bash script called <code>run_splitid.sh</code> using nohup.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb3-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.fasta <span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb3-2"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb3-2" tabindex="-1"></a>        <span class="ex">~/usearch</span> <span class="at">-distmx_split_identity</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_distmax.txt <span class="at">-mindist</span> 0.025 <span class="at">-maxdist</span> 0.035 <span class="at">-tabbedout</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.97.subsets.txt</span>
-<span id="cb3-3"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb3-3" tabindex="-1"></a>        <span class="ex">~/usearch</span> <span class="at">-distmx_split_identity</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_distmax.txt <span class="at">-mindist</span> 0.045 <span class="at">-maxdist</span> 0.055 <span class="at">-tabbedout</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.95.subsets.txt</span>
-<span id="cb3-4"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb3-4" tabindex="-1"></a>        <span class="ex">~/usearch</span> <span class="at">-distmx_split_identity</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_distmax.txt <span class="at">-mindist</span> 0.095 <span class="at">-maxdist</span> 0.105 <span class="at">-tabbedout</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.90.subsets.txt</span>
-<span id="cb3-5"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb3-5" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb4-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.fasta <span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb4-2"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb4-2" tabindex="-1"></a>        <span class="ex">~/usearch</span> <span class="at">-distmx_split_identity</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_distmax.txt <span class="at">-mindist</span> 0.025 <span class="at">-maxdist</span> 0.035 <span class="at">-tabbedout</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.97.subsets.txt</span>
+<span id="cb4-3"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb4-3" tabindex="-1"></a>        <span class="ex">~/usearch</span> <span class="at">-distmx_split_identity</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_distmax.txt <span class="at">-mindist</span> 0.045 <span class="at">-maxdist</span> 0.055 <span class="at">-tabbedout</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.95.subsets.txt</span>
+<span id="cb4-4"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb4-4" tabindex="-1"></a>        <span class="ex">~/usearch</span> <span class="at">-distmx_split_identity</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_distmax.txt <span class="at">-mindist</span> 0.095 <span class="at">-maxdist</span> 0.105 <span class="at">-tabbedout</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.90.subsets.txt</span>
+<span id="cb4-5"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb4-5" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p>Output is a tabbed text given by the -tabbedout option. Fields are:</p>
 <ul>
 <li>Col1 - <code>Subset name</code> : there are four subsets with names <code>1</code>, <code>2</code>, <code>1x</code> and <code>2x</code>.</li>
@@ -234,16 +247,21 @@ Following code was adapted from <a href="https://doi.org/10.1016/j.ecoinf.2024.1
 <li>Col4 - <code>Dist</code> : distance between Label1 and Label2.</li>
 </ul>
 <p>Subsets <code>1</code> and <code>2</code> have top hits to each other in the specified range. Subset <code>1x</code> has lower identities with subset <code>2</code>, and can therefore be added to the training set if subset <code>2</code> is the query set. Similarly, subset <code>2x</code> has lower identities with subset <code>1</code> and can be added to the training set if subset <code>1</code> is the query</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb4-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.subsets.txt <span class="kw">;</span> <span class="cf">do</span> <span class="fu">awk</span> <span class="st">&#39;$1==1 || $1==&quot;1x&quot; {print $2}&#39;</span> <span class="va">$i</span> <span class="op">&gt;</span> <span class="va">$i</span>.trainingIDs.txt<span class="kw">;</span> <span class="fu">awk</span> <span class="st">&#39;$1==2 {print $2}&#39;</span> <span class="va">$i</span> <span class="op">&gt;</span> <span class="va">$i</span>.testIDs.txt<span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
-<p>Create fasta file with test and training set at each identity based on list</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb5-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.trainingIDs.txt <span class="kw">;</span> <span class="cf">do</span> <span class="ex">seqkit</span> grep <span class="at">-n</span> <span class="at">-f</span> <span class="va">$i</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.fasta <span class="op">&gt;</span> <span class="va">$i</span>.trainning.fasta <span class="kw">;</span> <span class="cf">done</span></span>
-<span id="cb5-2"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb5-2" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.testIDs.txt <span class="kw">;</span> <span class="cf">do</span> <span class="ex">seqkit</span> grep <span class="at">-n</span> <span class="at">-f</span> <span class="va">$i</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.fasta <span class="op">&gt;</span> <span class="va">$i</span>.test.fasta <span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
+<p>Get sequence ID for training and test set.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb5-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.subsets.txt <span class="kw">;</span> <span class="cf">do</span> <span class="fu">awk</span> <span class="st">&#39;$1==1 || $1==&quot;1x&quot; {print $2}&#39;</span> <span class="va">$i</span> <span class="op">&gt;</span> <span class="va">$i</span>.trainingIDs.txt<span class="kw">;</span> <span class="fu">awk</span> <span class="st">&#39;$1==2 {print $2}&#39;</span> <span class="va">$i</span> <span class="op">&gt;</span> <span class="va">$i</span>.testIDs.txt<span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
+<p>Create fasta file with test and training set at each identity, use subset 1 as training and subset 2 as test. If sekqit is installed throught conda activate base environnement first.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb6-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.trainingIDs.txt <span class="kw">;</span> <span class="cf">do</span> <span class="ex">seqkit</span> grep <span class="at">-n</span> <span class="at">-f</span> <span class="va">$i</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.fasta <span class="op">&gt;</span> <span class="va">$i</span>.trainning.fasta <span class="kw">;</span> <span class="cf">done</span></span>
+<span id="cb6-2"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb6-2" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.testIDs.txt <span class="kw">;</span> <span class="cf">do</span> <span class="ex">seqkit</span> grep <span class="at">-n</span> <span class="at">-f</span> <span class="va">$i</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.fasta <span class="op">&gt;</span> <span class="va">$i</span>.test.fasta <span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
 <p>Renaming the files to generate shorter names in following code</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb6-1" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> <span class="pp">*</span>.trainning.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="fu">mv</span> <span class="va">$file</span> <span class="va">${file</span><span class="op">//</span><span class="ss">_rdp.</span><span class="op">/</span>_rdp_<span class="va">}</span> <span class="kw">;</span> <span class="cf">done</span></span>
-<span id="cb6-2"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb6-2" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> <span class="pp">*</span>.test.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="fu">mv</span> <span class="va">$file</span> <span class="va">${file</span><span class="op">//</span><span class="ss">_rdp.</span><span class="op">/</span>_rdp_<span class="va">}</span> <span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb7-1" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> <span class="pp">*</span>.trainning.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="fu">mv</span> <span class="va">$file</span> <span class="va">${file</span><span class="op">//</span><span class="ss">_rdp.</span><span class="op">/</span>_rdp_<span class="va">}</span> <span class="kw">;</span> <span class="cf">done</span></span>
+<span id="cb7-2"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb7-2" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> <span class="pp">*</span>.test.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="fu">mv</span> <span class="va">$file</span> <span class="va">${file</span><span class="op">//</span><span class="ss">_rdp.</span><span class="op">/</span>_rdp_<span class="va">}</span> <span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
 </div>
-<div id="trainning-benchmark-dataset" class="section level2 unnumbered hasAnchor">
-<h2>Trainning benchmark dataset<a href="taxonomy-cross-validation-by-identity-taxxi.html#trainning-benchmark-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="generate-predictions-for-rdp-classifier" class="section level2 unnumbered hasAnchor">
+<h2>Generate predictions for RDP Classifier<a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions-for-rdp-classifier" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span style="color:#3498db"> Notes : To install the RDP classifier I recommend downloading the package from source forge (<a href="https://sourceforge.net/projects/rdp-classifier/">link</a>) as the Github is no longer maintained. Once the download is complete, unzip the folder and locate the file <code>classifer.jar</code> inside the directory <code>dist</code>. </span></p>
+<p>Following steps were adapted from John Quensen’s tutorial (<a href="https://john-quensen.com/tutorials/training-the-rdp-classifier/">link</a>) and available <a href="https://github.com/mirand863/hitac/tree/main/benchmark">scripts</a> associated with publication by <a href="https://doi.org/10.1101/2020.04.24.014852">Miranda (2020)</a>.</p>
+<div id="required-files" class="section level3 unnumbered hasAnchor">
+<h3>Required files<a href="taxonomy-cross-validation-by-identity-taxxi.html#required-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To train the newly generated training set for each identity level you need to generate a sequence file and a taxonomy file, each with special formatting requirements :</p>
 <p><strong>Sequence file</strong></p>
 <p>The sequence file must be in fasta format and contain a unique identifier without any white space. The accession number makes a good identifier. Anything after the first white space is ignored. The following are acceptable:</p>
@@ -303,16 +321,94 @@ CCGAGTTTTCAACTCGACCCTTCGGGGTCGTCGATCTCCAACCCGATCGATTTTGAACC</code></pre>
 </tr>
 </tbody>
 </table>
-<div id="generate-taxonomy-and-sequence-file" class="section level3 unnumbered hasAnchor">
-<h3>Generate taxonomy and sequence file<a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-taxonomy-and-sequence-file" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Extract sequence header using grep</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb8-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.trainning.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="fu">grep</span> <span class="at">-e</span> <span class="st">&quot;&gt;&quot;</span> <span class="va">$i</span> <span class="op">&gt;</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_trainheader.txt <span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
-<p>R script to parse header and generate the <code>ready4train_seqs.fasta</code> and <code>ready4train_taxonomy.txt</code></p>
-<p><span style="color:red"> !!! To do !!! What to do in cases where only few ranks are included in the sequence header (i.e. barque) ? !!! </span></p>
+<p><strong>Scripts</strong></p>
+<ul>
+<li><code>lineage2taxTrain.py</code></li>
+<li><code>addFullLineage.py</code></li>
+</ul>
+</div>
+<div id="generate-required-files" class="section level3 unnumbered hasAnchor">
+<h3>Generate required files<a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-required-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>Taxonomy file</strong></p>
+<p>Extract sequence header using grep.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb9-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.trainning.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="fu">grep</span> <span class="at">-e</span> <span class="st">&quot;&gt;&quot;</span> <span class="va">$i</span> <span class="op">&gt;</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_trainheader.txt <span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
+<p>Replace semi-colon with tabs and remove “&gt;”.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb10-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.trainingIDs.txt <span class="kw">;</span> <span class="cf">do</span> <span class="fu">sed</span> <span class="st">&#39;s/;/\t/g&#39;</span> <span class="va">$i</span> <span class="op">&gt;</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.RDP_trainID.txt <span class="kw">;</span> <span class="cf">done</span> </span>
+<span id="cb10-2"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb10-2" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.RDP_trainID.txt <span class="kw">;</span> <span class="cf">do</span> <span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/&gt;//g&#39;</span> <span class="va">$i</span> <span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
+<p>Add header (rank followed by column number i.e. <code>rank_1</code>, <code>rank_2</code>, etc.).</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb11-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.RDP_trainID.txt <span class="kw">;</span> <span class="cf">do</span> <span class="fu">awk</span> <span class="at">-i</span> inplace <span class="st">&#39;BEGIN {OFS=FS=&quot;\t&quot;} NR==1{for (i=1;i&lt;=NF;i++) printf &quot;%s%s&quot;, &quot;rank_&quot;i, i==NF?ORS:OFS}1&#39;</span> <span class="va">$i</span> <span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
+<p>Details :</p>
+<ul>
+<li>BEGIN {OFS=FS=“} sets the input and output delimiter to tab, instead of the default space. Change” to your delimiter if its not tab.</li>
+<li>NR==1{} says to execute the actions only on the first line</li>
+</ul>
+<p><span style="color:red"> TO DO : Pipe these commands together </span></p>
+<p><strong>Sequence file</strong></p>
+<p>Replace semi-colon with tabs</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb12-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>trainning.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/;/\t/g&#39;</span> <span class="va">$i</span> <span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb13-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.RDP_trainID.txt <span class="kw">;</span> <span class="cf">do</span> <span class="ex">python2</span> lineage2taxTrain.py <span class="va">$i</span> <span class="op">&gt;</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.ready4train_tax.txt <span class="kw">;</span> <span class="cf">done</span></span>
+<span id="cb13-2"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb13-2" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.trainning.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="ex">python2</span> addFullLineage.py <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.RDP_trainID.txt <span class="va">$i</span> <span class="op">&gt;</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.ready4train_seqs.fasta <span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
+</div>
+<div id="train-the-set" class="section level3 unnumbered hasAnchor">
+<h3>Train the set<a href="taxonomy-cross-validation-by-identity-taxxi.html#train-the-set" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb14-1" tabindex="-1"></a> <span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.RDP_trainID.txt <span class="kw">;</span> <span class="cf">do</span> <span class="ex">java</span> <span class="at">-Xmx10g</span> <span class="at">-jar</span> ~/rdp_classifier_2.14/dist/classifier.jar train <span class="at">-o</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_training_files <span class="at">-s</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.ready4train_seqs.fasta <span class="at">-t</span> <span class="va">$i</span> <span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
+<p>Output is a directory specified by the parameter <code>-o</code> which should contain the following files :</p>
+<ul>
+<li>bergeyTrainingTree.xml</li>
+<li>genus_wordConditionalProbList.txt</li>
+<li>logWordPrior.txt</li>
+<li>wordConditionalProbIndexArr.txt</li>
+</ul>
+<p>Move into this newly created directory and create the file <code>rRNAClassifier.properties</code> with the following text :</p>
+<pre><code># Sample ResourceBundle properties file
+bergeyTree=bergeyTrainingTree.xml
+
+probabilityList=genus_wordConditionalProbList.txt
+
+probabilityIndex=wordConditionalProbIndexArr.txt
+
+wordPrior=logWordPrior.txt
+
+classifierVersion=RDP Naive Bayesian rRNA Classifier Version 2.14</code></pre>
+</div>
+<div id="generate-predictions" class="section level3 unnumbered hasAnchor">
+<h3>Generate predictions<a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb16-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.ready4train_seqs.fasta <span class="kw">;</span> </span>
+<span id="cb16-2"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb16-2" tabindex="-1"></a><span class="cf">do</span>  <span class="ex">java</span> <span class="at">-Xmx1g</span> <span class="at">-jar</span> ~/rdp_classifier_2.14/dist/classifier.jar <span class="at">-q</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.subsets.txt.testIDs.txt.test.fasta <span class="at">-t</span> ./<span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_training_files/rRNAClassifier.properties <span class="at">-o</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.predictions.tsv <span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
 </div>
 </div>
-<div id="obtaining-cvi-metrics" class="section level2 unnumbered hasAnchor">
-<h2>Obtaining CVI metrics<a href="taxonomy-cross-validation-by-identity-taxxi.html#obtaining-cvi-metrics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="generate-predictions-for-vsearch" class="section level2 unnumbered hasAnchor">
+<h2>Generate predictions for VSEARCH<a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions-for-vsearch" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="cvi-metrics" class="section level2 unnumbered hasAnchor">
+<h2>CVI metrics<a href="taxonomy-cross-validation-by-identity-taxxi.html#cvi-metrics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Important definitions :</strong></p>
+<ul>
+<li>N : number of sequences in the test set S,</li>
+<li>K : number of sequences in S with known names (names which are present in the training set A)</li>
+<li>L : number of novel test sequences (= N – K) (sequences in S with names that are not present in A)</li>
+<li>TP : number of names which are correctly predicted</li>
+<li>MC : number of misclassification errors</li>
+<li>OC : number of over-classification errors</li>
+<li>UC : number under-classification errors</li>
+</ul>
+<p>The rate for each type of error is defined as the number of errors divided by the number of opportunities to make that error:</p>
+<ul>
+<li>OCR = OC/L (over-classification rate),</li>
+<li>UCR = UC/K (under-classification rate)</li>
+<li>MCR = MC/K (misclassification rate)</li>
+<li>TPR = TP/K</li>
+<li>Acc = TP/(K + OC)</li>
+</ul>
+<p>For each rank the mean values of the metrics over all test/training pairs for all values of the top-hit identity (d) was calculated and is designated by prefix <em>Avg</em>.</p>
+<ul>
+<li>True-positive rate (<em>AvgTPR</em>)</li>
+<li>Under-classification errors (<em>AvgUCR</em>)</li>
+<li>Misclassification rate (<em>AvgMCR</em>)</li>
+<li>Over-classification rate (<em>AvgOCR</em>)</li>
+<li>Average L10Acc</li>
+<li>Average accuracy (<em>AvgAcc</em>)</li>
+</ul>
 
 </div>
 </div>

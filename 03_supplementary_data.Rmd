@@ -1,8 +1,17 @@
 # Supplementary data {-}
 
-## Installing RDPTools with Docker
+## Installing the RDP classifier {-}
 
-RDPTools is a collection fo command-line tools written by the RDP staff at Michigan State University. Unfortunately, the The RDP website is no longer available and therefore the packages must be installed using the Docker verison of RDPTools. instruction where obtained from Dr. J.Quensen's [Website](https://jfq3.gitbook.io/rdptools-docker).
+The RDP Classifier is a naive Bayesian classifier that provides rapid and accurate taxonomic placement of rRNA gene sequences. 
+
+1. Download the 
+
+RDPTools is a collection fo command-line tools written by the RDP staff at Michigan State University. 
+More information and tutorials on how to install, use and retrain RDP Clasifier can be found on at https://github.com/rdpstaff/classifier and John Quensen's blog (https://john-quensen.com/).
+
+
+
+Unfortunately, the The RDP website is no longer available and therefore the packages must be installed using the Docker verison of RDPTools. instruction where obtained from Dr. J.Quensen's [Website](https://jfq3.gitbook.io/rdptools-docker).
 
 1. Installing Docker Engine 
 
@@ -47,7 +56,7 @@ sudo docker run --name rdp_tools -it -v /home/kvilleneuve/rdp_tools/ rdpstaff/rd
 
 After entering the above command the prompt terminal should be similar to this : `RDPuser@1041715dcc7f:~$`
 
-3. Installing auxillary programs and files 
+3. Installing auxiliary programs and files 
 
 Change to root user. Password (`RDPuser`)
 ```{bash, eval = FALSE}
@@ -65,3 +74,9 @@ python3 download_tools_jq.py
 ``` 
 
 Log out, exit the container and close the terminal : `exit exit exit`
+
+To launch docker 
+```{bash, eval = FALSE}
+sudo docker start rdp_tools
+sudo docker attach rdp_tools
+```

@@ -6,13 +6,11 @@ bibliography: [book.bib]
 biblio-style: apalike
 link-citations: yes
 github-repo: rstudio/bookdown-demo
-description: "Fish eDNA in Alberta"
+description: ""
 ---
-# Overview {-}
+# Our dataset {-}
 
-## Our dataset {-}
-
-18 water samples collected from rivers and lakes near oil-sands extraction sites in the province of Alberta, Canada. Collected water was filtered and DNA collected on the filers was extracted and sequenced. For each sample collected, two different marker genes were used to amplify and sequence distinct DNA regions : the **12S** ribosomal RNA gene and the mitochondrial cytochrome oxidase subunit (**COI**). 
+18 water samples collected from rivers and lakes near oil-sands extraction sites in the province of Alberta, Canada. Sampled water was filtered and DNA collected on the filers was extracted and sequenced. For each sample collected, two different marker genes were used to amplify and sequence distinct DNA regions : the **12S** ribosomal RNA gene and the mitochondrial cytochrome oxidase subunit (**COI**). 
 
 ```{r, echo = FALSE, warning = FALSE}
 library(DT)
@@ -60,9 +58,9 @@ datatable(workflow_database, rownames = FALSE, options=list(scrollX=T, dom = 't'
 - [10] [12S fish Classifier v1.0.1](https://github.com/terrimporter/12SfishClassifier/releases/tag/v1.0.1)
 - [11] [12S formatted for barque](https://github.com/enormandeau/barque/blob/master/03_databases/12S.fasta.gz)
 
-## Representation of Alberta freshwater fishes in databases {-}
+### Representation of Alberta freshwater fishes in databases {-}
 
-Original code to evaluate if the fish from Alberta were present in each of the databases ([3](https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/), [5](https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0) , [10](https://github.com/terrimporter/12SfishClassifier/releases/tag/v1.0.1), [11](https://github.com/enormandeau/barque/blob/master/03_databases/12S.fasta.gz)) can be found [here][Evaluating representation in databases]. 
+Each databases were queried to evaluate the presence of reference sequences for Alberta freshwater fishes. Code used can be found [here][Evaluating representation in databases]. 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 #library(shiny)
@@ -79,3 +77,26 @@ datatable(aff_databases, rownames = FALSE, options = list(scrollX = T, dom = 't'
               backgroundSize = "50%", 
               backgroundPosition = 'center')
 ```
+
+## Comparing pipelines with available databases {-}
+
+### DADA2 {-}
+
+#### 12S {-}
+
+#### COI {-}
+
+839 ASV | from these 839 ASVs, 20 (2.38 %) are species with a bootstrap level above 70 % | from these 20 species, 8 (40 %) are from class actinopteri | from these 8 actinopteri, 7 (87.5 %) are species of freshwater fishes found in Alberta. 
+
+### Barque {-}
+
+## Curating databases {-}
+
+https://forum.qiime2.org/t/building-a-coi-database-from-bold-references/16129
+
+Using `seqkit` tool to filter databases in order to keep only sequences of freshwater fishes found in Alberta 
+
+```{bash, eval = FALSE}
+seqkit grep -v -n -f id_list.txt in.fasta > out.fasta
+```
+
