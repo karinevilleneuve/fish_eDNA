@@ -208,27 +208,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2>Evaluating representation in databases<a href="code.html#evaluating-representation-in-databases" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <pre class="verbose"><code>#### ------------------------- Load libraries  ------------------------------------------------------####  
 
-library(Biostrings)
 library(tidyverse)
+
+#### ------------------------- Load databases sequence header -------------------------------------------------- #### 
+
+# Header were extracted using shell command : grep &quot;^&gt;&quot; file.fasta | sed -e &quot;s/&gt;//&quot; &gt; headers.txt
+
+## RDP classifier ## 
+rdp12s_raw = read.table(&quot;/home/kvilleneuve/fish_edna/database/header_rdp_12S.txt&quot;, sep = &quot;;&quot;)
+rdpcoi_raw = read.table(&quot;/home/kvilleneuve/fish_edna/database/header_rdp_coi.txt&quot;, sep = &quot;;&quot;)
+
+## barque ##
+barque12s_raw = read.table(&quot;/home/kvilleneuve/fish_edna/database/header_barque_12S.txt&quot;, sep = &quot;_&quot;)
+barquecoi_raw = read.table(&quot;/home/kvilleneuve/fish_edna/database/header_bold_coi_barque.txt&quot;,  sep = &quot;_&quot;)
+
 
 #### ------------------------- Load list of Freshwater fishes from Alberta ------------------------- ####  
 
 
 alberta_fish = read.csv(&quot;/home/kvilleneuve/fish_edna/database/fishbase_alberta_freswater.csv&quot;, header = TRUE, check.names = FALSE)
 alberta_fish$Species = gsub(&quot; &quot;, &quot;_&quot;, alberta_fish$Species) # Replace space to underscore 
-
-
-### ------------------------- Load the databases -------------------------------------------------- #### 
-
-
-## RDP classifier ## 
-rdpcoi_raw = readDNAStringSet(&quot;/home/kvilleneuve/fish_edna/database/rdp_coiv5_1_0/mydata_ref/mytrainseq.fasta&quot;, format = &quot;fasta&quot;)
-rdp12s_raw = readDNAStringSet(&quot;/home/kvilleneuve/fish_edna/database/12Sfishclassifier/mydata_training/mytrainseq.fasta&quot;, format = &quot;fasta&quot;)
-
-## barque ##
-barquecoi_raw = readDNAStringSet(&quot;/home/kvilleneuve/fish_edna/database/bold_coi_for_barque_2023-09-12.fasta&quot;, format = &quot;fasta&quot;)
-barque12s_raw = readDNAStringSet(&quot;/home/kvilleneuve/fish_edna/database/barque_12S.fasta&quot;, format = &quot;fasta&quot;)
-
 
 ### ------------------------- Parse databases dataframes  ----------------------------------------- #### 
 
@@ -242,10 +241,8 @@ list_rdp_taxa = list()
 i = 0 
 for (databases in list_rdp_db){
   i = i + 1
-  rdp_db = as.data.frame(databases@ranges@NAMES)
-  rdp_taxa = rdp_db %&gt;% 
-    separate(`databases@ranges@NAMES`, c(&quot;Domain&quot;, &quot;Superkingdom&quot;, &quot;Kingdom&quot;, &quot;Phylum&quot;, &quot;Class&quot;, &quot;Order&quot;, &quot;Family&quot;, &quot;Genus&quot;, &quot;Species&quot;), &quot;;&quot;)
-  list_rdp_taxa[[i]] = rdp_taxa
+  names(databases) = c(&quot;ID&quot;, &quot;Superkingdom&quot;, &quot;Kingdom&quot;, &quot;Phylum&quot;, &quot;Class&quot;, &quot;Order&quot;, &quot;Family&quot;, &quot;Genus&quot;, &quot;Species&quot;)
+  list_rdp_taxa[[i]] = databases
   names(list_rdp_taxa)[i] = names(list_rdp_db[i])
 }
 
@@ -256,20 +253,19 @@ list_barque_taxa = list()
 i = 0 
 for (databases in list_barque_db){
   i = i + 1
-  barque_db = as.data.frame(databases@ranges@NAMES) 
-  barque_taxa = barque_db %&gt;% 
-    separate(`databases@ranges@NAMES`, c(&quot;Family&quot;, &quot;Genus&quot;, &quot;sort_species&quot;), &quot;_&quot;)
-  barque_taxa$Species = paste(barque_taxa$Genus,&quot;_&quot;,barque_taxa$sort_species, sep =&quot;&quot;)
-  list_barque_taxa[[i]] = barque_taxa
+  names(databases) = c(&quot;Family&quot;, &quot;Genus&quot;, &quot;sort_species&quot;)
+  databases$Species = paste(databases$Genus,&quot;_&quot;,databases$sort_species, sep =&quot;&quot;)
+  list_barque_taxa[[i]] = databases
   names(list_barque_taxa)[i] = names(list_barque_db[i])
 }
 
 # After parsing each databases we combine them into as single list 
-# then we filter out fishes which are not found in the list of Alberta freshwater fishes
+# then we filter out fishes which are not found in ther list of Alberta freshwater fishes
 
 jointlist_all_db = c(list_rdp_taxa, list_barque_taxa)
 list_filtered_db = list()
 i = 0
+
 for (databses in jointlist_all_db){
   i = i + 1
     filtered_db = databses %&gt;%
@@ -282,10 +278,12 @@ for (databses in jointlist_all_db){
 
 filtered_df = Reduce(function(...) merge(..., all=T), list_filtered_db)
 
-### ------------------------- Combine with dataframe of Alberta freshwater fishes and save output as csv  ----------------------------------------- #### 
+### ------------------------- Combine as dataframe as save output  ----------------------------------------- #### 
 
 final_df = merge(alberta_fish, filtered_df, by = &quot;Species&quot;, all = TRUE)
-final_df = gsub(&quot;_&quot;, &quot; &quot;, final_df$Species)
+final_df$Species = gsub(&quot;_&quot;, &quot; &quot;, final_df$Species)
+# Reordering columns 
+final_df = final_df[,c(2,3,1,4,5,6,7,8,9,10)]
 write.csv(final_df, &quot;/home/kvilleneuve/fish_edna/results/represensation_albertafish_databases.csv&quot;, quote = FALSE)</code></pre>
 </div>
 <div id="workflows" class="section level2 unnumbered hasAnchor">
@@ -307,7 +305,7 @@ write.csv(final_df, &quot;/home/kvilleneuve/fish_edna/results/represensation_alb
 <div id="curating-databases-1" class="section level2 unnumbered hasAnchor">
 <h2>Curating databases<a href="code.html#curating-databases-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Using <code>seqkit</code> tool to filter databases in order to keep only sequences of freshwater fishes found in Alberta</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="code.html#cb18-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-v</span> <span class="at">-n</span> <span class="at">-f</span> id_list.txt in.fasta <span class="op">&gt;</span> out.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="code.html#cb19-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-v</span> <span class="at">-n</span> <span class="at">-f</span> id_list.txt in.fasta <span class="op">&gt;</span> out.fasta</span></code></pre></div>
 <p><a href="https://forum.qiime2.org/t/building-a-coi-database-from-bold-references/16129" class="uri">https://forum.qiime2.org/t/building-a-coi-database-from-bold-references/16129</a></p>
 
 </div>

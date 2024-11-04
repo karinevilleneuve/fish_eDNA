@@ -1,70 +1,70 @@
-﻿Species,Order,Family,Occurrence,FishBase name,Name in Country
-Acipenser fulvescens,Acipenseriformes,Acipenseridae,native ,Lake sturgeon ,Esturgeon jaune 
-Anguilla rostrata,Anguilliformes,Anguillidae,introduced ,American eel ,
-Carassius auratus,Cypriniformes,Cyprinidae,introduced ,Goldfish ,Cyprin doré 
-Carassius gibelio,Cypriniformes,Cyprinidae,introduced ,Prussian carp ,
-Carpiodes cyprinus,Cypriniformes,Catostomidae,native ,Quillback ,
-Catostomus catostomus,Cypriniformes,Catostomidae,native ,Longnose sucker ,Meunier rouge 
-Catostomus commersonii,Cypriniformes,Catostomidae,native ,White sucker ,Meunier noir 
-Catostomus macrocheilus,Cypriniformes,Catostomidae,native ,Largescale sucker ,Meunier à grandes écailles 
-Catostomus platyrhynchus,Cypriniformes,Catostomidae,native ,Mountain sucker ,Meunier des montagnes 
-Chrosomus eos,Cypriniformes,Leuciscidae,native ,Northern redbelly dace ,Ventre rouge du nord 
-Chrosomus neogaeus,Cypriniformes,Leuciscidae,native ,Finescale dace ,Ventre citron 
-Coregonus artedi,Salmoniformes,Salmonidae,native ,Cisco ,Cisco de lac 
-Coregonus clupeaformis,Salmoniformes,Salmonidae,native ,Lake whitefish ,Grand corégone 
-Coregonus zenithicus,Salmoniformes,Salmonidae,native ,Shortjaw cisco ,Cisco à mâchoires égales 
-Cottus bairdii,Perciformes/Cottoidei,Cottidae,native ,Mottled sculpin ,Chabot tacheté 
-Cottus cognatus,Perciformes/Cottoidei,Cottidae,native ,Slimy sculpin ,Chabot visqueux 
-Cottus confusus,Perciformes/Cottoidei,Cottidae,native ,Shorthead sculpin ,Chabot à tête courte 
-Cottus ricei,Perciformes/Cottoidei,Cottidae,native ,Spoonhead sculpin ,Chabot à tête plate 
-Couesius plumbeus,Cypriniformes,Leuciscidae,native ,Lake chub ,Méné de lac 
-Culaea inconstans,Perciformes/Gasterosteoidei,Gasterosteidae,native ,Brook stickleback ,Épinoche à cinq épines 
-Esox lucius,Esociformes,Esocidae,native ,Northern pike ,Grand brochet 
-Etheostoma exile,Perciformes/Percoidei,Percidae,native ,Iowa darter ,Weed darter 
-Gambusia affinis,Cyprinodontiformes,Poeciliidae,introduced ,Mosquitofish ,Gambusie 
-Gasterosteus aculeatus,Perciformes/Gasterosteoidei,Gasterosteidae,introduced ,Three-spined stickleback ,Épinoche à trois épines 
-Hiodon alosoides,Hiodontiformes,Hiodontidae,native ,Goldeye ,La Queche 
-Hiodon tergisus,Hiodontiformes,Hiodontidae,native ,Mooneye ,Laquaiche argentée 
-Hybognathus argyritis,Cypriniformes,Leuciscidae,native ,Western silvery minnow ,
-Hybognathus hankinsoni,Cypriniformes,Leuciscidae,native ,Brassy minnow ,Mémé laiton 
-Lepomis gibbosus,Centrarchiformes,Centrarchidae,introduced ,Pumpkinseed ,Crapet-soleil 
-Lethenteron camtschaticum,Petromyzontiformes,Petromyzontidae,native ,Arctic lamprey ,Lamproie arctique 
-Lota lota,Gadiformes,Lotidae,native ,Burbot ,Lotte 
-Margariscus nachtriebi,Cypriniformes,Leuciscidae,native ,Northern pearl dace ,
-Micropterus dolomieu,Centrarchiformes,Centrarchidae,introduced ,Smallmouth bass ,Achigan à petite bouche 
-Micropterus salmoides,Centrarchiformes,Centrarchidae,introduced ,Largemouth black bass ,Achigan à grande bouche 
-Moxostoma anisurum,Cypriniformes,Catostomidae,native ,Silver redhorse ,Suceur blanc 
-Moxostoma macrolepidotum,Cypriniformes,Catostomidae,native ,Shorthead redhorse ,Suceur rouge 
-Myoxocephalus thompsonii,Perciformes/Cottoidei,Cottidae,native ,Deepwater sculpin ,
-Notropis atherinoides,Cypriniformes,Leuciscidae,native ,Emerald shiner ,Méné émeraude 
-Notropis blennius,Cypriniformes,Leuciscidae,native ,River shiner ,
-Notropis hudsonius,Cypriniformes,Leuciscidae,native ,Spottail shiner ,Queue à tache noire 
-Noturus flavus,Siluriformes,Ictaluridae,native ,Stonecat ,
-Oncorhynchus aguabonita,Salmoniformes,Salmonidae,introduced ,Golden trout ,Truite dorée 
-Oncorhynchus kisutch,Salmoniformes,Salmonidae,introduced ,Coho salmon ,Saumon coho 
-Oncorhynchus mykiss,Salmoniformes,Salmonidae,native ,Rainbow trout ,Truite-arc-en-ciel 
-Oncorhynchus nerka,Salmoniformes,Salmonidae,introduced ,Sockeye salmon ,Hísṇ 
-Perca flavescens,Perciformes/Percoidei,Percidae,native ,American yellow perch ,Perchaude 
-Percina caprodes,Perciformes/Percoidei,Percidae,native ,Logperch ,Dard-perche 
-Percopsis omiscomaycus,Percopsiformes,Percopsidae,native ,Trout-perch ,Omisco 
-Pimephales promelas,Cypriniformes,Leuciscidae,native ,Fathead minnow ,
-Platygobio gracilis,Cypriniformes,Leuciscidae,native ,Flathead chub ,Méné à tête plate 
-Poecilia latipinna,Cyprinodontiformes,Poeciliidae,introduced ,Sailfin molly ,Molliénésie á voilure 
-Prosopium coulterii,Salmoniformes,Salmonidae,native ,Pygmy whitefish ,Ménomini pygmée 
-Prosopium cylindraceum,Salmoniformes,Salmonidae,native ,Round whitefish ,Ménomini rond 
-Prosopium williamsoni,Salmoniformes,Salmonidae,native ,Mountain whitefish ,Grayling 
-Ptychocheilus oregonensis,Cypriniformes,Leuciscidae,native ,Northern pikeminnow ,Sauvagesse du nord 
-Pungitius pungitius,Perciformes/Gasterosteoidei,Gasterosteidae,native ,Ninespine stickleback ,Épinoche à neuf épines 
-Rhinichthys cataractae,Cypriniformes,Leuciscidae,native ,Longnose dace ,Naseux des rapides 
-Richardsonius balteatus,Cypriniformes,Leuciscidae,native ,Redside shiner ,Méné rose 
-Rubricatochromis bimaculatus,Cichliformes,Cichlidae,introduced ,Jewelfish ,Cichlidé à deux taches 
-Salmo salar,Salmoniformes,Salmonidae,introduced ,Atlantic salmon ,Saumon atlantique 
-Salmo trutta,Salmoniformes,Salmonidae,introduced ,Sea trout ,Truite brune 
-Salvelinus alpinus,Salmoniformes,Salmonidae,introduced ,Arctic char ,Omble chevalier 
-Salvelinus confluentus,Salmoniformes,Salmonidae,native ,Bull trout ,Omble à tête plate 
-Salvelinus fontinalis,Salmoniformes,Salmonidae,introduced ,Brook trout ,Truite 
-Salvelinus malma,Salmoniformes,Salmonidae,introduced ,Dolly varden ,Dolly Varden 
-Salvelinus namaycush,Salmoniformes,Salmonidae,native ,Lake trout ,Touladi 
-Sander canadensis,Perciformes/Percoidei,Percidae,native ,Sauger ,Doré noir 
-Sander vitreus,Perciformes/Percoidei,Percidae,native ,Walleye ,Doré 
-Thymallus arcticus,Salmoniformes,Salmonidae,native ,Arctic grayling ,
+﻿Order,Family,Species,Occurrence,Common name,Nom commun
+Acipenseriformes,Acipenseridae,Acipenser fulvescens,Native ,Lake sturgeon ,Esturgeon jaune 
+Anguilliformes,Anguillidae,Anguilla rostrata,Introduced ,American eel ,
+Cypriniformes,Cyprinidae,Carassius auratus,Introduced ,Goldfish ,Cyprin doré 
+Cypriniformes,Cyprinidae,Carassius gibelio,Introduced ,Prussian carp ,
+Cypriniformes,Catostomidae,Carpiodes cyprinus,Native ,Quillback ,
+Cypriniformes,Catostomidae,Catostomus catostomus,Native ,Longnose sucker ,Meunier rouge 
+Cypriniformes,Catostomidae,Catostomus commersonii,Native ,White sucker ,Meunier noir 
+Cypriniformes,Catostomidae,Catostomus macrocheilus,Native ,Largescale sucker ,Meunier à grandes écailles 
+Cypriniformes,Catostomidae,Catostomus platyrhynchus,Native ,Mountain sucker ,Meunier des montagnes 
+Cypriniformes,Leuciscidae,Chrosomus eos,Native ,Northern redbelly dace ,Ventre rouge du nord 
+Cypriniformes,Leuciscidae,Chrosomus neogaeus,Native ,Finescale dace ,Ventre citron 
+Salmoniformes,Salmonidae,Coregonus artedi,Native ,Cisco ,Cisco de lac 
+Salmoniformes,Salmonidae,Coregonus clupeaformis,Native ,Lake whitefish ,Grand corégone 
+Salmoniformes,Salmonidae,Coregonus zenithicus,Native ,Shortjaw cisco ,Cisco à mâchoires égales 
+Perciformes/Cottoidei,Cottidae,Cottus bairdii,Native ,Mottled sculpin ,Chabot tacheté 
+Perciformes/Cottoidei,Cottidae,Cottus cognatus,Native ,Slimy sculpin ,Chabot visqueux 
+Perciformes/Cottoidei,Cottidae,Cottus confusus,Native ,Shorthead sculpin ,Chabot à tête courte 
+Perciformes/Cottoidei,Cottidae,Cottus ricei,Native ,Spoonhead sculpin ,Chabot à tête plate 
+Cypriniformes,Leuciscidae,Couesius plumbeus,Native ,Lake chub ,Méné de lac 
+Perciformes/Gasterosteoidei,Gasterosteidae,Culaea inconstans,Native ,Brook stickleback ,Épinoche à cinq épines 
+Esociformes,Esocidae,Esox lucius,Native ,Northern pike ,Grand brochet 
+Perciformes/Percoidei,Percidae,Etheostoma exile,Native ,Iowa darter ,Weed darter 
+Cyprinodontiformes,Poeciliidae,Gambusia affinis,Introduced ,Mosquitofish ,Gambusie 
+Perciformes/Gasterosteoidei,Gasterosteidae,Gasterosteus aculeatus,Introduced ,Three-spined stickleback ,Épinoche à trois épines 
+Hiodontiformes,Hiodontidae,Hiodon alosoides,Native ,Goldeye ,La Queche 
+Hiodontiformes,Hiodontidae,Hiodon tergisus,Native ,Mooneye ,Laquaiche argentée 
+Cypriniformes,Leuciscidae,Hybognathus argyritis,Native ,Western silvery minnow ,
+Cypriniformes,Leuciscidae,Hybognathus hankinsoni,Native ,Brassy minnow ,Mémé laiton 
+Centrarchiformes,Centrarchidae,Lepomis gibbosus,Introduced ,Pumpkinseed ,Crapet-soleil 
+Petromyzontiformes,Petromyzontidae,Lethenteron camtschaticum,Native ,Arctic lamprey ,Lamproie arctique 
+Gadiformes,Lotidae,Lota lota,Native ,Burbot ,Lotte 
+Cypriniformes,Leuciscidae,Margariscus nachtriebi,Native ,Northern pearl dace ,
+Centrarchiformes,Centrarchidae,Micropterus dolomieu,Introduced ,Smallmouth bass ,Achigan à petite bouche 
+Centrarchiformes,Centrarchidae,Micropterus salmoides,Introduced ,Largemouth black bass ,Achigan à grande bouche 
+Cypriniformes,Catostomidae,Moxostoma anisurum,Native ,Silver redhorse ,Suceur blanc 
+Cypriniformes,Catostomidae,Moxostoma macrolepidotum,Native ,Shorthead redhorse ,Suceur rouge 
+Perciformes/Cottoidei,Cottidae,Myoxocephalus thompsonii,Native ,Deepwater sculpin ,
+Cypriniformes,Leuciscidae,Notropis atherinoides,Native ,Emerald shiner ,Méné émeraude 
+Cypriniformes,Leuciscidae,Notropis blennius,Native ,River shiner ,
+Cypriniformes,Leuciscidae,Notropis hudsonius,Native ,Spottail shiner ,Queue à tache noire 
+Siluriformes,Ictaluridae,Noturus flavus,Native ,Stonecat ,
+Salmoniformes,Salmonidae,Oncorhynchus aguabonita,Introduced ,Golden trout ,Truite dorée 
+Salmoniformes,Salmonidae,Oncorhynchus kisutch,Introduced ,Coho salmon ,Saumon coho 
+Salmoniformes,Salmonidae,Oncorhynchus mykiss,Native ,Rainbow trout ,Truite-arc-en-ciel 
+Salmoniformes,Salmonidae,Oncorhynchus nerka,Introduced ,Sockeye salmon ,Hísṇ 
+Perciformes/Percoidei,Percidae,Perca flavescens,Native ,American yellow perch ,Perchaude 
+Perciformes/Percoidei,Percidae,Percina caprodes,Native ,Logperch ,Dard-perche 
+Percopsiformes,Percopsidae,Percopsis omiscomaycus,Native ,Trout-perch ,Omisco 
+Cypriniformes,Leuciscidae,Pimephales promelas,Native ,Fathead minnow ,
+Cypriniformes,Leuciscidae,Platygobio gracilis,Native ,Flathead chub ,Méné à tête plate 
+Cyprinodontiformes,Poeciliidae,Poecilia latipinna,Introduced ,Sailfin molly ,Molliénésie á voilure 
+Salmoniformes,Salmonidae,Prosopium coulterii,Native ,Pygmy whitefish ,Ménomini pygmée 
+Salmoniformes,Salmonidae,Prosopium cylindraceum,Native ,Round whitefish ,Ménomini rond 
+Salmoniformes,Salmonidae,Prosopium williamsoni,Native ,Mountain whitefish ,Grayling 
+Cypriniformes,Leuciscidae,Ptychocheilus oregonensis,Native ,Northern pikeminnow ,Sauvagesse du nord 
+Perciformes/Gasterosteoidei,Gasterosteidae,Pungitius pungitius,Native ,Ninespine stickleback ,Épinoche à neuf épines 
+Cypriniformes,Leuciscidae,Rhinichthys cataractae,Native ,Longnose dace ,Naseux des rapides 
+Cypriniformes,Leuciscidae,Richardsonius balteatus,Native ,Redside shiner ,Méné rose 
+Cichliformes,Cichlidae,Rubricatochromis bimaculatus,Introduced ,Jewelfish ,Cichlidé à deux taches 
+Salmoniformes,Salmonidae,Salmo salar,Introduced ,Atlantic salmon ,Saumon atlantique 
+Salmoniformes,Salmonidae,Salmo trutta,Introduced ,Sea trout ,Truite brune 
+Salmoniformes,Salmonidae,Salvelinus alpinus,Introduced ,Arctic char ,Omble chevalier 
+Salmoniformes,Salmonidae,Salvelinus confluentus,Native ,Bull trout ,Omble à tête plate 
+Salmoniformes,Salmonidae,Salvelinus fontinalis,Introduced ,Brook trout ,Truite 
+Salmoniformes,Salmonidae,Salvelinus malma,Introduced ,Dolly varden ,Dolly Varden 
+Salmoniformes,Salmonidae,Salvelinus namaycush,Native ,Lake trout ,Touladi 
+Perciformes/Percoidei,Percidae,Sander canadensis,Native ,Sauger ,Doré noir 
+Perciformes/Percoidei,Percidae,Sander vitreus,Native ,Walleye ,Doré 
+Salmoniformes,Salmonidae,Thymallus arcticus,Native ,Arctic grayling ,

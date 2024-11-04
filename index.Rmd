@@ -10,7 +10,7 @@ description: ""
 ---
 # Our dataset {-}
 
-18 water samples collected from rivers and lakes near oil-sands extraction sites in the province of Alberta, Canada. Sampled water was filtered and DNA collected on the filers was extracted and sequenced. For each sample collected, two different marker genes were used to amplify and sequence distinct DNA regions : the **12S** ribosomal RNA gene and the mitochondrial cytochrome oxidase subunit (**COI**). 
+The dataset consists of 18 water samples collected from rivers and lakes near oil-sands extraction sites in the province of Alberta, Canada. Sampled water was filtered and DNA collected on the filers was extracted and sequenced. For each sample collected, two different marker genes were used to amplify and sequence distinct DNA regions : the **12S** ribosomal RNA gene and the mitochondrial cytochrome oxidase subunit (**COI**). 
 
 ```{r, echo = FALSE, warning = FALSE}
 library(DT)
@@ -68,6 +68,24 @@ library(DT)
 library(dplyr)
 
 aff_databases = read.csv(file = "data/represensation_albertafish_databases.csv", check.names = FALSE, row.names = 1)
+datatable(aff_databases, rownames = FALSE, options = list(scrollX = T, dom = 't', paging=FALSE, ordering=FALSE,
+                                                        initComplete = JS("function(settings, json) {",
+                                                                              "$(this.api().table().header()).css({'font-size': '11px'});",
+                                                                              "}"))) %>% formatStyle(columns = colnames(.$x$data), `font-size` = '11px') %>% 
+  formatStyle(names(aff_databases), 
+              backgroundColor = styleEqual(c("Yes","No"), c("#DeF7E9", "#ff7f7f")), 
+              backgroundSize = "50%", 
+              backgroundPosition = 'center')
+```
+
+The absence of the following fishes from any databases can be attributed to different names being used. 
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+#library(shiny)
+library(DT)
+library(dplyr)
+
+aff_databases = read.csv(file = "data/missing_fishes.csv", check.names = FALSE, row.names = 1)
 datatable(aff_databases, rownames = FALSE, options = list(scrollX = T, dom = 't', paging=FALSE, ordering=FALSE,
                                                         initComplete = JS("function(settings, json) {",
                                                                               "$(this.api().table().header()).css({'font-size': '11px'});",

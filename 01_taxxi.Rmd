@@ -4,13 +4,6 @@ Framework developed by Edgard (2018). Link to [article](https://peerj.com/articl
 
 Cross-validation by identity (CVI) models varying distances between query sequences and reference sequences. A reference with known taxonomies is split into test and training sets such that for all test sequences, the most similar training sequence has a given identity (*d*). This is repeated for different identities, enabling assessment of prediction accuracy at varying distances from the reference.
 
-**Important definitions :** 
-
-- The *lowest common rank* (LCR) of two sequences is the lowest rank where both have the same taxon name.
-- The *most probable lowest common rank* (MLR) for a pair of sequences with identity *d* is defined as the LCR with highest probability. MLRs can be summarized by giving the rank identity threshold (RIT) for each rank *r*.
-- The *rank identity threshold* (RIT) for each rank *r* is defined as the minimum identity for which MLR(d) = *r*. For example, if MLR(100) = species, MLR(99) = genus, MLR(98) = genus, ... MLR(94) = genus and MLR(93) = family, then RIT(species) = 100 and RIT(genus) = 94. 
-- The *top-hit identity distribution* (THID) is the distances from a reference database.
-
 <img style="padding:30px" src="data/taxxi_figures.jpg" align="left" width="20%"/>
 
 \
@@ -24,27 +17,30 @@ Cross-validation by identity (CVI) models varying distances between query sequen
 
 <br clear="left"/>
 
-**CVI performance metrics :**
-
 ## Generate benchmark datasets {-}
 
 The `distmx_split_identity` command from [USEARCH](https://www.drive5.com/usearch/manual/cvi.html) divides sequences into subsets such that the top-hit identity is a given value. This is used to create test-training pairs for cross-validation by identity. Input is a distance matrix created by the `calc_distmx command`. As per the methods specified in Edgar (2018) maximum allowed deviation (σ) from *d* used : σ = 1% for *d* = 90% and σ = 0.5% for *d* = 99, 97 and 95%. The following code was adapted from [Donhauser *et al.* (2024)](https://doi.org/10.1016/j.ecoinf.2024.102817) and validated with available documentation from [USEARCH](https://www.drive5.com/usearch/manual/cvi.html). 
 
 Testing with available databases (barque COI [3](https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/), RDP COI V5.1.0 [5](https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0), RDP 12S [10](https://github.com/terrimporter/12SfishClassifier/releases/tag/v1.0.1) and barque 12S [11](https://github.com/enormandeau/barque/blob/master/03_databases/12S.fasta.gz)))
 
-Remove tab spaces in sequence name (for RDP databases specifically)
+Remove tab spaces in sequence name (for RDP databases specifically).
+
 ```{bash, eval = FALSE}
 for i in *.fasta ; do sed -i 's/\t/;/g' $i ; done 
 ```
 
-To create the distance matrix the following code was executed from a bash script called `run_distmx.sh` using nohup. 
+- Before : `>NC_003178      cellularOrganisms;Eukaryota;Metazoa;Chordata;Actinopteri;Ateleopodiformes;Ateleopodidae;Ateleopus;Ateleopus_japonicus`
+- After : `>NC_003178;cellularOrganisms;Eukaryota;Metazoa;Chordata;Actinopteri;Ateleopodiformes;Ateleopodidae;Ateleopus;Ateleopus_japonicus`
+
+Create a distance matrix using function `-calc_distmx`
+
 ```{bash, eval = FALSE}
 for i in *.fasta ; do ~/usearch -calc_distmx $i -maxdist 0.2 -termdist 0.3 -tabbedout ${i%%.*}_distmax.txt; done
 ```
 
 <span style="color:red"> !!! *Issue with barque_coi : Memory limit of 32-bit process exceeded, 64-bit build required..* </span>
 
-To create training and test datasets at different % identity the following code was executed from a bash script called `run_splitid.sh` using nohup. 
+To create training and test datasets at different identity thresholds the following code was executed from a bash script called `run_splitid.sh` using nohup. 
 
 ```{bash, eval = FALSE}
 for i in *.fasta ; do
@@ -76,11 +72,12 @@ for i in *.trainingIDs.txt ; do seqkit grep -n -f $i ${i%%.*}.fasta > $i.trainni
 for i in *.testIDs.txt ; do seqkit grep -n -f $i ${i%%.*}.fasta > $i.test.fasta ; done 
 ```
 
-Renaming the files to generate shorter names in following code 
+Rename files 
+
 ```{bash, eval = FALSE}
-for file in *.trainning.fasta ; do mv $file ${file//_rdp./_rdp_} ; done
-for file in *.test.fasta ; do mv $file ${file//_rdp./_rdp_} ; done
-``` 
+for file in *subsets* ; do mv $file ${file//.9/_9} ; done
+```
+
 
 ## Generate predictions for RDP Classifier {-}
 
@@ -157,7 +154,7 @@ Details  :
 
 Replace semi-colon with tabs
 ```{bash, eval = FALSE} 
-for i in *trainning.fasta ; do sed -i 's/;/\t/g' $i ; done 
+for i in *.trainning.fasta ; do sed -i 's/;/\t/g' $i ; done 
 ```
 
 ```{bash, eval = FALSE} 
@@ -168,7 +165,7 @@ for i in *.trainning.fasta ; do python2 addFullLineage.py ${i%%.*}.RDP_trainID.t
 ### Train the set {-}
 
 ```{bash, eval = FALSE}
- for i in *.RDP_trainID.txt ; do java -Xmx10g -jar ~/rdp_classifier_2.14/dist/classifier.jar train -o ${i%%.*}_training_files -s ${i%%.*}.ready4train_seqs.fasta -t $i ; done
+for i in *.ready4train_tax.txt ; do java -Xmx10g -jar ~/rdp_classifier_2.14/dist/classifier.jar train -o ${i%%.*}_training_files -s ${i%%.*}.ready4train_seqs.fasta -t $i ; done
 ```
 
 Output is a directory specified by the parameter `-o` which should contain the following files : 
@@ -198,10 +195,28 @@ classifierVersion=RDP Naive Bayesian rRNA Classifier Version 2.14
 ```{bash, eval = FALSE}
 for i in *.ready4train_seqs.fasta ; 
 do  java -Xmx1g -jar ~/rdp_classifier_2.14/dist/classifier.jar -q ${i%%.*}.subsets.txt.testIDs.txt.test.fasta -t ./${i%%.*}_training_files/rRNAClassifier.properties -o ${i%%.*}.predictions.tsv ; done 
-
 ```
 
 ## Generate predictions for VSEARCH {-}
+
+```{bash, eval = FALSE}
+for i in *.subsets.txt.testIDs.txt.test.fasta ; do vsearch --usearch_global $i -db ${i%%.*}.subsets.txt.trainingIDs.txt.trainning.fasta --blast6out  ${i%%.*}.vsearch_prediction.tsv --top_hits_only --id 0.70; done 
+``` 
+
+Output is a tabbed text given by the -blast6out option. Fields are:
+
+- Col1 : `query_name` 
+- Col2 : `target` 
+- Col3 : `id`
+- Col4 : `alnlen`
+- Col5 : `mism`
+- Col6 : `opens` 
+- Col7 : `qlo` 
+- Col8 : `qhi`
+- Col9 : `tlo`
+- Col10 : `thi`
+- Col11 : `evalue`
+- Col12 : `bits`
 
 ## CVI metrics {-}
 
@@ -231,3 +246,8 @@ For each rank the mean values of the metrics over all test/training pairs for al
 - Over-classification rate (*AvgOCR*)
 - Average L10Acc
 - Average accuracy (*AvgAcc*)
+
+- The *lowest common rank* (LCR) of two sequences is the lowest rank where both have the same taxon name.
+- The *most probable lowest common rank* (MLR) for a pair of sequences with identity *d* is defined as the LCR with highest probability. MLRs can be summarized by giving the rank identity threshold (RIT) for each rank *r*.
+- The *rank identity threshold* (RIT) for each rank *r* is defined as the minimum identity for which MLR(d) = *r*. For example, if MLR(100) = species, MLR(99) = genus, MLR(98) = genus, ... MLR(94) = genus and MLR(93) = family, then RIT(species) = 100 and RIT(genus) = 94. 
+- The *top-hit identity distribution* (THID) is the distances from a reference database.
