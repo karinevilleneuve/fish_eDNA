@@ -1,0 +1,22 @@
+# Required files, scripts and programs {-}
+
+## Programs {-}
+
+- [Sekquit](https://bioinf.shenwei.me/seqkit/)
+	- Installed via conda
+	- Base environment needs to be activated in order to use the tool
+	
+- RDP tool classifier - [Github](https://github.com/rdpstaff/classifier) / [SourceForge](https://sourceforge.net/projects/rdp-classifier/#:~:text=The%20RDP%20Classifier%20is%20a,confidence%20estimates%20for%20each%20assignment.)
+  - To install the RDP classifier I recommend downloading the package from SourceForge ([link](https://sourceforge.net/projects/rdp-classifier/)) as the Github is no longer maintained. Once the download is complete, unzip the folder and locate the file `classifer.jar` inside the directory `dist`
+
+## Databases {-}
+
+- [COI formatted for Barque](https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/)
+- [Eukaryote CO1 Classifier for RDP V5.1](https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0) 
+- [12S fish Classifier v1.0.1](https://github.com/terrimporter/12SfishClassifier/releases/tag/v1.0.1)
+- [12S formatted for barque](https://github.com/enormandeau/barque/blob/master/03_databases/12S.fasta.gz)
+
+## Scripts {-}
+
+- lineage2taxTrain.py
+- addFullLineage.py

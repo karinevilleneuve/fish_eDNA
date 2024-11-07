@@ -1,5 +1,5 @@
-﻿Workflow,Classifier ,Marker,Database name,Orignial database queried,Version
+﻿Method,Classifier ,Marker,Database name,Orignial database queried,Version
 DADA2 [4],Ribosomal Database Project (RDP) classifier [8],12S,12S fish Classifier v1.0.1 [10] ,Mitochondrial Genome Database of Fish (MitoFish) [6],V1.0.1
 DADA2 [4],Ribosomal Database Project (RDP) classifier [8],COI,Eukaryote CO1 Classifier [5],National Center for Biotechnology Information (NCBI) [7],V5.1.0
 barque [2],VSEARCH [9],12S,12S formatted for barque [11],Mitochondrial Genome Database of Fish (MitoFish) [6],NA
-barque [2],VSEARCH [9],COI,COI  formatted for Barque [3],Barcode of Life Database (BOLD) [1],NA
+barque [2],VSEARCH [9],COI,COI  formatted for barque [3],Barcode of Life Database (BOLD) [1],NA

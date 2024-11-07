@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Fish-eDNA.knit</title>
+  <title>Required files, scripts and programs | Fish-eDNA.knit</title>
   <meta name="description" content="Prospect of eDNA for freshwater fishes from Alberta" />
   <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Fish-eDNA.knit" />
+  <meta property="og:title" content="Required files, scripts and programs | Fish-eDNA.knit" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Prospect of eDNA for freshwater fishes from Alberta" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Fish-eDNA.knit" />
+  <meta name="twitter:title" content="Required files, scripts and programs | Fish-eDNA.knit" />
   
   <meta name="twitter:description" content="Prospect of eDNA for freshwater fishes from Alberta" />
   
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-
+<link rel="prev" href="taxonomy-cross-validation-by-identity-taxxi.html"/>
+<link rel="next" href="code.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -214,11 +214,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="required-files-scripts-and-programs" class="section level1 unnumbered hasAnchor">
+<h1>Required files, scripts and programs<a href="required-files-scripts-and-programs.html#required-files-scripts-and-programs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="programs" class="section level2 unnumbered hasAnchor">
+<h2>Programs<a href="required-files-scripts-and-programs.html#programs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><a href="https://bioinf.shenwei.me/seqkit/">Sekquit</a>
+<ul>
+<li>Installed via conda</li>
+<li>Base environment needs to be activated in order to use the tool</li>
+</ul></li>
+<li>RDP tool classifier - <a href="https://github.com/rdpstaff/classifier">Github</a> / <a href="https://sourceforge.net/projects/rdp-classifier/#:~:text=The%20RDP%20Classifier%20is%20a,confidence%20estimates%20for%20each%20assignment.">SourceForge</a>
+<ul>
+<li>To install the RDP classifier I recommend downloading the package from SourceForge (<a href="https://sourceforge.net/projects/rdp-classifier/">link</a>) as the Github is no longer maintained. Once the download is complete, unzip the folder and locate the file <code>classifer.jar</code> inside the directory <code>dist</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="databases" class="section level2 unnumbered hasAnchor">
+<h2>Databases<a href="required-files-scripts-and-programs.html#databases" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><a href="https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/">COI formatted for Barque</a></li>
+<li><a href="https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0">Eukaryote CO1 Classifier for RDP V5.1</a></li>
+<li><a href="https://github.com/terrimporter/12SfishClassifier/releases/tag/v1.0.1">12S fish Classifier v1.0.1</a></li>
+<li><a href="https://github.com/enormandeau/barque/blob/master/03_databases/12S.fasta.gz">12S formatted for barque</a></li>
+</ul>
+</div>
+<div id="scripts" class="section level2 unnumbered hasAnchor">
+<h2>Scripts<a href="required-files-scripts-and-programs.html#scripts" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>lineage2taxTrain.py</li>
+<li>addFullLineage.py</li>
+</ul>
+
+</div>
 </div>
 <hr>
 <center>
@@ -246,8 +274,8 @@ the table of contents to find the page you are looking for.</p>
           </div>
         </div>
       </div>
-
-
+<a href="taxonomy-cross-validation-by-identity-taxxi.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="code.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -278,7 +306,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/karinevilleneuve/fish_eDNA/master/%s",
+"link": "https://github.com/karinevilleneuve/fish_eDNA/master/02_Required_files_scripts_programs.Rmd",
 "text": "Edit"
 },
 "history": {

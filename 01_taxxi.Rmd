@@ -32,13 +32,18 @@ for i in *.fasta ; do sed -i 's/\t/;/g' $i ; done
 - Before : `>NC_003178      cellularOrganisms;Eukaryota;Metazoa;Chordata;Actinopteri;Ateleopodiformes;Ateleopodidae;Ateleopus;Ateleopus_japonicus`
 - After : `>NC_003178;cellularOrganisms;Eukaryota;Metazoa;Chordata;Actinopteri;Ateleopodiformes;Ateleopodidae;Ateleopus;Ateleopus_japonicus`
 
+All the sequences from the COI used with RDP were lowercase. The following code was used to make them uppercase : 
+```{bash, eval = FALSE}
+seqkit seq mytrainseq.fasta --upper-case -w 0 > rdp_coi.fasta
+``` 
+
 Create a distance matrix using function `-calc_distmx`
 
 ```{bash, eval = FALSE}
 for i in *.fasta ; do ~/usearch -calc_distmx $i -maxdist 0.2 -termdist 0.3 -tabbedout ${i%%.*}_distmax.txt; done
 ```
 
-<span style="color:red"> !!! *Issue with barque_coi : Memory limit of 32-bit process exceeded, 64-bit build required..* </span>
+Considering the size of the original COI databases, the memory limit of of 32-bit process was exceeded, and therefore the 64-bit build was required. To overcome this issue I filtered out non-fish sequence from the database. The code used can be found [here][Curating databases for distance matrix]. 
 
 To create training and test datasets at different identity thresholds the following code was executed from a bash script called `run_splitid.sh` using nohup. 
 
@@ -80,8 +85,6 @@ for file in *subsets* ; do mv $file ${file//.9/_9} ; done
 
 
 ## Generate predictions for RDP Classifier {-}
-
-<span style="color:#3498db"> Notes : To install the RDP classifier I recommend downloading the package from source forge ([link](https://sourceforge.net/projects/rdp-classifier/)) as the Github is no longer maintained. Once the download is complete, unzip the folder and locate the file `classifer.jar` inside the directory `dist`.  </span>
 
 Following steps were adapted from John Quensen's tutorial ([link](https://john-quensen.com/tutorials/training-the-rdp-classifier/)) and available [scripts](https://github.com/mirand863/hitac/tree/main/benchmark) associated with publication by [Miranda (2020)](https://doi.org/10.1101/2020.04.24.014852).  
 
@@ -251,3 +254,8 @@ For each rank the mean values of the metrics over all test/training pairs for al
 - The *most probable lowest common rank* (MLR) for a pair of sequences with identity *d* is defined as the LCR with highest probability. MLRs can be summarized by giving the rank identity threshold (RIT) for each rank *r*.
 - The *rank identity threshold* (RIT) for each rank *r* is defined as the minimum identity for which MLR(d) = *r*. For example, if MLR(100) = species, MLR(99) = genus, MLR(98) = genus, ... MLR(94) = genus and MLR(93) = family, then RIT(species) = 100 and RIT(genus) = 94. 
 - The *top-hit identity distribution* (THID) is the distances from a reference database.
+
+### Script to evaluate prediction {-}
+
+
+

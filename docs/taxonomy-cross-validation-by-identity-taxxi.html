@@ -5,19 +5,19 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Taxonomy cross validation by identity (TAXXI) | Fish-eDNA.knit</title>
-  <meta name="description" content="" />
+  <meta name="description" content="Prospect of eDNA for freshwater fishes from Alberta" />
   <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Taxonomy cross validation by identity (TAXXI) | Fish-eDNA.knit" />
   <meta property="og:type" content="book" />
   
-  
+  <meta property="og:description" content="Prospect of eDNA for freshwater fishes from Alberta" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Taxonomy cross validation by identity (TAXXI) | Fish-eDNA.knit" />
   
-  
+  <meta name="twitter:description" content="Prospect of eDNA for freshwater fishes from Alberta" />
   
 
 
@@ -29,7 +29,7 @@
   
   
 <link rel="prev" href="index.html"/>
-<link rel="next" href="code.html"/>
+<link rel="next" href="required-files-scripts-and-programs.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -147,16 +147,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Our dataset</a>
 <ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#alberta-fishes"><i class="fa fa-check"></i>Alberta fishes</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#worklfows-and-their-associated-available-databases"><i class="fa fa-check"></i>Worklfows and their associated available databases</a>
-<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#methods-and-their-associated-available-databases"><i class="fa fa-check"></i>Methods and their associated available databases</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#representation-of-alberta-freshwater-fishes-in-databases"><i class="fa fa-check"></i>Representation of Alberta freshwater fishes in databases</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#comparing-pipelines-with-available-databases"><i class="fa fa-check"></i>Comparing pipelines with available databases</a>
-<ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dada2"><i class="fa fa-check"></i>DADA2</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#barque"><i class="fa fa-check"></i>Barque</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#curating-databases"><i class="fa fa-check"></i>Curating databases</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html"><i class="fa fa-check"></i>Taxonomy cross validation by identity (TAXXI)</a>
 <ul>
@@ -169,15 +161,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions"><i class="fa fa-check"></i>Generate predictions</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions-for-vsearch"><i class="fa fa-check"></i>Generate predictions for VSEARCH</a></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cvi-metrics"><i class="fa fa-check"></i>CVI metrics</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cvi-metrics"><i class="fa fa-check"></i>CVI metrics</a>
+<ul>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#script-to-evaluate-prediction"><i class="fa fa-check"></i>Script to evaluate prediction</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html"><i class="fa fa-check"></i>Required files, scripts and programs</a>
+<ul>
+<li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html#programs"><i class="fa fa-check"></i>Programs</a></li>
+<li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html#databases"><i class="fa fa-check"></i>Databases</a></li>
+<li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html#scripts"><i class="fa fa-check"></i>Scripts</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="code.html"><a href="code.html"><i class="fa fa-check"></i>Code</a>
 <ul>
 <li class="chapter" data-level="" data-path="code.html"><a href="code.html#evaluating-representation-in-databases"><i class="fa fa-check"></i>Evaluating representation in databases</a></li>
 <li class="chapter" data-level="" data-path="code.html"><a href="code.html#workflows"><i class="fa fa-check"></i>Workflows</a>
 <ul>
+<li class="chapter" data-level="" data-path="code.html"><a href="code.html#dada2"><i class="fa fa-check"></i>DADA2</a></li>
+<li class="chapter" data-level="" data-path="code.html"><a href="code.html#barque"><i class="fa fa-check"></i>Barque</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="code.html"><a href="code.html#curating-databases"><i class="fa fa-check"></i>Curating databases</a></li>
+<li class="chapter" data-level="0.1" data-path="code.html"><a href="code.html#curating-databases-for-distance-matrix"><i class="fa fa-check"></i><b>0.1</b> Curating databases for distance matrix</a>
+<ul>
+<li class="chapter" data-level="0.1.1" data-path="code.html"><a href="code.html#barque-1"><i class="fa fa-check"></i><b>0.1.1</b> Barque</a></li>
+<li class="chapter" data-level="0.1.2" data-path="code.html"><a href="code.html#rdp"><i class="fa fa-check"></i><b>0.1.2</b> RDP</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="code.html"><a href="code.html#comparing-pipelines-with-available-databases"><i class="fa fa-check"></i>Comparing pipelines with available databases</a>
+<ul>
 <li class="chapter" data-level="" data-path="code.html"><a href="code.html#dada2-1"><i class="fa fa-check"></i>DADA2</a></li>
-<li class="chapter" data-level="" data-path="code.html"><a href="code.html#barque-1"><i class="fa fa-check"></i>Barque</a></li>
+<li class="chapter" data-level="" data-path="code.html"><a href="code.html#barque-2"><i class="fa fa-check"></i>Barque</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="code.html"><a href="code.html#curating-databases-1"><i class="fa fa-check"></i>Curating databases</a></li>
 </ul></li>
@@ -221,14 +233,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The <code>distmx_split_identity</code> command from <a href="https://www.drive5.com/usearch/manual/cvi.html">USEARCH</a> divides sequences into subsets such that the top-hit identity is a given value. This is used to create test-training pairs for cross-validation by identity. Input is a distance matrix created by the <code>calc_distmx command</code>. As per the methods specified in Edgar (2018) maximum allowed deviation (σ) from <em>d</em> used : σ = 1% for <em>d</em> = 90% and σ = 0.5% for <em>d</em> = 99, 97 and 95%. The following code was adapted from <a href="https://doi.org/10.1016/j.ecoinf.2024.102817">Donhauser <em>et al.</em> (2024)</a> and validated with available documentation from <a href="https://www.drive5.com/usearch/manual/cvi.html">USEARCH</a>.</p>
 <p>Testing with available databases (barque COI <a href="https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/">3</a>, RDP COI V5.1.0 <a href="https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0">5</a>, RDP 12S <a href="https://github.com/terrimporter/12SfishClassifier/releases/tag/v1.0.1">10</a> and barque 12S <a href="https://github.com/enormandeau/barque/blob/master/03_databases/12S.fasta.gz">11</a>))</p>
 <p>Remove tab spaces in sequence name (for RDP databases specifically).</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb2-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/\t/;/g&#39;</span> <span class="va">$i</span> <span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb1-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/\t/;/g&#39;</span> <span class="va">$i</span> <span class="kw">;</span> <span class="cf">done</span> </span></code></pre></div>
 <ul>
 <li>Before : <code>&gt;NC_003178      cellularOrganisms;Eukaryota;Metazoa;Chordata;Actinopteri;Ateleopodiformes;Ateleopodidae;Ateleopus;Ateleopus_japonicus</code></li>
 <li>After : <code>&gt;NC_003178;cellularOrganisms;Eukaryota;Metazoa;Chordata;Actinopteri;Ateleopodiformes;Ateleopodidae;Ateleopus;Ateleopus_japonicus</code></li>
 </ul>
+<p>All the sequences from the COI used with RDP were lowercase. The following code was used to make them uppercase :</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb2-1" tabindex="-1"></a><span class="ex">seqkit</span> seq mytrainseq.fasta <span class="at">--upper-case</span> <span class="at">-w</span> 0 <span class="op">&gt;</span> rdp_coi.fasta</span></code></pre></div>
 <p>Create a distance matrix using function <code>-calc_distmx</code></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb3-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.fasta <span class="kw">;</span> <span class="cf">do</span> <span class="ex">~/usearch</span> <span class="at">-calc_distmx</span> <span class="va">$i</span> <span class="at">-maxdist</span> 0.2 <span class="at">-termdist</span> 0.3 <span class="at">-tabbedout</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_distmax.txt<span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
-<p><span style="color:red"> !!! <em>Issue with barque_coi : Memory limit of 32-bit process exceeded, 64-bit build required..</em> </span></p>
+<p>Considering the size of the original COI databases, the memory limit of of 32-bit process was exceeded, and therefore the 64-bit build was required. To overcome this issue I filtered out non-fish sequence from the database. The code used can be found <a href="code.html#curating-databases-for-distance-matrix">here</a>.</p>
 <p>To create training and test datasets at different identity thresholds the following code was executed from a bash script called <code>run_splitid.sh</code> using nohup.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb4-1" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="pp">*</span>.fasta <span class="kw">;</span> <span class="cf">do</span></span>
 <span id="cb4-2"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cb4-2" tabindex="-1"></a>        <span class="ex">~/usearch</span> <span class="at">-distmx_split_identity</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>_distmax.txt <span class="at">-mindist</span> 0.025 <span class="at">-maxdist</span> 0.035 <span class="at">-tabbedout</span> <span class="va">${i</span><span class="op">%%</span>.<span class="pp">*</span><span class="va">}</span>.97.subsets.txt</span>
@@ -253,7 +267,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="generate-predictions-for-rdp-classifier" class="section level2 unnumbered hasAnchor">
 <h2>Generate predictions for RDP Classifier<a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions-for-rdp-classifier" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><span style="color:#3498db"> Notes : To install the RDP classifier I recommend downloading the package from source forge (<a href="https://sourceforge.net/projects/rdp-classifier/">link</a>) as the Github is no longer maintained. Once the download is complete, unzip the folder and locate the file <code>classifer.jar</code> inside the directory <code>dist</code>. </span></p>
 <p>Following steps were adapted from John Quensen’s tutorial (<a href="https://john-quensen.com/tutorials/training-the-rdp-classifier/">link</a>) and available <a href="https://github.com/mirand863/hitac/tree/main/benchmark">scripts</a> associated with publication by <a href="https://doi.org/10.1101/2020.04.24.014852">Miranda (2020)</a>.</p>
 <div id="required-files" class="section level3 unnumbered hasAnchor">
 <h3>Required files<a href="taxonomy-cross-validation-by-identity-taxxi.html#required-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -424,7 +437,10 @@ classifierVersion=RDP Naive Bayesian rRNA Classifier Version 2.14</code></pre>
 <li><p>The <em>rank identity threshold</em> (RIT) for each rank <em>r</em> is defined as the minimum identity for which MLR(d) = <em>r</em>. For example, if MLR(100) = species, MLR(99) = genus, MLR(98) = genus, … MLR(94) = genus and MLR(93) = family, then RIT(species) = 100 and RIT(genus) = 94.</p></li>
 <li><p>The <em>top-hit identity distribution</em> (THID) is the distances from a reference database.</p></li>
 </ul>
+<div id="script-to-evaluate-prediction" class="section level3 unnumbered hasAnchor">
+<h3>Script to evaluate prediction<a href="taxonomy-cross-validation-by-identity-taxxi.html#script-to-evaluate-prediction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 
+</div>
 </div>
 </div>
 <hr>
@@ -454,7 +470,7 @@ classifierVersion=RDP Naive Bayesian rRNA Classifier Version 2.14</code></pre>
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="code.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="required-files-scripts-and-programs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
