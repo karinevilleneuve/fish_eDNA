@@ -1,4 +1,5 @@
 --- 
+title: "Fish eDNA"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -6,9 +7,17 @@ bibliography: [book.bib]
 biblio-style: apalike
 link-citations: yes
 github-repo: rstudio/bookdown-demo
-description: "Prospect of eDNA for freshwater fishes from Alberta"
 ---
-# Our dataset {-}
+
+# Introduction {-}
+
+
+
+## Objectives {-}
+
+
+
+## Dataset {-}
 
 The dataset consists of 18 water samples obtained from rivers and lakes near oil-sands extraction sites in the province of Alberta, Canada. Water samples were filtered and DNA collected on the filters was extracted and sequenced. For each sample, two different marker genes were used to amplify and sequence distinct DNA regions : the 12S ribosomal RNA gene and the mitochondrial cytochrome oxidase subunit (COI). 
 
@@ -62,7 +71,7 @@ datatable(workflow_database, rownames = FALSE, options=list(scrollX=T, dom = 't'
 
 ## Representation of Alberta freshwater fishes in databases {-}
 
-Each databases were queried to evaluate the presence of reference sequences for Alberta freshwater fishes. Code used to queried the databases can be found [here][Evaluating representation in databases]. 
+Each database was queried to evaluate the presence of reference sequences for Alberta freshwater fishes. Code used to queried the databases can be found [here][Evaluating representation in databases]. 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 #library(shiny)
@@ -80,7 +89,7 @@ datatable(aff_databases, rownames = FALSE, options = list(scrollX = T, dom = 't'
               backgroundPosition = 'center')
 ```
 
-The absence of the following fishes from any databases can be attributed to different names being used. 
+The absence of the following fishes from any databases can be attributed to different names being used. The presence of these other names in the databases was therefore also evaluated. 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 #library(shiny)

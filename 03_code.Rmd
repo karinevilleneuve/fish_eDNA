@@ -1,137 +1,95 @@
-# Code {-}
+# Supplementary workflow {-}
 
-## Evaluating representation in databases {-}
+## Curating databases for distance matrix  {-}
 
-```{verbose, python}
-#### ------------------------- Load libraries  ------------------------------------------------------####  
+Required files : 
 
-library(tidyverse)
+- barque COI [3](https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/) (`barque_coi.fasta`)
+- RDP COI V5.1.0 [5](https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0) (`rdp_coi.fasta`)
+
+### RDP {-}
+
+1. Filter out sequence which do not belong to class Actinopteri
+
+```{bash, eval = FALSE}
+seqkit grep -r -n -p '.*Actinopteri*' rdp_coi.fasta -o chord_rdp_coi.fasta
+```
+
+2. Extract sequences header and print into txt file
+
+```{bash, eval = FALSE}
+grep ">" chord_rdp_coi.fasta | sed -e "s/>//" > rdp_coi_header.txt
+```
+
+3. The file with the sequence headers can then be passed to R to generate a list of which headers to keep. As per methodology by Edgar (2018), because the databases have a highly uneven numbers of sequences per genus, a subset is create by imposing a maximum of 10 sequences per genus. Headers are sampled at random to meet this constraint.
+
+```{r, eval = FALSE}
+
+#### ------------------------- Load libraries ------------------------------------------------------------------####  
+
+library(dplyr)
+library(tidyr)
 
 #### ------------------------- Load databases sequence header -------------------------------------------------- #### 
 
-# Header were extracted using shell command : grep ">" file.fasta | sed -e "s/>//" > headers.txt
+rdpcoi = read.table("/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/rdp_coi_header.txt",sep = ";")
 
-## RDP classifier ## 
-rdp12s_raw = read.table("/home/kvilleneuve/fish_edna/database/header_rdp_12S.txt", sep = ";")
-rdpcoi_raw = read.table("/home/kvilleneuve/fish_edna/database/header_rdp_coi.txt", sep = ";")
+#### ------------------------- Format dataframes -------------------------------------------------------------- #### 
+names(rdpcoi) = c("ID", "Cellular_organism","Superkingdom", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
+rdp_coi_actino = subset(rdpcoi, Class == "Actinopteri")
 
-## barque ##
-barque12s_raw = read.table("/home/kvilleneuve/fish_edna/database/header_barque_12S.txt", sep = "_")
-barquecoi_raw = read.table("/home/kvilleneuve/fish_edna/database/header_bold_coi_barque.txt",  sep = "_")
+#### ------------------------- Random sampling  --------------------------------------------------------------- #### 
 
-
-#### ------------------------- Load list of Freshwater fishes from Alberta ------------------------- ####  
-
-
-alberta_fish = read.csv("/home/kvilleneuve/fish_edna/database/fishbase_alberta_freswater.csv", header = TRUE, check.names = FALSE)
-alberta_fish$Species = gsub(" ", "_", alberta_fish$Species) # Replace space to underscore 
-
-### ------------------------- Parse databases dataframes  ----------------------------------------- #### 
-
-# Because the number of ranks differ between databases used with 
-# the RDP classifier and the barque workflow they are processed separately 
-
-## RDP databases 
-
-list_rdp_db = list("COI RDP" = rdpcoi_raw, "12S RDP" = rdp12s_raw)
-list_rdp_taxa = list()
+random_sampling_list = list()
 i = 0 
-for (databases in list_rdp_db){
+
+for (genus in unique(rdp_coi_actino$Genus)){
   i = i + 1
-  names(databases) = c("ID", "Superkingdom", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
-  list_rdp_taxa[[i]] = databases
-  names(list_rdp_taxa)[i] = names(list_rdp_db[i])
+  sub_df = subset(rdp_coi_actino, Genus == genus)
+  if (nrow(sub_df) > 10) {
+    rand_sub_df = sub_df[sample(nrow(sub_df), size=10), ] 
+  } else {
+    rand_sub_df = sub_df
+  }
+    random_sampling_list[[i]] = rand_sub_df
 }
 
-## barque databases 
+#### ------------------------- Generate list of headers to keep ----------------------------------------------- #### 
 
-list_barque_db = list("12S barque" = barque12s_raw, "COI barque" = barquecoi_raw)
-list_barque_taxa = list()
-i = 0 
-for (databases in list_barque_db){
-  i = i + 1
-  names(databases) = c("Family", "Genus", "sort_species")
-  databases$Species = paste(databases$Genus,"_",databases$sort_species, sep ="")
-  list_barque_taxa[[i]] = databases
-  names(list_barque_taxa)[i] = names(list_barque_db[i])
-}
+df = do.call("rbind", random_sampling_list)
 
-# After parsing each databases we combine them into as single list 
-# then we filter out fishes which are not found in ther list of Alberta freshwater fishes
+df = df %>% unite("sequence_header", ID:Species, remove = FALSE, sep  = ";")
+write.table(df$sequence_header, "/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/rdp_coi_headers_to_keep.txt", col.names = FALSE, row.names = FALSE, quote = FALSE)
+```
 
-jointlist_all_db = c(list_rdp_taxa, list_barque_taxa)
-list_filtered_db = list()
-i = 0
+4. Pass the file generated by the R script to seqkit to create a subset database 
 
-for (databses in jointlist_all_db){
-  i = i + 1
-    filtered_db = databses %>%
-    filter(Species %in% unique(alberta_fish$Species))
-  filtered_db_df = as.data.frame(unique(filtered_db$Species))
-  names(filtered_db_df) = "Species"
-  filtered_db_df[names(jointlist_all_db[i])] = "Yes"
-  list_filtered_db[[i]] = filtered_db_df
-}
-
-filtered_df = Reduce(function(...) merge(..., all=T), list_filtered_db)
-
-### ------------------------- Combine as dataframe as save output  ----------------------------------------- #### 
-
-final_df = merge(alberta_fish, filtered_df, by = "Species", all = TRUE)
-final_df$Species = gsub("_", " ", final_df$Species)
-# Reordering columns 
-final_df = final_df[,c(2,3,1,4,5,6,7,8,9,10)]
-write.csv(final_df, "/home/kvilleneuve/fish_edna/results/represensation_albertafish_databases.csv", quote = FALSE)
+```{bash, eval = FALSE}
+seqkit grep -nrf rdp_coi_headers_to_keep.txt chord_rdp_coi.fasta -o curated_rdp_coi.fasta
 ``` 
-
-## Workflows {-}
-
-### DADA2 {-}
-
-#### 12S {-}
-
-#### COI {-}
-
-839 ASV | from these 839 ASVs, 20 (2.38 %) are species with a bootstrap level above 70 % | from these 20 species, 8 (40 %) are from class actinopteri | from these 8 actinopteri, 7 (87.5 %) are species of freshwater fishes found in Alberta. 
 
 ### Barque {-}
 
-## Curating databases {-}
-
-Using `seqkit` tool to filter databases in order to keep only sequences of freshwater fishes found in Alberta 
-
-seqkit grep -i -f ids.txt test.fa 
-
-```{bash, eval = FALSE}
-seqkit grep -nrf ID_barque_12S.txt barque_12S.fasta -o alberta_barque_12S.fasta
-seqkit grep -nrf ID_barque_COI.txt bold_coi_for_barque_2023-09-12.fasta -o alberta_barque_COI.fasta
-```
-
-For RDP 
-
-```{bash, eval = FALSE}
-sed -i 's/ /;/g' RDP_COI.fasta
-sed -i 's/ /;/g' ID_RDP_COI.txt
-seqkit grep -nrf ID_RDP_COI.txt RDP_COI.fasta -o alberta_RDP_COI.fasta
-
-sed -i 's/\t/;/g' 12S_rdp.fasta
-sed -i 's/\t/;/g' ID_RDP_12S.txt
-seqkit grep -nrf ID_RDP_12S.txt 12S_rdp.fasta -o alberta_RDP_12S.fasta
-```
-
-## Curating databases for distance matrix  
-
-### Barque
-
-(1) Filtering out sequence which do not belong to phylum Chordata, (2) adding unique ID to every sequence header (required to randomly sample 10 sequences per species), and (3) extracting sequences header. 
+1. Remove sequence of taxa which do not belong to phylum Chordata
 
 ```{bash, eval = FALSE}
 seqkit grep -r -n -p '.*chordata_*' barque_coi.fasta -o chord_barque_coi.fasta
-awk '/^>/{sub(">", ">"++i"_")}1' chord_barque_coi.fasta > chord_barque_coi_ID.fasta
-grep ">" chord_barque_coi_ID.fasta | sed -e "s/>//" > barque_coi_ID_header.txt
 ```
 
-The file with the sequence headers can then be passed to R to generate a list of which headers to keep. As per methodology by Edgar (2018), because the databases have a highly uneven numbers of sequences per genus, a subset is create by imposing a maximum of 10 sequences per genus. Headers are sampled at random to meet this constraint.
+2. Add unique ID to every sequence header, this is required to randomly sample 10 sequences per genus
+
+```{bash, eval = FALSE}
+awk '/^>/{sub(">", ">"++i"_")}1' chord_barque_coi.fasta > chord_barque_coi_ID.fasta
+```
+
+3. Extract sequences header and print into txt file 
+
+```{bash, eval = FALSE}
+grep ">" chord_barque_coi_ID.fasta | sed -e "s/>//" > barque_coi_ID_header.txt
+grep ">" rdp_coi.fasta | sed -e "s/>//" > rdp_coi_header.txt
+```
+
+4. The file with the sequence headers can then be passed to R to generate a list of which headers to keep. As per methodology by Edgar (2018), because the databases have a highly uneven numbers of sequences per genus, a subset is create by imposing a maximum of 10 sequences per genus. Headers are sampled at random to meet this constraint.
 
 ```{r, eval = FALSE}
 #### ------------------------- Load libraries ------------------------------------------------------------------####  
@@ -188,64 +146,12 @@ df$barque_coi_header = paste(df$ID, df$Phylum.x, df$Species, sep = "_")
 write.table(df$barque_coi_header, "/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/barque_coi_headers_to_keep.txt",col.names = FALSE, row.names = FALSE, quote = FALSE)
 ```
 
-Pass the file generated by the R script to seqkit to create a subset database. 
+5. Pass the file generated by the R script to seqkit to create a subset database. 
 
 ```{bash, eval = FALSE}
 seqkit grep -nrf barque_coi_headers_to_keep.txt chord_barque_coi.fasta -o curated_barque_coi.fasta
 ``` 
 
-### RDP 
-
-Filter out sequence which do not belong to class Actinopteri. 
-
-```{bash, eval = FALSE}
-seqkit grep -r -n -p '.*Actinopteri*' rdp_coi.fasta -o chord_rdp_coi.fasta
-```
-
-```{r, eval = FALSE}
-
-#### ------------------------- Load libraries ------------------------------------------------------------------####  
-
-library(dplyr)
-library(tidyr)
-
-#### ------------------------- Load databases sequence header -------------------------------------------------- #### 
-
-rdpcoi = read.table("/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/rdp_coi_header.txt",sep = ";")
-
-#### ------------------------- Format dataframes -------------------------------------------------------------- #### 
-names(rdpcoi) = c("ID", "Cellular_organism","Superkingdom", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
-rdp_coi_actino = subset(rdpcoi, Class == "Actinopteri")
-
-#### ------------------------- Random sampling  --------------------------------------------------------------- #### 
-
-random_sampling_list = list()
-i = 0 
-
-for (genus in unique(rdp_coi_actino$Genus)){
-  i = i + 1
-  sub_df = subset(rdp_coi_actino, Genus == genus)
-  if (nrow(sub_df) > 10) {
-    rand_sub_df = sub_df[sample(nrow(sub_df), size=10), ] 
-  } else {
-    rand_sub_df = sub_df
-  }
-    random_sampling_list[[i]] = rand_sub_df
-}
-
-#### ------------------------- Generate list of headers to keep ----------------------------------------------- #### 
-
-df = do.call("rbind", random_sampling_list)
-
-df = df %>% unite("sequence_header", ID:Species, remove = FALSE, sep  = ";")
-write.table(df$sequence_header, "/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/rdp_coi_headers_to_keep.txt", col.names = FALSE, row.names = FALSE, quote = FALSE)
-```
-
-Pass the file generated by the R script to seqkit to create a subset database. 
-
-```{bash, eval = FALSE}
-seqkit grep -nrf rdp_coi_headers_to_keep.txt chord_rdp_coi.fasta -o curated_rdp_coi.fasta
-``` 
 
 ## Comparing pipelines with available databases {-}
 
@@ -259,8 +165,27 @@ seqkit grep -nrf rdp_coi_headers_to_keep.txt chord_rdp_coi.fasta -o curated_rdp_
 
 ### Barque {-}
 
-## Curating databases {-}
+## Curating databases for Alberta freshwater fish {-}
 
-https://forum.qiime2.org/t/building-a-coi-database-from-bold-references/16129
+Using `seqkit` tool to filter databases in order to keep only sequences of freshwater fishes found in Alberta 
+
+seqkit grep -i -f ids.txt test.fa 
+
+```{bash, eval = FALSE}
+seqkit grep -nrf ID_barque_12S.txt barque_12S.fasta -o alberta_barque_12S.fasta
+seqkit grep -nrf ID_barque_COI.txt bold_coi_for_barque_2023-09-12.fasta -o alberta_barque_COI.fasta
+```
+
+For RDP 
+
+```{bash, eval = FALSE}
+sed -i 's/ /;/g' RDP_COI.fasta
+sed -i 's/ /;/g' ID_RDP_COI.txt
+seqkit grep -nrf ID_RDP_COI.txt RDP_COI.fasta -o alberta_RDP_COI.fasta
+
+sed -i 's/\t/;/g' 12S_rdp.fasta
+sed -i 's/\t/;/g' ID_RDP_12S.txt
+seqkit grep -nrf ID_RDP_12S.txt 12S_rdp.fasta -o alberta_RDP_12S.fasta
+```
 
 

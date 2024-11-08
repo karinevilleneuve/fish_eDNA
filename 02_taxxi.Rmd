@@ -1,0 +1,289 @@
+# Taxonomy cross validation by identity (TAXXI) {-}
+
+Framework developed by Edgard (2018). Link to [article](https://peerj.com/articles/4652/) and [TAXXI website](https://drive5.com/taxxi/doc/index.html). 
+
+Cross-validation by identity (CVI) models varying distances between query sequences and reference sequences. A reference with known taxonomies is split into test and training sets such that for all test sequences, the most similar training sequence has a given identity (*d*). This is repeated for different identities, enabling assessment of prediction accuracy at varying distances from the reference.
+
+<img style="padding:30px" src="data/taxxi_figures.jpg" align="left" width="20%"/>
+
+\
+- *R* is the reference dataset divided into four disjoint subsets *S*, *T*, *W* and *Z*.\
+- *S* is the **test set**.\
+- *A* is the **training set** formed by the union of *T* and *W*.\
+      - *T* is the set of top hits for sequences in *S*, which are constrained to have identities in the range *d* ± σ \
+            (where σ specifies the maximum allowed deviation from the desired identity (*d*)).\
+      - *W* contains reference sequences with identity < *d*; these are retained to create the largest possible training set. \
+      - *Z* contains sequences which cannot be assigned to *S*, *T* or *W* without violating the identity constraint.
+
+<br clear="left"/>
+
+## Notes {-}
+
+The following workflow was used to evaluate the following databases using the TAXXI framework : 
+
+- barque COI [3](https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/)
+- RDP COI V5.1.0 [5](https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0)
+
+Considering the size of the original COI databases, the memory limit of 32-bit process was exceeded, and therefore the 64-bit build was required. To overcome this issue both databases were pre-curated and sub-sampled. Workflow used for this can be found [here][Curating databases for distance matrix]. 
+
+Because the 12S databases did include multiple sequences per species the TAXXI framework could not be used to evaluate these databases.  
+
+## Generate benchmark datasets {-}
+
+The `distmx_split_identity` command from [USEARCH](https://www.drive5.com/usearch/manual/cvi.html) divides sequences into subsets such that the top-hit identity is a given value. This is used to create test-training pairs for cross-validation by identity. Input is a distance matrix created by the `calc_distmx command`. As per the methods specified in Edgar (2018) maximum allowed deviation (σ) from *d* used : σ = 1% for *d* = 90% and σ = 0.5% for *d* = 99, 97 and 95%. The following code was adapted from [Donhauser *et al.* (2024)](https://doi.org/10.1016/j.ecoinf.2024.102817) and validated with available documentation from [USEARCH](https://www.drive5.com/usearch/manual/cvi.html). 
+
+**1. Format databases ** 
+
+Remove tab spaces in sequence name (for RDP databases specifically)
+
+```{bash, eval = FALSE}
+for i in *.fasta ; do sed -i 's/\t/;/g' $i ; done 
+```
+
+All the sequences from the COI database used with RDP were lowercase. The following code was used to make them uppercase
+
+```{bash, eval = FALSE}
+seqkit seq mytrainseq.fasta --upper-case -w 0 > rdp_coi.fasta
+``` 
+
+**2. Generate trainning and test sets ** 
+
+Create a distance matrix using function `-calc_distmx`
+
+```{bash, eval = FALSE}
+for i in *.fasta ; do ~/usearch -calc_distmx $i -maxdist 0.2 -termdist 0.3 -tabbedout ${i%%.*}_distmax.txt; done
+```
+
+To create training and test sets at different identity thresholds
+
+```{bash, eval = FALSE}
+for i in *.fasta ; do
+        ~/usearch -distmx_split_identity ${i%%.*}_distmax.txt -mindist 0.025 -maxdist 0.035 -tabbedout ${i%%.*}.97.subsets.txt
+        ~/usearch -distmx_split_identity ${i%%.*}_distmax.txt -mindist 0.045 -maxdist 0.055 -tabbedout ${i%%.*}.95.subsets.txt
+        ~/usearch -distmx_split_identity ${i%%.*}_distmax.txt -mindist 0.095 -maxdist 0.105 -tabbedout ${i%%.*}.90.subsets.txt
+done
+```
+
+Output is a tabbed text given by the -tabbedout option. Fields are:
+
+- Col1 - `Subset name` : there are four subsets with names `1`, `2`, `1x` and `2x`.
+- Col2 - `Label1` : label1 is the label of a sequence in the subset given by Col1.
+- Col3 - `Label2` : label2 is the top hit in the other subset (1 or 2)
+- Col4 - `Dist`   : distance between Label1 and Label2.
+
+Subsets `1` and `2` have top hits to each other in the specified range. Subset `1x` has lower identities with subset `2`, and can therefore be added to the training set if subset `2` is the query set. Similarly, subset `2x` has lower identities with subset `1` and can be added to the training set if subset `1` is the query
+
+Get sequence ID for training and test set 
+
+```{bash, eval = FALSE}
+for i in *.subsets.txt ; do awk '$1==1 || $1=="1x" {print $2}' $i > $i.trainingIDs.txt; awk '$1==2 {print $2}' $i > $i.testIDs.txt; done
+```
+
+Create fasta file with test and training set at each identity, use subset 1 as training and subset 2 as test. If sekqit is installed through conda activate base environment first.
+
+```{bash, eval = FALSE}
+for i in *.trainingIDs.txt ; do seqkit grep -n -f $i ${i%%.*}.fasta > $i.trainning.fasta ; done
+for i in *.testIDs.txt ; do seqkit grep -n -f $i ${i%%.*}.fasta > $i.test.fasta ; done 
+```
+
+**3. Rename files** 
+
+```{bash, eval = FALSE}
+for file in *subsets* ; do mv $file ${file//.9/_9} ; done
+```
+
+
+## Generate predictions {-}
+
+### RDP Classifier {-}
+
+Following steps were adapted from John Quensen's tutorial ([link](https://john-quensen.com/tutorials/training-the-rdp-classifier/)) and available [scripts](https://github.com/mirand863/hitac/tree/main/benchmark) associated with publication by [Miranda (2020)](https://doi.org/10.1101/2020.04.24.014852).  
+
+#### Required files {-}
+
+To train the newly generated training set for each identity level you need to generate a sequence file and a taxonomy file, each with special formatting requirements : 
+
+**Sequence file**
+
+The sequence file must be in fasta format and contain a unique identifier without any white space. The accession number makes a good identifier. Anything after the first white space is ignored. The following are acceptable:
+
+```
+>DQ248313
+ACGATTTTGACCCTTCGGGGTCGATCTCCAACCCTTCGGGGTCGATCGATTTTGACCCT
+>JF735302 k__Fungi;p__Ascomycota;c__Sordariomycetes;o__Hypocreales;f__Nectriaceae;g__Dactylonectria;s__Dactylonectria_anthuriicol
+CCGAGTTTTCAACTCGACCCTTCGGGGTCGTCGATCTCCAACCCGATCGATTTTGAACC
+``` 
+
+**Taxonomy file**
+
+The taxonomy file is a tab-delimited text file beginning with a header giving the Sequence ID and names of ranks to be included. There are two requirements for this file:
+
+- There must be an entry for every rank in every line. 
+- Hyphen placeholders are allowed but are not recommended. 
+- “Convergent evolution” is not allowed. For example, the same genus cannot appear in two different families. 
+- Options for missing ranks : 
+
+If a rank does not exist, you can fill in the missing entries with hyphens but it is not recommended as it can lead to a “ragged” classification that cannot be properly sorted by rank. Another option is to fill in the empty spaces with made-up but meaningful ranks as in the table below. The prefixes indicate the highest rank available. The absence of hyphen placeholders means that classification will not be ragged but include all ranks. Thus it will be possible to select, sort, and merge ranks when analyzing your data later.
+
+Example format : 
+
+| Seq_ID	| Kingdom	| Phylum | Class	| Order | Family |	Genus	Species |
+|---------|---------|--------|--------|-------|--------|----------------|
+| MG190602	| Fungi	| Ascomycota | Sordariomycetes | Hypocreales | o_Hypocreales | o_f_Hypocreales | Hypocreales_sp | 
+| MF120484 | Fungi | Ascomycota | Sordariomycetes | Hypocreales | Nectriaceae | Fusarium | Fusarium_redolens | 
+
+**Scripts**
+
+- `lineage2taxTrain.py` 
+- `addFullLineage.py` 
+
+#### Generate required files {-}
+
+**Taxonomy file**
+
+Extract sequence header using grep
+
+```{bash, eval = FALSE} 
+for i in *.trainning.fasta ; do grep -e ">" $i > ${i%%.*}_trainheader.txt ; done 
+```
+
+- For RDP databases which have the following sequence header format we can simply replace semi-colon with tabs 
+
+`>KJ592636 cellularOrganisms;Eukaryota;undef_Eukaryota;Rhodophyta;Florideophyceae;Hapalidiales;Mesophyllumaceae;Mesophyllum;Mesophyllum_lichenoides`
+
+- For COI databases which have the following format, and Phylum being exclusively chordata we will replace the string `_chordata_` with a tab
+
+`>11_chordata_Abalistes_stellaris`
+
+```{bash, eval = FALSE} 
+for i in *.trainingIDs.txt ; do sed 's/;/\t/g' $i > ${i%%.*}.RDP_trainID.txt ; done 
+for i in *.trainingIDs.txt ; do sed 's/_chordata_/\t/g' $i > ${i%%.*}.RDP_trainID.txt ; done 
+```
+
+Remove ">"
+
+```{bash, eval = FALSE} 
+for i in *.RDP_trainID.txt ; do sed -i 's/>//g' $i ; done 
+```
+
+Add header (rank followed by column number i.e. `rank_1`, `rank_2`, etc.)
+
+```{bash, eval = FALSE}
+for i in *.RDP_trainID.txt ; do awk -i inplace 'BEGIN {OFS=FS="\t"} NR==1{for (i=1;i<=NF;i++) printf "%s%s", "rank_"i, i==NF?ORS:OFS}1' $i ; done
+``` 
+
+Details  : 
+
+- BEGIN {OFS=FS="\t"} sets the input and output delimiter to tab, instead of the default space. Change "\t" to your delimiter if its not tab.
+- NR==1{} says to execute the actions only on the first line
+
+**Sequence file**
+
+- For RDP databases which have the following sequence header format we can simply replace semi-colon with tabs
+
+- For COI databases which have the following format, and Phylum being exclusively chordata we will replace the string `_chordata_` with tabs 
+
+```{bash, eval = FALSE} 
+for i in *.trainning.fasta ; do sed -i 's/;/\t/g' $i ; done 
+for i in *.trainning.fasta ; do sed -i 's/_chordata_/\t/g' $i ; done 
+```
+
+```{bash, eval = FALSE} 
+for i in *.RDP_trainID.txt ; do python2 lineage2taxTrain.py $i > ${i%%.*}.ready4train_tax.txt ; done
+for i in *.trainning.fasta ; do python2 addFullLineage.py ${i%%.*}.RDP_trainID.txt $i > ${i%%.*}.ready4train_seqs.fasta ; done 
+```
+
+#### Train the set {-}
+
+```{bash, eval = FALSE}
+for i in *.ready4train_tax.txt ; do java -Xmx10g -jar ~/rdp_classifier_2.14/dist/classifier.jar train -o ${i%%.*}_training_files -s ${i%%.*}.ready4train_seqs.fasta -t $i ; done
+```
+
+Output is a directory specified by the parameter `-o` which should contain the following files : 
+
+- bergeyTrainingTree.xml
+- genus_wordConditionalProbList.txt
+- logWordPrior.txt
+- wordConditionalProbIndexArr.txt
+
+Move into this newly created directory and create the file `rRNAClassifier.properties` with the following text : 
+
+```
+# Sample ResourceBundle properties file
+bergeyTree=bergeyTrainingTree.xml
+
+probabilityList=genus_wordConditionalProbList.txt
+
+probabilityIndex=wordConditionalProbIndexArr.txt
+
+wordPrior=logWordPrior.txt
+
+classifierVersion=RDP Naive Bayesian rRNA Classifier Version 2.14
+``` 
+
+#### Generate predictions {-}
+
+```{bash, eval = FALSE}
+for i in *.ready4train_seqs.fasta ; 
+do  java -Xmx1g -jar ~/rdp_classifier_2.14/dist/classifier.jar -q ${i%%.*}.subsets.txt.testIDs.txt.test.fasta -t ./${i%%.*}_training_files/rRNAClassifier.properties -o ${i%%.*}.predictions.tsv ; done 
+```
+
+### VSEARCH {-}
+
+```{bash, eval = FALSE}
+for i in *.subsets.txt.testIDs.txt.test.fasta ; do vsearch --usearch_global $i -db ${i%%.*}.subsets.txt.trainingIDs.txt.trainning.fasta --blast6out  ${i%%.*}.vsearch_prediction.tsv --top_hits_only --id 0.70; done 
+``` 
+
+Output is a tabbed text given by the -blast6out option. Fields are:
+
+- Col1 : `query_name` 
+- Col2 : `target` 
+- Col3 : `id`
+- Col4 : `alnlen`
+- Col5 : `mism`
+- Col6 : `opens` 
+- Col7 : `qlo` 
+- Col8 : `qhi`
+- Col9 : `tlo`
+- Col10 : `thi`
+- Col11 : `evalue`
+- Col12 : `bits`
+
+## CVI metrics {-}
+
+**Important definitions :** 
+
+- N  : number of sequences in the test set S, 
+- K  : number of sequences in S with known names (names which are present in the training set A)
+- L  : number of novel test sequences (= N – K) (sequences in S with names that are not present in A) 
+- TP : number of names which are correctly predicted 
+- MC : number of misclassification errors
+- OC : number of over-classification errors
+- UC : number under-classification errors 
+
+The rate for each type of error is defined as the number of errors divided by the number of opportunities to make that error:
+
+- OCR = OC/L (over-classification rate), 
+- UCR = UC/K (under-classification rate) 
+- MCR = MC/K (misclassification rate)
+- TPR = TP/K 
+- Acc = TP/(K + OC)
+
+For each rank the mean values of the metrics over all test/training pairs for all values of the top-hit identity (d) was calculated and is designated by prefix *Avg*. 
+
+- True-positive rate (*AvgTPR*) 
+- Under-classification errors (*AvgUCR*)
+- Misclassification rate (*AvgMCR*) 
+- Over-classification rate (*AvgOCR*)
+- Average L10Acc
+- Average accuracy (*AvgAcc*)
+
+- The *lowest common rank* (LCR) of two sequences is the lowest rank where both have the same taxon name.
+- The *most probable lowest common rank* (MLR) for a pair of sequences with identity *d* is defined as the LCR with highest probability. MLRs can be summarized by giving the rank identity threshold (RIT) for each rank *r*.
+- The *rank identity threshold* (RIT) for each rank *r* is defined as the minimum identity for which MLR(d) = *r*. For example, if MLR(100) = species, MLR(99) = genus, MLR(98) = genus, ... MLR(94) = genus and MLR(93) = family, then RIT(species) = 100 and RIT(genus) = 94. 
+- The *top-hit identity distribution* (THID) is the distances from a reference database.
+
+### Script to evaluate prediction {-}
+
+
+

@@ -4,20 +4,20 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Supplementary data | Fish-eDNA.knit</title>
-  <meta name="description" content="Prospect of eDNA for freshwater fishes from Alberta" />
+  <title>Supplementary data | Fish eDNA</title>
+  <meta name="description" content="Supplementary data | Fish eDNA" />
   <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Supplementary data | Fish-eDNA.knit" />
+  <meta property="og:title" content="Supplementary data | Fish eDNA" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:description" content="Prospect of eDNA for freshwater fishes from Alberta" />
+  
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Supplementary data | Fish-eDNA.knit" />
+  <meta name="twitter:title" content="Supplementary data | Fish eDNA" />
   
-  <meta name="twitter:description" content="Prospect of eDNA for freshwater fishes from Alberta" />
+  
   
 
 
@@ -28,7 +28,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="code.html"/>
+<link rel="prev" href="supplementary-workflow.html"/>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -144,27 +144,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Our dataset</a>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
 <ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#objectives"><i class="fa fa-check"></i>Objectives</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dataset"><i class="fa fa-check"></i>Dataset</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#alberta-fishes"><i class="fa fa-check"></i>Alberta fishes</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#methods-and-their-associated-available-databases"><i class="fa fa-check"></i>Methods and their associated available databases</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#representation-of-alberta-freshwater-fishes-in-databases"><i class="fa fa-check"></i>Representation of Alberta freshwater fishes in databases</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html"><i class="fa fa-check"></i>Taxonomy cross validation by identity (TAXXI)</a>
-<ul>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-benchmark-datasets"><i class="fa fa-check"></i>Generate benchmark datasets</a></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions-for-rdp-classifier"><i class="fa fa-check"></i>Generate predictions for RDP Classifier</a>
-<ul>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#required-files"><i class="fa fa-check"></i>Required files</a></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-required-files"><i class="fa fa-check"></i>Generate required files</a></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#train-the-set"><i class="fa fa-check"></i>Train the set</a></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions"><i class="fa fa-check"></i>Generate predictions</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions-for-vsearch"><i class="fa fa-check"></i>Generate predictions for VSEARCH</a></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cvi-metrics"><i class="fa fa-check"></i>CVI metrics</a>
-<ul>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#script-to-evaluate-prediction"><i class="fa fa-check"></i>Script to evaluate prediction</a></li>
-</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html"><i class="fa fa-check"></i>Required files, scripts and programs</a>
 <ul>
@@ -172,31 +158,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html#databases"><i class="fa fa-check"></i>Databases</a></li>
 <li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html#scripts"><i class="fa fa-check"></i>Scripts</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="code.html"><a href="code.html"><i class="fa fa-check"></i>Code</a>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html"><i class="fa fa-check"></i>Taxonomy cross validation by identity (TAXXI)</a>
 <ul>
-<li class="chapter" data-level="" data-path="code.html"><a href="code.html#evaluating-representation-in-databases"><i class="fa fa-check"></i>Evaluating representation in databases</a></li>
-<li class="chapter" data-level="" data-path="code.html"><a href="code.html#workflows"><i class="fa fa-check"></i>Workflows</a>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#notes"><i class="fa fa-check"></i>Notes</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-benchmark-datasets"><i class="fa fa-check"></i>Generate benchmark datasets</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions"><i class="fa fa-check"></i>Generate predictions</a>
 <ul>
-<li class="chapter" data-level="" data-path="code.html"><a href="code.html#dada2"><i class="fa fa-check"></i>DADA2</a></li>
-<li class="chapter" data-level="" data-path="code.html"><a href="code.html#barque"><i class="fa fa-check"></i>Barque</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#rdp-classifier"><i class="fa fa-check"></i>RDP Classifier</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#vsearch"><i class="fa fa-check"></i>VSEARCH</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="code.html"><a href="code.html#curating-databases"><i class="fa fa-check"></i>Curating databases</a></li>
-<li class="chapter" data-level="0.1" data-path="code.html"><a href="code.html#curating-databases-for-distance-matrix"><i class="fa fa-check"></i><b>0.1</b> Curating databases for distance matrix</a>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cvi-metrics"><i class="fa fa-check"></i>CVI metrics</a>
 <ul>
-<li class="chapter" data-level="0.1.1" data-path="code.html"><a href="code.html#barque-1"><i class="fa fa-check"></i><b>0.1.1</b> Barque</a></li>
-<li class="chapter" data-level="0.1.2" data-path="code.html"><a href="code.html#rdp"><i class="fa fa-check"></i><b>0.1.2</b> RDP</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#script-to-evaluate-prediction"><i class="fa fa-check"></i>Script to evaluate prediction</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="code.html"><a href="code.html#comparing-pipelines-with-available-databases"><i class="fa fa-check"></i>Comparing pipelines with available databases</a>
+</ul></li>
+<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html"><i class="fa fa-check"></i>Supplementary workflow</a>
 <ul>
-<li class="chapter" data-level="" data-path="code.html"><a href="code.html#dada2-1"><i class="fa fa-check"></i>DADA2</a></li>
-<li class="chapter" data-level="" data-path="code.html"><a href="code.html#barque-2"><i class="fa fa-check"></i>Barque</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="code.html"><a href="code.html#curating-databases-1"><i class="fa fa-check"></i>Curating databases</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="supplementary-data.html"><a href="supplementary-data.html"><i class="fa fa-check"></i>Supplementary data</a>
+<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#curating-databases-for-distance-matrix"><i class="fa fa-check"></i>Curating databases for distance matrix</a>
 <ul>
-<li class="chapter" data-level="" data-path="supplementary-data.html"><a href="supplementary-data.html#installing-the-rdp-classifier"><i class="fa fa-check"></i>Installing the RDP classifier</a></li>
+<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#rdp"><i class="fa fa-check"></i>RDP</a></li>
+<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#barque"><i class="fa fa-check"></i>Barque</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#comparing-pipelines-with-available-databases"><i class="fa fa-check"></i>Comparing pipelines with available databases</a>
+<ul>
+<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#dada2"><i class="fa fa-check"></i>DADA2</a></li>
+<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#barque-1"><i class="fa fa-check"></i>Barque</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#curating-databases-for-alberta-freshwater-fish"><i class="fa fa-check"></i>Curating databases for Alberta freshwater fish</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="supplementary-data.html"><a href="supplementary-data.html"><i class="fa fa-check"></i>Supplementary data</a></li>
 </ul>
 
       </nav>
@@ -206,7 +196,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fish eDNA</a>
           </h1>
         </div>
 
@@ -216,67 +206,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="supplementary-data" class="section level1 unnumbered hasAnchor">
 <h1>Supplementary data<a href="supplementary-data.html#supplementary-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="installing-the-rdp-classifier" class="section level2 unnumbered hasAnchor">
-<h2>Installing the RDP classifier<a href="supplementary-data.html#installing-the-rdp-classifier" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The RDP Classifier is a naive Bayesian classifier that provides rapid and accurate taxonomic placement of rRNA gene sequences.</p>
-<ol style="list-style-type: decimal">
-<li>Download the</li>
-</ol>
-<p>RDPTools is a collection fo command-line tools written by the RDP staff at Michigan State University.
-More information and tutorials on how to install, use and retrain RDP Clasifier can be found on at <a href="https://github.com/rdpstaff/classifier" class="uri">https://github.com/rdpstaff/classifier</a> and John Quensen’s blog (<a href="https://john-quensen.com/" class="uri">https://john-quensen.com/</a>).</p>
-<p>Unfortunately, the The RDP website is no longer available and therefore the packages must be installed using the Docker verison of RDPTools. instruction where obtained from Dr. J.Quensen’s <a href="https://jfq3.gitbook.io/rdptools-docker">Website</a>.</p>
-<ol style="list-style-type: decimal">
-<li>Installing Docker Engine</li>
-</ol>
-<p>The following installation instruction were obtained directly from the <a href="https://docs.docker.com/engine/install/ubuntu/">Docker documentation page</a></p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="supplementary-data.html#cb27-1" tabindex="-1"></a><span class="co"># --------------------- Run the following command to uninstall all conflicting packages ------------------------</span></span>
-<span id="cb27-2"><a href="supplementary-data.html#cb27-2" tabindex="-1"></a><span class="cf">for</span> pkg <span class="kw">in</span> docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc<span class="kw">;</span> <span class="cf">do</span> <span class="fu">sudo</span> apt-get remove <span class="va">$pkg</span><span class="kw">;</span> <span class="cf">done</span></span>
-<span id="cb27-3"><a href="supplementary-data.html#cb27-3" tabindex="-1"></a></span>
-<span id="cb27-4"><a href="supplementary-data.html#cb27-4" tabindex="-1"></a><span class="co"># --------------------- Add Docker&#39;s official GPG key ------------------------</span></span>
-<span id="cb27-5"><a href="supplementary-data.html#cb27-5" tabindex="-1"></a><span class="fu">sudo</span> apt-get update</span>
-<span id="cb27-6"><a href="supplementary-data.html#cb27-6" tabindex="-1"></a><span class="fu">sudo</span> apt-get install ca-certificates curl</span>
-<span id="cb27-7"><a href="supplementary-data.html#cb27-7" tabindex="-1"></a><span class="fu">sudo</span> install <span class="at">-m</span> 0755 <span class="at">-d</span> /etc/apt/keyrings</span>
-<span id="cb27-8"><a href="supplementary-data.html#cb27-8" tabindex="-1"></a><span class="fu">sudo</span> curl <span class="at">-fsSL</span> https://download.docker.com/linux/ubuntu/gpg <span class="at">-o</span> /etc/apt/keyrings/docker.asc</span>
-<span id="cb27-9"><a href="supplementary-data.html#cb27-9" tabindex="-1"></a><span class="fu">sudo</span> chmod a+r /etc/apt/keyrings/docker.asc</span>
-<span id="cb27-10"><a href="supplementary-data.html#cb27-10" tabindex="-1"></a></span>
-<span id="cb27-11"><a href="supplementary-data.html#cb27-11" tabindex="-1"></a><span class="co"># ------------------------ Add the repository to Apt sources ------------------------</span></span>
-<span id="cb27-12"><a href="supplementary-data.html#cb27-12" tabindex="-1"></a><span class="bu">echo</span> <span class="dt">\</span></span>
-<span id="cb27-13"><a href="supplementary-data.html#cb27-13" tabindex="-1"></a>  <span class="st">&quot;deb [arch=</span><span class="va">$(</span><span class="ex">dpkg</span> <span class="at">--print-architecture</span><span class="va">)</span><span class="st"> signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu </span><span class="dt">\</span></span>
-<span id="cb27-14"><a href="supplementary-data.html#cb27-14" tabindex="-1"></a><span class="st">  </span><span class="va">$(</span><span class="bu">.</span> /etc/os-release <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$VERSION_CODENAME</span><span class="st">&quot;</span><span class="va">)</span><span class="st"> stable&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb27-15"><a href="supplementary-data.html#cb27-15" tabindex="-1"></a>  <span class="fu">sudo</span> tee /etc/apt/sources.list.d/docker.list <span class="op">&gt;</span> /dev/null</span>
-<span id="cb27-16"><a href="supplementary-data.html#cb27-16" tabindex="-1"></a><span class="fu">sudo</span> apt-get update</span>
-<span id="cb27-17"><a href="supplementary-data.html#cb27-17" tabindex="-1"></a></span>
-<span id="cb27-18"><a href="supplementary-data.html#cb27-18" tabindex="-1"></a><span class="co"># ------------------------ Install the Docker packages ------------------------</span></span>
-<span id="cb27-19"><a href="supplementary-data.html#cb27-19" tabindex="-1"></a><span class="fu">sudo</span> apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin</span>
-<span id="cb27-20"><a href="supplementary-data.html#cb27-20" tabindex="-1"></a></span>
-<span id="cb27-21"><a href="supplementary-data.html#cb27-21" tabindex="-1"></a><span class="co"># ------------------------ Confirm if installation was successful ------------------------</span></span>
-<span id="cb27-22"><a href="supplementary-data.html#cb27-22" tabindex="-1"></a><span class="fu">sudo</span> docker run hello-world</span></code></pre></div>
-<ol start="2" style="list-style-type: decimal">
-<li>Creating the container</li>
-</ol>
-<p>To display all locally available docker images : <code>sudo docker images</code></p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="supplementary-data.html#cb28-1" tabindex="-1"></a><span class="fu">sudo</span> docker pull rdpstaff/rdp_tools</span></code></pre></div>
-<p>Containers must be map to a directory outside of the container in order to make results accessible to other programs. In this case I chose the directory <code>/home/kvilleneuve/rdp_tools/</code></p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="supplementary-data.html#cb29-1" tabindex="-1"></a><span class="fu">sudo</span> docker run <span class="at">--name</span> rdp_tools <span class="at">-it</span> <span class="at">-v</span> /home/kvilleneuve/rdp_tools/ rdpstaff/rdp_tools</span></code></pre></div>
-<p>After entering the above command the prompt terminal should be similar to this : <code>RDPuser@1041715dcc7f:~$</code></p>
-<ol start="3" style="list-style-type: decimal">
-<li>Installing auxiliary programs and files</li>
-</ol>
-<p>Change to root user. Password (<code>RDPuser</code>)</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="supplementary-data.html#cb30-1" tabindex="-1"></a><span class="fu">sudo</span> su <span class="at">-</span> </span></code></pre></div>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="supplementary-data.html#cb31-1" tabindex="-1"></a><span class="co"># Download script for downloading packages </span></span>
-<span id="cb31-2"><a href="supplementary-data.html#cb31-2" tabindex="-1"></a><span class="fu">wget</span> https://github.com/jfq3/RDPTools-Docker/raw/main/downloads/download_tools_jq.py</span>
-<span id="cb31-3"><a href="supplementary-data.html#cb31-3" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co"> !!! The script contains a few typo, notable a missing parenthesis and open tick at line 58 !!!! </span></span>
-<span id="cb31-4"><a href="supplementary-data.html#cb31-4" tabindex="-1"></a><span class="co"># Make script executable </span></span>
-<span id="cb31-5"><a href="supplementary-data.html#cb31-5" tabindex="-1"></a><span class="fu">chmod</span> 750 download_tools_jq.py</span>
-<span id="cb31-6"><a href="supplementary-data.html#cb31-6" tabindex="-1"></a><span class="co"># Execute </span></span>
-<span id="cb31-7"><a href="supplementary-data.html#cb31-7" tabindex="-1"></a><span class="ex">python3</span> download_tools_jq.py</span></code></pre></div>
-<p>Log out, exit the container and close the terminal : <code>exit exit exit</code></p>
-<p>To launch docker</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="supplementary-data.html#cb32-1" tabindex="-1"></a><span class="fu">sudo</span> docker start rdp_tools</span>
-<span id="cb32-2"><a href="supplementary-data.html#cb32-2" tabindex="-1"></a><span class="fu">sudo</span> docker attach rdp_tools</span></code></pre></div>
 
-</div>
 </div>
 <hr>
 <center>
@@ -304,7 +234,7 @@ More information and tutorials on how to install, use and retrain RDP Clasifier 
           </div>
         </div>
       </div>
-<a href="code.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="supplementary-workflow.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>
