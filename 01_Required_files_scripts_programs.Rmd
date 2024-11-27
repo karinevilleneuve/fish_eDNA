@@ -2,15 +2,19 @@
 
 ## Programs {-}
 
-- [Sekquit](https://bioinf.shenwei.me/seqkit/)
-	- Installed via conda
+- seqkit v2.1 ([website](https://bioinf.shenwei.me/seqkit/))
+	- Installed via Bioconda ([link](https://bioconda.github.io/recipes/seqkit/README.html))
 	- Base environment needs to be activated in order to use the tool
 	
-- RDP tool classifier - [Github](https://github.com/rdpstaff/classifier) / [SourceForge](https://sourceforge.net/projects/rdp-classifier/#:~:text=The%20RDP%20Classifier%20is%20a,confidence%20estimates%20for%20each%20assignment.)
-  - To install the RDP classifier I recommend downloading the package from SourceForge ([link](https://sourceforge.net/projects/rdp-classifier/)) as the Github is no longer maintained. Once the download is complete, unzip the folder and locate the file `classifer.jar` inside the directory `dist`
+- RDP tool classifier v2.11 ([Github](https://github.com/rdpstaff/classifier) / [SourceForge](https://sourceforge.net/projects/rdp-classifier/))
+  - To install the RDP classifier I recommend downloading the package from SourceForge as the Github is no longer maintained. Once the download is complete, unzip the folder and locate the file `classifer.jar` inside the directory `dist`
   
-- [Usearch v11.0.667](http://www.drive5.com/usearch/)
+- usearch v11.0.667 ([website](http://www.drive5.com/usearch/))
   - To install : (1) Download binaries (2) Unzip and rename the file to `usearch` (3) Make file executable `chmod +x usearch`. Place file in an easily accessible directory (for example `~/usearch`)
+  
+- vsearch v2.15.2 ([Github](https://github.com/torognes/vsearch))
+  - Installed via Bioconda ([link](https://anaconda.org/bioconda/vsearch))
+  - Base environment needs to be activated in order to use the tool
 
 ## Databases {-}
 

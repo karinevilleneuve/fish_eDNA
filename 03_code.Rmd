@@ -152,8 +152,7 @@ write.table(df$barque_coi_header, "/home/kvilleneuve/fish_edna/database/taxxi_cv
 seqkit grep -nrf barque_coi_headers_to_keep.txt chord_barque_coi.fasta -o curated_barque_coi.fasta
 ``` 
 
-
-## Comparing pipelines with available databases {-}
+## Worklow used {-}
 
 ### DADA2 {-}
 
@@ -164,6 +163,58 @@ seqkit grep -nrf barque_coi_headers_to_keep.txt chord_barque_coi.fasta -o curate
 839 ASV | from these 839 ASVs, 20 (2.38 %) are species with a bootstrap level above 70 % | from these 20 species, 8 (40 %) are from class actinopteri | from these 8 actinopteri, 7 (87.5 %) are species of freshwater fishes found in Alberta. 
 
 ### Barque {-}
+
+NB. Barque will only work on GNU Linux or OSX
+
+1. Install dependencies
+
+- bash 4+
+- python 3.5+ (you can use miniconda3 to install python)
+- python distutils package
+- R 3+ (ubuntu/mint: sudo apt-get install r-base-core)
+- java (ubuntu/mint: sudo apt-get install default-jre)
+- gnu parallel
+    - For mac OSX `brew install parallel` 
+- flash (read merger) v1.2.11+
+   - `export PATH=/home/user/FLASH-1.2.11:$PATH`
+- vsearch v2.14.2+ (Barque will not work with older versions of vsearch)
+   - Depending on how vsearch is installed either export PATH to location of vsearch or activate base conda environnement
+
+2. Download a copy of the Barque repository
+
+```{bash, eval = FALSE}
+git clone https://github.com/enormandeau/barque
+```
+
+3. Edit 02_info/primers.csv to provide information describing your primers and database to use 
+
+4. Get or prepare the database(s) (see Formatting database section below) and deposit the fasta.gz file in the 03_databases folder and give it a name that matches the information of the 02_info/primers.csv file.
+
+ - [Link](https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/) to BOLD database 
+
+5. Modify the parameters in 02_info/barque_config.sh for your run
+
+- for COI marker : 
+
+`COI_kv,CGTATTTGGYGCYTGRGCCGGRATAGT,CARAARCTYATRTTRTTYATTCG,100,450,bold,0.97,0.9,0.85`
+
+- for 12S marker 
+
+`12s200pb,GTCGGTAAAACTCGTGCCAGC,CATAGTGGGGTATCTAATCCCAGTTTG,150,350,12S,0.98,0.9,0.85`
+
+6. Launch Barque 
+
+Move into the Github directory and launch barque 
+```{bash, eval = FALSE}
+./barque 02_info/barque_config.sh
+```
+
+Once the pipeline has finished running, all result files are found in the 12_results folder.
+After a run, it is recommended to make a copy of this folder with some additional info
+
+```{bash, eval = FALSE}
+cp -r 12_results 12_results_PROJECT_NAME_DATE_SOME_ADDITIONAL_INFO
+``` 
 
 ## Curating databases for Alberta freshwater fish {-}
 

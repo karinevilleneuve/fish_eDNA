@@ -160,7 +160,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html"><i class="fa fa-check"></i>Taxonomy cross validation by identity (TAXXI)</a>
 <ul>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#notes"><i class="fa fa-check"></i>Notes</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#description"><i class="fa fa-check"></i>Description</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#methods"><i class="fa fa-check"></i>Methods</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#implementing-cvi-with-our-data"><i class="fa fa-check"></i>Implementing CVI with our data</a></li>
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-benchmark-datasets"><i class="fa fa-check"></i>Generate benchmark datasets</a></li>
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions"><i class="fa fa-check"></i>Generate predictions</a>
 <ul>
@@ -179,7 +181,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#rdp"><i class="fa fa-check"></i>RDP</a></li>
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#barque"><i class="fa fa-check"></i>Barque</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#comparing-pipelines-with-available-databases"><i class="fa fa-check"></i>Comparing pipelines with available databases</a>
+<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#worklow-used"><i class="fa fa-check"></i>Worklow used</a>
 <ul>
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#dada2"><i class="fa fa-check"></i>DADA2</a></li>
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#barque-1"><i class="fa fa-check"></i>Barque</a></li>
@@ -342,8 +344,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="supplementary-workflow.html#cb27-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> barque_coi_headers_to_keep.txt chord_barque_coi.fasta <span class="at">-o</span> curated_barque_coi.fasta</span></code></pre></div>
 </div>
 </div>
-<div id="comparing-pipelines-with-available-databases" class="section level2 unnumbered hasAnchor">
-<h2>Comparing pipelines with available databases<a href="supplementary-workflow.html#comparing-pipelines-with-available-databases" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="worklow-used" class="section level2 unnumbered hasAnchor">
+<h2>Worklow used<a href="supplementary-workflow.html#worklow-used" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="dada2" class="section level3 unnumbered hasAnchor">
 <h3>DADA2<a href="supplementary-workflow.html#dada2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="s" class="section level4 unnumbered hasAnchor">
@@ -356,22 +358,75 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="barque-1" class="section level3 unnumbered hasAnchor">
 <h3>Barque<a href="supplementary-workflow.html#barque-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>NB. Barque will only work on GNU Linux or OSX</p>
+<ol style="list-style-type: decimal">
+<li>Install dependencies</li>
+</ol>
+<ul>
+<li>bash 4+</li>
+<li>python 3.5+ (you can use miniconda3 to install python)</li>
+<li>python distutils package</li>
+<li>R 3+ (ubuntu/mint: sudo apt-get install r-base-core)</li>
+<li>java (ubuntu/mint: sudo apt-get install default-jre)</li>
+<li>gnu parallel
+<ul>
+<li>For mac OSX <code>brew install parallel</code></li>
+</ul></li>
+<li>flash (read merger) v1.2.11+
+<ul>
+<li><code>export PATH=/home/user/FLASH-1.2.11:$PATH</code></li>
+</ul></li>
+<li>vsearch v2.14.2+ (Barque will not work with older versions of vsearch)
+<ul>
+<li>Depending on how vsearch is installed either export PATH to location of vsearch or activate base conda environnement</li>
+</ul></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Download a copy of the Barque repository</li>
+</ol>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="supplementary-workflow.html#cb28-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/enormandeau/barque</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Edit 02_info/primers.csv to provide information describing your primers and database to use</p></li>
+<li><p>Get or prepare the database(s) (see Formatting database section below) and deposit the fasta.gz file in the 03_databases folder and give it a name that matches the information of the 02_info/primers.csv file.</p></li>
+</ol>
+<ul>
+<li><a href="https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/">Link</a> to BOLD database</li>
+</ul>
+<ol start="5" style="list-style-type: decimal">
+<li>Modify the parameters in 02_info/barque_config.sh for your run</li>
+</ol>
+<ul>
+<li>for COI marker :</li>
+</ul>
+<p><code>COI_kv,CGTATTTGGYGCYTGRGCCGGRATAGT,CARAARCTYATRTTRTTYATTCG,100,450,bold,0.97,0.9,0.85</code></p>
+<ul>
+<li>for 12S marker</li>
+</ul>
+<p><code>12s200pb,GTCGGTAAAACTCGTGCCAGC,CATAGTGGGGTATCTAATCCCAGTTTG,150,350,12S,0.98,0.9,0.85</code></p>
+<ol start="6" style="list-style-type: decimal">
+<li>Launch Barque</li>
+</ol>
+<p>Move into the Github directory and launch barque</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="supplementary-workflow.html#cb29-1" tabindex="-1"></a><span class="ex">./barque</span> 02_info/barque_config.sh</span></code></pre></div>
+<p>Once the pipeline has finished running, all result files are found in the 12_results folder.
+After a run, it is recommended to make a copy of this folder with some additional info</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="supplementary-workflow.html#cb30-1" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> 12_results 12_results_PROJECT_NAME_DATE_SOME_ADDITIONAL_INFO</span></code></pre></div>
 </div>
 </div>
 <div id="curating-databases-for-alberta-freshwater-fish" class="section level2 unnumbered hasAnchor">
 <h2>Curating databases for Alberta freshwater fish<a href="supplementary-workflow.html#curating-databases-for-alberta-freshwater-fish" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Using <code>seqkit</code> tool to filter databases in order to keep only sequences of freshwater fishes found in Alberta</p>
 <p>seqkit grep -i -f ids.txt test.fa</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="supplementary-workflow.html#cb28-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> ID_barque_12S.txt barque_12S.fasta <span class="at">-o</span> alberta_barque_12S.fasta</span>
-<span id="cb28-2"><a href="supplementary-workflow.html#cb28-2" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> ID_barque_COI.txt bold_coi_for_barque_2023-09-12.fasta <span class="at">-o</span> alberta_barque_COI.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="supplementary-workflow.html#cb31-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> ID_barque_12S.txt barque_12S.fasta <span class="at">-o</span> alberta_barque_12S.fasta</span>
+<span id="cb31-2"><a href="supplementary-workflow.html#cb31-2" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> ID_barque_COI.txt bold_coi_for_barque_2023-09-12.fasta <span class="at">-o</span> alberta_barque_COI.fasta</span></code></pre></div>
 <p>For RDP</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="supplementary-workflow.html#cb29-1" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/ /;/g&#39;</span> RDP_COI.fasta</span>
-<span id="cb29-2"><a href="supplementary-workflow.html#cb29-2" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/ /;/g&#39;</span> ID_RDP_COI.txt</span>
-<span id="cb29-3"><a href="supplementary-workflow.html#cb29-3" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> ID_RDP_COI.txt RDP_COI.fasta <span class="at">-o</span> alberta_RDP_COI.fasta</span>
-<span id="cb29-4"><a href="supplementary-workflow.html#cb29-4" tabindex="-1"></a></span>
-<span id="cb29-5"><a href="supplementary-workflow.html#cb29-5" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/\t/;/g&#39;</span> 12S_rdp.fasta</span>
-<span id="cb29-6"><a href="supplementary-workflow.html#cb29-6" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/\t/;/g&#39;</span> ID_RDP_12S.txt</span>
-<span id="cb29-7"><a href="supplementary-workflow.html#cb29-7" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> ID_RDP_12S.txt 12S_rdp.fasta <span class="at">-o</span> alberta_RDP_12S.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="supplementary-workflow.html#cb32-1" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/ /;/g&#39;</span> RDP_COI.fasta</span>
+<span id="cb32-2"><a href="supplementary-workflow.html#cb32-2" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/ /;/g&#39;</span> ID_RDP_COI.txt</span>
+<span id="cb32-3"><a href="supplementary-workflow.html#cb32-3" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> ID_RDP_COI.txt RDP_COI.fasta <span class="at">-o</span> alberta_RDP_COI.fasta</span>
+<span id="cb32-4"><a href="supplementary-workflow.html#cb32-4" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="supplementary-workflow.html#cb32-5" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/\t/;/g&#39;</span> 12S_rdp.fasta</span>
+<span id="cb32-6"><a href="supplementary-workflow.html#cb32-6" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/\t/;/g&#39;</span> ID_RDP_12S.txt</span>
+<span id="cb32-7"><a href="supplementary-workflow.html#cb32-7" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> ID_RDP_12S.txt 12S_rdp.fasta <span class="at">-o</span> alberta_RDP_12S.fasta</span></code></pre></div>
 
 </div>
 </div>

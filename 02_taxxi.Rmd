@@ -1,8 +1,20 @@
 # Taxonomy cross validation by identity (TAXXI) {-}
 
-Framework developed by Edgard (2018). Link to [article](https://peerj.com/articles/4652/) and [TAXXI website](https://drive5.com/taxxi/doc/index.html). 
+Link to [article](https://peerj.com/articles/4652/) and [TAXXI website](https://drive5.com/taxxi/doc/index.html). 
 
-Cross-validation by identity (CVI) models varying distances between query sequences and reference sequences. A reference with known taxonomies is split into test and training sets such that for all test sequences, the most similar training sequence has a given identity (*d*). This is repeated for different identities, enabling assessment of prediction accuracy at varying distances from the reference.
+## Description {-}
+
+Edgar (2018) developed a Cross-Validation by Identity (CVI) framework that tests 16 unique classifiers and 3 parameter settings of the SINTAX, RDP, and Non-Bayensien-Classifier classifiers to assign taxonomy to specially modified test and training data sets (Warcup ITS, 16S full length, 16S V4 and 16S V3-5). These data sets were designed by Edgar (2018) to 1) have even representation across genera, and 2) test classifier effectiveness across different loci of the same gene (16S). Each classifier is then assessed for the true positive rate (TPR), the over-classification rate (OCR), the under classification rate (UCR), the misclassification rate (MCR), and the accuracy (ACC). 
+
+- The true positive rate (TPR) indicates how frequently the correct taxonomy was assigned out of the total number of opportunities for correct classification. 
+- The over-classification rate (OCR) indicates how frequently too many ranks are predicted for query sequences out of the total opportunities to make an over classification error.
+- The under-classification rate (UCR) indicates how frequently too few ranks are predicted for query sequences out of the total number of opportunities to make this error.
+- The misclassification rate (MCR) indicates how frequently a sequence matching a query is available in the database but is not predicted for that query out to the number of opportunities to make this error.
+- The accuracy (ACC) indicates the number of correct taxonomic calls out of the number of opportunities to determine correct taxonomy.
+
+## Methods {-}
+
+A reference with known taxonomies is split into test and training sets such that for all test sequences, the most similar training sequence has a given identity (*d*). This is repeated for different identities, enabling assessment of prediction accuracy at varying distances from the reference.
 
 <img style="padding:30px" src="data/taxxi_figures.jpg" align="left" width="20%"/>
 
@@ -17,16 +29,16 @@ Cross-validation by identity (CVI) models varying distances between query sequen
 
 <br clear="left"/>
 
-## Notes {-}
+## Implementing CVI with our data {-}
 
-The following workflow was used to evaluate the following databases using the TAXXI framework : 
+TAXXI framework was used to compare the performance of the RDP and vsearch classifiers with the following databases : 
 
 - barque COI [3](https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/)
 - RDP COI V5.1.0 [5](https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0)
 
 Considering the size of the original COI databases, the memory limit of 32-bit process was exceeded, and therefore the 64-bit build was required. To overcome this issue both databases were pre-curated and sub-sampled. Workflow used for this can be found [here][Curating databases for distance matrix]. 
 
-Because the 12S databases did include multiple sequences per species the TAXXI framework could not be used to evaluate these databases.  
+Because the 12S databases did not include multiple sequences per species the TAXXI framework could not be used to evaluate these databases.  
 
 ## Generate benchmark datasets {-}
 
@@ -225,20 +237,22 @@ classifierVersion=RDP Naive Bayesian rRNA Classifier Version 2.14
 
 ```{bash, eval = FALSE}
 for i in *.ready4train_seqs.fasta ; 
-do  java -Xmx1g -jar ~/rdp_classifier_2.14/dist/classifier.jar -q ${i%%.*}.subsets.txt.testIDs.txt.test.fasta -t ./${i%%.*}_training_files/rRNAClassifier.properties -o ${i%%.*}.predictions.tsv ; done 
+do  java -Xmx1g -jar ~/rdp_classifier_2.14/dist/classifier.jar -q ${i%%.*}.subsets.txt.testIDs.txt.test.fasta -t ./${i%%.*}_training_files/rRNAClassifier.properties -o ${i%%.*}.RDP_predictions.tsv ; done 
 ```
 
 ### VSEARCH {-}
 
+Using option `usearch_global` (option used by barque) : 
+
 ```{bash, eval = FALSE}
-for i in *.subsets.txt.testIDs.txt.test.fasta ; do vsearch --usearch_global $i -db ${i%%.*}.subsets.txt.trainingIDs.txt.trainning.fasta --blast6out  ${i%%.*}.vsearch_prediction.tsv --top_hits_only --id 0.70; done 
+for i in *.subsets.txt.testIDs.txt.test.fasta ; do vsearch --usearch_global $i -db ${i%%.*}.subsets.txt.trainingIDs.txt.trainning.fasta --blast6out  ${i%%.*}.vsearch_predictions.tsv --top_hits_only --notrunclabels --id 0.70; done 
 ``` 
 
 Output is a tabbed text given by the -blast6out option. Fields are:
 
 - Col1 : `query_name` 
-- Col2 : `target` 
-- Col3 : `id`
+- Col2 : `target` - database sequence label
+- Col3 : `id` - percentage of identity (real value ranging from 0.0 to 100.0). The per- centage identity is defined as 100 * (matching columns) / (alignment length - terminal gaps). See fields id0 to id4 for other definitions.
 - Col4 : `alnlen`
 - Col5 : `mism`
 - Col6 : `opens` 
@@ -248,6 +262,8 @@ Output is a tabbed text given by the -blast6out option. Fields are:
 - Col10 : `thi`
 - Col11 : `evalue`
 - Col12 : `bits`
+
+Using SINTAX 
 
 ## CVI metrics {-}
 
@@ -284,6 +300,14 @@ For each rank the mean values of the metrics over all test/training pairs for al
 - The *top-hit identity distribution* (THID) is the distances from a reference database.
 
 ### Script to evaluate prediction {-}
+
+Required files for each identity threshold : 
+
+- Training set header (`{databasename_IDthreshold}_trainheader.txt`)
+- Test set header (`{databasename_IDthreshold}.subsets.txt.testIDs.txt`)
+- Prediction results (`{databasename_IDthreshold_classifier}_predictions.tsv`)
+
+1. Move required files in a different directory 
 
 
 
