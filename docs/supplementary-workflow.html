@@ -29,7 +29,7 @@
   
   
 <link rel="prev" href="taxonomy-cross-validation-by-identity-taxxi.html"/>
-<link rel="next" href="supplementary-data.html"/>
+<link rel="next" href="curating-databases-for-alberta-freshwater-fish.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -186,9 +186,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#dada2"><i class="fa fa-check"></i>DADA2</a></li>
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#barque-1"><i class="fa fa-check"></i>Barque</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#curating-databases-for-alberta-freshwater-fish"><i class="fa fa-check"></i>Curating databases for Alberta freshwater fish</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="supplementary-data.html"><a href="supplementary-data.html"><i class="fa fa-check"></i>Supplementary data</a></li>
+<li class="chapter" data-level="" data-path="curating-databases-for-alberta-freshwater-fish.html"><a href="curating-databases-for-alberta-freshwater-fish.html"><i class="fa fa-check"></i>Curating databases for Alberta freshwater fish</a></li>
 </ul>
 
       </nav>
@@ -411,23 +410,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Once the pipeline has finished running, all result files are found in the 12_results folder.
 After a run, it is recommended to make a copy of this folder with some additional info</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="supplementary-workflow.html#cb30-1" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> 12_results 12_results_PROJECT_NAME_DATE_SOME_ADDITIONAL_INFO</span></code></pre></div>
-</div>
-</div>
-<div id="curating-databases-for-alberta-freshwater-fish" class="section level2 unnumbered hasAnchor">
-<h2>Curating databases for Alberta freshwater fish<a href="supplementary-workflow.html#curating-databases-for-alberta-freshwater-fish" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Using <code>seqkit</code> tool to filter databases in order to keep only sequences of freshwater fishes found in Alberta</p>
-<p>seqkit grep -i -f ids.txt test.fa</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="supplementary-workflow.html#cb31-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> ID_barque_12S.txt barque_12S.fasta <span class="at">-o</span> alberta_barque_12S.fasta</span>
-<span id="cb31-2"><a href="supplementary-workflow.html#cb31-2" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> ID_barque_COI.txt bold_coi_for_barque_2023-09-12.fasta <span class="at">-o</span> alberta_barque_COI.fasta</span></code></pre></div>
-<p>For RDP</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="supplementary-workflow.html#cb32-1" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/ /;/g&#39;</span> RDP_COI.fasta</span>
-<span id="cb32-2"><a href="supplementary-workflow.html#cb32-2" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/ /;/g&#39;</span> ID_RDP_COI.txt</span>
-<span id="cb32-3"><a href="supplementary-workflow.html#cb32-3" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> ID_RDP_COI.txt RDP_COI.fasta <span class="at">-o</span> alberta_RDP_COI.fasta</span>
-<span id="cb32-4"><a href="supplementary-workflow.html#cb32-4" tabindex="-1"></a></span>
-<span id="cb32-5"><a href="supplementary-workflow.html#cb32-5" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/\t/;/g&#39;</span> 12S_rdp.fasta</span>
-<span id="cb32-6"><a href="supplementary-workflow.html#cb32-6" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/\t/;/g&#39;</span> ID_RDP_12S.txt</span>
-<span id="cb32-7"><a href="supplementary-workflow.html#cb32-7" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> ID_RDP_12S.txt 12S_rdp.fasta <span class="at">-o</span> alberta_RDP_12S.fasta</span></code></pre></div>
 
+</div>
 </div>
 </div>
 <hr>
@@ -457,7 +441,7 @@ After a run, it is recommended to make a copy of this folder with some additiona
         </div>
       </div>
 <a href="taxonomy-cross-validation-by-identity-taxxi.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="supplementary-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="curating-databases-for-alberta-freshwater-fish.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

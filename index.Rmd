@@ -71,7 +71,7 @@ datatable(workflow_database, rownames = FALSE, options=list(scrollX=T, dom = 't'
 
 ## Representation of Alberta freshwater fishes in databases {-}
 
-Each database was queried to evaluate the presence of reference sequences for Alberta freshwater fishes. Code used to queried the databases can be found [here][Evaluating representation in databases]. 
+Each database was queried to evaluate the presence of reference sequences for Alberta freshwater fishes. Code used to queried the databases can be found [here](https://github.com/karinevilleneuve/fish_eDNA/blob/master/scripts/01_representation_freshwater_fishes_db.R). 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 #library(shiny)

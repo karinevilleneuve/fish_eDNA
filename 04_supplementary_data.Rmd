@@ -1,2 +1,59 @@
-# Supplementary data {-}
+# Curating databases for Alberta freshwater fish {-}
 
+Using seqkit tool to filter databases in order to keep only sequences of freshwater fishes found in Alberta. A list of ID to keep was generated for each database using the R script below. 
+
+For barque
+```{bash, eval = FALSE}
+seqkit grep -nrf alberta_ID_barque_12S.txt barque_12S.fasta -o alberta_curated_barque_12S.fasta
+seqkit grep -nrf alberta_ID_barque_COI.txt bold_coi_for_barque_2023-09-12.fasta -o alberta_curated_barque_COI.fasta
+``` 
+
+For RDP
+```{bash, eval = FALSE}
+sed -i 's/ /;/g' RDP_COI.fasta
+sed -i 's/ /;/g' alberta_ID_RDP_COI.txt
+seqkit grep -nrf alberta_ID_RDP_COI.txt RDP_COI.fasta -o alberta_curated_RDP_COI.fasta
+
+sed -i 's/\t/;/g' 12S_rdp.fasta
+sed -i 's/\t/;/g' alberta_ID_RDP_12S.txt
+seqkit grep -nrf alberta_ID_RDP_12S.txt 12S_rdp.fasta -o alberta_curated_RDP_12S.fasta
+```
+
+R script to generate list of header to keep
+```{r, eval = FALSE}
+### ------------------------- Load the libraries -------------------------------------------------- #### 
+
+library(dplyr)
+library(glue)
+library(stringr)
+
+### ------------------------- Set path for output -------------------------------------------------- #### 
+
+path = "/home/kvilleneuve/fish_edna/database"
+
+### ------------------------- Load list of Alberta freshwate fish -------------------------------------------------- #### 
+
+
+alberta_fish = read.csv("/home/kvilleneuve/fish_edna/database/fishbase_alberta_freswater.csv", header = TRUE, check.names = FALSE)
+species = gsub(" ", "_", alberta_fish$Species) # Replace space with underscore 
+
+### ------------------------- Load database sequence header -------------------------------------------------- #### 
+
+# I am intentionnaly specifying the wrong seperator because I don't want to seperate the columns yet
+
+## RDP classifier ## 
+rdp12s_raw = read.table("/home/kvilleneuve/fish_edna/database/header_rdp_12S.txt", sep = ",")
+rdpcoi_raw = read.table("/home/kvilleneuve/fish_edna/database/header_rdp_coi.txt", sep = ",")
+
+## barque ##
+barque12s_raw = read.table("/home/kvilleneuve/fish_edna/database/header_barque_12S.txt", sep = ",")
+barquecoi_raw = read.table("/home/kvilleneuve/fish_edna/database/header_bold_coi_barque.txt",  sep = ",")
+
+list_db = list("ID_RDP_COI" = rdpcoi_raw, "ID_RDP_12S" = rdp12s_raw, "ID_barque_COI" = barquecoi_raw, "ID_barque_12S" = barque12s_raw)
+
+for (databases in list_db){
+  filtered = databases %>% 
+    filter(if_any(1, str_detect, paste0(species, collapse = '|')))
+  write.table(filtered, file = paste(path, "/alberta_", names(list_db)[i], ".txt", sep =""), quote = FALSE, row.names = FALSE, col.names = FALSE)
+} 
+``` 

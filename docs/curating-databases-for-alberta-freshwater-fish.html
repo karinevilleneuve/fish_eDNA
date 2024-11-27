@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Fish eDNA</title>
-  <meta name="description" content="Page not found | Fish eDNA" />
+  <title>Curating databases for Alberta freshwater fish | Fish eDNA</title>
+  <meta name="description" content="Curating databases for Alberta freshwater fish | Fish eDNA" />
   <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Fish eDNA" />
+  <meta property="og:title" content="Curating databases for Alberta freshwater fish | Fish eDNA" />
   <meta property="og:type" content="book" />
   
   
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Fish eDNA" />
+  <meta name="twitter:title" content="Curating databases for Alberta freshwater fish | Fish eDNA" />
   
   
   
@@ -28,7 +28,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
+<link rel="prev" href="supplementary-workflow.html"/>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -205,11 +205,57 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="curating-databases-for-alberta-freshwater-fish" class="section level1 unnumbered hasAnchor">
+<h1>Curating databases for Alberta freshwater fish<a href="curating-databases-for-alberta-freshwater-fish.html#curating-databases-for-alberta-freshwater-fish" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Using seqkit tool to filter databases in order to keep only sequences of freshwater fishes found in Alberta. A list of ID to keep was generated for each database using the R script below.</p>
+<p>For barque</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="curating-databases-for-alberta-freshwater-fish.html#cb31-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> alberta_ID_barque_12S.txt barque_12S.fasta <span class="at">-o</span> alberta_curated_barque_12S.fasta</span>
+<span id="cb31-2"><a href="curating-databases-for-alberta-freshwater-fish.html#cb31-2" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> alberta_ID_barque_COI.txt bold_coi_for_barque_2023-09-12.fasta <span class="at">-o</span> alberta_curated_barque_COI.fasta</span></code></pre></div>
+<p>For RDP</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="curating-databases-for-alberta-freshwater-fish.html#cb32-1" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/ /;/g&#39;</span> RDP_COI.fasta</span>
+<span id="cb32-2"><a href="curating-databases-for-alberta-freshwater-fish.html#cb32-2" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/ /;/g&#39;</span> alberta_ID_RDP_COI.txt</span>
+<span id="cb32-3"><a href="curating-databases-for-alberta-freshwater-fish.html#cb32-3" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> alberta_ID_RDP_COI.txt RDP_COI.fasta <span class="at">-o</span> alberta_curated_RDP_COI.fasta</span>
+<span id="cb32-4"><a href="curating-databases-for-alberta-freshwater-fish.html#cb32-4" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="curating-databases-for-alberta-freshwater-fish.html#cb32-5" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/\t/;/g&#39;</span> 12S_rdp.fasta</span>
+<span id="cb32-6"><a href="curating-databases-for-alberta-freshwater-fish.html#cb32-6" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/\t/;/g&#39;</span> alberta_ID_RDP_12S.txt</span>
+<span id="cb32-7"><a href="curating-databases-for-alberta-freshwater-fish.html#cb32-7" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> alberta_ID_RDP_12S.txt 12S_rdp.fasta <span class="at">-o</span> alberta_curated_RDP_12S.fasta</span></code></pre></div>
+<p>R script to generate list of header to keep</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-1" tabindex="-1"></a><span class="do">### ------------------------- Load the libraries -------------------------------------------------- #### </span></span>
+<span id="cb33-2"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-2" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb33-4"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-4" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb33-5"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-5" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb33-6"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-6" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-7" tabindex="-1"></a><span class="do">### ------------------------- Set path for output -------------------------------------------------- #### </span></span>
+<span id="cb33-8"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-8" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-9" tabindex="-1"></a>path <span class="ot">=</span> <span class="st">&quot;/home/kvilleneuve/fish_edna/database&quot;</span></span>
+<span id="cb33-10"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-10" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-11" tabindex="-1"></a><span class="do">### ------------------------- Load list of Alberta freshwate fish -------------------------------------------------- #### </span></span>
+<span id="cb33-12"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-12" tabindex="-1"></a></span>
+<span id="cb33-13"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-13" tabindex="-1"></a></span>
+<span id="cb33-14"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-14" tabindex="-1"></a>alberta_fish <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&quot;/home/kvilleneuve/fish_edna/database/fishbase_alberta_freswater.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb33-15"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-15" tabindex="-1"></a>species <span class="ot">=</span> <span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;_&quot;</span>, alberta_fish<span class="sc">$</span>Species) <span class="co"># Replace space with underscore </span></span>
+<span id="cb33-16"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-16" tabindex="-1"></a></span>
+<span id="cb33-17"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-17" tabindex="-1"></a><span class="do">### ------------------------- Load database sequence header -------------------------------------------------- #### </span></span>
+<span id="cb33-18"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-18" tabindex="-1"></a></span>
+<span id="cb33-19"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-19" tabindex="-1"></a><span class="co"># I am intentionnaly specifying the wrong seperator because I don&#39;t want to seperate the columns yet</span></span>
+<span id="cb33-20"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-20" tabindex="-1"></a></span>
+<span id="cb33-21"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-21" tabindex="-1"></a><span class="do">## RDP classifier ## </span></span>
+<span id="cb33-22"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-22" tabindex="-1"></a>rdp12s_raw <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;/home/kvilleneuve/fish_edna/database/header_rdp_12S.txt&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb33-23"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-23" tabindex="-1"></a>rdpcoi_raw <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;/home/kvilleneuve/fish_edna/database/header_rdp_coi.txt&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb33-24"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-24" tabindex="-1"></a></span>
+<span id="cb33-25"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-25" tabindex="-1"></a><span class="do">## barque ##</span></span>
+<span id="cb33-26"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-26" tabindex="-1"></a>barque12s_raw <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;/home/kvilleneuve/fish_edna/database/header_barque_12S.txt&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb33-27"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-27" tabindex="-1"></a>barquecoi_raw <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;/home/kvilleneuve/fish_edna/database/header_bold_coi_barque.txt&quot;</span>,  <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb33-28"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-28" tabindex="-1"></a></span>
+<span id="cb33-29"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-29" tabindex="-1"></a>list_db <span class="ot">=</span> <span class="fu">list</span>(<span class="st">&quot;ID_RDP_COI&quot;</span> <span class="ot">=</span> rdpcoi_raw, <span class="st">&quot;ID_RDP_12S&quot;</span> <span class="ot">=</span> rdp12s_raw, <span class="st">&quot;ID_barque_COI&quot;</span> <span class="ot">=</span> barquecoi_raw, <span class="st">&quot;ID_barque_12S&quot;</span> <span class="ot">=</span> barque12s_raw)</span>
+<span id="cb33-30"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-30" tabindex="-1"></a></span>
+<span id="cb33-31"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-31" tabindex="-1"></a><span class="cf">for</span> (databases <span class="cf">in</span> list_db){</span>
+<span id="cb33-32"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-32" tabindex="-1"></a>  filtered <span class="ot">=</span> databases <span class="sc">%&gt;%</span> </span>
+<span id="cb33-33"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-33" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">if_any</span>(<span class="dv">1</span>, str_detect, <span class="fu">paste0</span>(species, <span class="at">collapse =</span> <span class="st">&#39;|&#39;</span>)))</span>
+<span id="cb33-34"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-34" tabindex="-1"></a>  <span class="fu">write.table</span>(filtered, <span class="at">file =</span> <span class="fu">paste</span>(path, <span class="st">&quot;/alberta_&quot;</span>, <span class="fu">names</span>(list_db)[i], <span class="st">&quot;.txt&quot;</span>, <span class="at">sep =</span><span class="st">&quot;&quot;</span>), <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb33-35"><a href="curating-databases-for-alberta-freshwater-fish.html#cb33-35" tabindex="-1"></a>} </span></code></pre></div>
+
 </div>
 <hr>
 <center>
@@ -237,7 +283,7 @@ the table of contents to find the page you are looking for.</p>
           </div>
         </div>
       </div>
-
+<a href="supplementary-workflow.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>
@@ -269,7 +315,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/karinevilleneuve/fish_eDNA/master/%s",
+"link": "https://github.com/karinevilleneuve/fish_eDNA/master/04_supplementary_data.Rmd",
 "text": "Edit"
 },
 "history": {

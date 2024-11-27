@@ -216,27 +216,3 @@ After a run, it is recommended to make a copy of this folder with some additiona
 cp -r 12_results 12_results_PROJECT_NAME_DATE_SOME_ADDITIONAL_INFO
 ``` 
 
-## Curating databases for Alberta freshwater fish {-}
-
-Using `seqkit` tool to filter databases in order to keep only sequences of freshwater fishes found in Alberta 
-
-seqkit grep -i -f ids.txt test.fa 
-
-```{bash, eval = FALSE}
-seqkit grep -nrf ID_barque_12S.txt barque_12S.fasta -o alberta_barque_12S.fasta
-seqkit grep -nrf ID_barque_COI.txt bold_coi_for_barque_2023-09-12.fasta -o alberta_barque_COI.fasta
-```
-
-For RDP 
-
-```{bash, eval = FALSE}
-sed -i 's/ /;/g' RDP_COI.fasta
-sed -i 's/ /;/g' ID_RDP_COI.txt
-seqkit grep -nrf ID_RDP_COI.txt RDP_COI.fasta -o alberta_RDP_COI.fasta
-
-sed -i 's/\t/;/g' 12S_rdp.fasta
-sed -i 's/\t/;/g' ID_RDP_12S.txt
-seqkit grep -nrf ID_RDP_12S.txt 12S_rdp.fasta -o alberta_RDP_12S.fasta
-```
-
-
