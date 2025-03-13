@@ -19,7 +19,7 @@ github-repo: rstudio/bookdown-demo
 
 ## Dataset {-}
 
-The dataset consists of 18 water samples obtained from rivers and lakes near oil-sands extraction sites in the province of Alberta, Canada. Water samples were filtered and DNA collected on the filters was extracted and sequenced. For each sample, two different marker genes were used to amplify and sequence distinct DNA regions : the 12S ribosomal RNA gene and the mitochondrial cytochrome oxidase subunit (COI). 
+The real data set consists of 18 water samples obtained from rivers and lakes near oil-sands extraction sites in the province of Alberta, Canada. Water samples were filtered and DNA collected on the filters was extracted and sequenced. For each sample, two different marker genes were used to amplify and sequence distinct DNA regions : the 12S ribosomal RNA gene and the mitochondrial cytochrome oxidase subunit I (COI). 
 
 ```{r, echo = FALSE, warning = FALSE}
 library(DT)

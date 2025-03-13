@@ -164,19 +164,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="processing-raw-fastq.html"><a href="processing-raw-fastq.html#barque"><i class="fa fa-check"></i>barque</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="taxonomic-classification.html"><a href="taxonomic-classification.html"><i class="fa fa-check"></i>Taxonomic classification</a></li>
-<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html"><i class="fa fa-check"></i>Evaluate performance of databases</a>
-<ul>
-<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#description"><i class="fa fa-check"></i>Description</a></li>
-<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#methods"><i class="fa fa-check"></i>Methods</a></li>
-<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#implementing-cvi-with-our-data"><i class="fa fa-check"></i>Implementing CVI with our data</a></li>
-<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#preformatting-the-databases"><i class="fa fa-check"></i>Preformatting the databases</a></li>
-<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#generate-benchmark-datasets"><i class="fa fa-check"></i>Generate benchmark datasets</a></li>
-<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#generate-predictions"><i class="fa fa-check"></i>Generate predictions</a>
-<ul>
-<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#vsearch"><i class="fa fa-check"></i>VSEARCH</a></li>
-<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#rdp"><i class="fa fa-check"></i>RDP</a></li>
-</ul></li>
-</ul></li>
 <li class="chapter" data-level="" data-path="generating-custom-database-of-the-12s-marker-gene.html"><a href="generating-custom-database-of-the-12s-marker-gene.html"><i class="fa fa-check"></i>Generating custom database of the 12S marker gene</a>
 <ul>
 <li class="chapter" data-level="" data-path="generating-custom-database-of-the-12s-marker-gene.html"><a href="generating-custom-database-of-the-12s-marker-gene.html#evaluate-resolution-blindspots"><i class="fa fa-check"></i>Evaluate resolution blindspots</a></li>
@@ -194,7 +181,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#curating-databases-for-distance-matrix"><i class="fa fa-check"></i>Curating databases for distance matrix</a>
 <ul>
-<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#rdp-1"><i class="fa fa-check"></i>RDP</a></li>
+<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#rdp"><i class="fa fa-check"></i>RDP</a></li>
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#barque-1"><i class="fa fa-check"></i>Barque</a></li>
 </ul></li>
 </ul></li>
@@ -219,12 +206,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1>Generating custom database<a href="generating-custom-database.html#generating-custom-database" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>To build the curated COI database I downloaded the complete COX1 sequences from NCBI. I then validated that our amplified region of interest was included in the downloaded sequences by using cutadapt, this step was especially important for fishes with only partial COX1 sequences.</p>
 <p>Notes. The reverse primer used below with CutAdapt corresponds to the RevComp of the actual reverse primer sequence (CARAARCTYATRTTRTTYATTCG).</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="generating-custom-database.html#cb30-1" tabindex="-1"></a><span class="ex">/usr/local/bin/cutadapt</span> <span class="at">--action</span><span class="op">=</span>mask <span class="at">-g</span> TATTTGGYGCYTGRGCCGGRATAG <span class="at">-o</span> trimF.fasta coi_alberta_curated.fasta <span class="at">--untrimmed-output</span> readswithnoforward.txt  <span class="at">-e</span> 0.2 </span>
-<span id="cb30-2"><a href="generating-custom-database.html#cb30-2" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="generating-custom-database.html#cb30-3" tabindex="-1"></a><span class="co"># Reverse primer</span></span>
-<span id="cb30-4"><a href="generating-custom-database.html#cb30-4" tabindex="-1"></a><span class="ex">/usr/local/bin/cutadapt</span> <span class="at">--action</span><span class="op">=</span>mask <span class="at">-a</span> CGAATRAAYAAYATRAGYTTYTG <span class="at">-o</span> trimFR.fasta  trimF.fasta <span class="at">--untrimmed-output</span> readswithnoReverse.txt <span class="at">-e</span> 0.3</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="generating-custom-database.html#cb20-1" tabindex="-1"></a><span class="ex">/usr/local/bin/cutadapt</span> <span class="at">--action</span><span class="op">=</span>mask <span class="at">-g</span> TATTTGGYGCYTGRGCCGGRATAG <span class="at">-o</span> trimF.fasta coi_alberta_curated.fasta <span class="at">--untrimmed-output</span> readswithnoforward.txt  <span class="at">-e</span> 0.2 </span>
+<span id="cb20-2"><a href="generating-custom-database.html#cb20-2" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="generating-custom-database.html#cb20-3" tabindex="-1"></a><span class="co"># Reverse primer</span></span>
+<span id="cb20-4"><a href="generating-custom-database.html#cb20-4" tabindex="-1"></a><span class="ex">/usr/local/bin/cutadapt</span> <span class="at">--action</span><span class="op">=</span>mask <span class="at">-a</span> CGAATRAAYAAYATRAGYTTYTG <span class="at">-o</span> trimFR.fasta  trimF.fasta <span class="at">--untrimmed-output</span> readswithnoReverse.txt <span class="at">-e</span> 0.3</span></code></pre></div>
 <p>To evaluate resolution blindspot between two or more taxa the trim FASTA was dereplicated using vsearch <code>derep_fulllength</code> and every sequences removed were evaluated by aligning them with MEGA11.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="generating-custom-database.html#cb31-1" tabindex="-1"></a><span class="ex">vsearch</span> <span class="at">--derep_fulllength</span> trimFR.fasta <span class="at">--output</span> coi_trimFR_derep.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="generating-custom-database.html#cb21-1" tabindex="-1"></a><span class="ex">vsearch</span> <span class="at">--derep_fulllength</span> trimFR.fasta <span class="at">--output</span> coi_trimFR_derep.fasta</span></code></pre></div>
 <p>See section <a href="Notes%20on%20resolution%20blindspot">Notes on resolution blindspot</a> for more details about which sequences were removed.</p>
 <p>::::::::::::::: vsearch Classifier for barque :::::::::::::::::</p>
 <ol style="list-style-type: decimal">
@@ -232,21 +219,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Rename file with shorter name</li>
 <li>gzip file</li>
 </ol>
-<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="generating-custom-database.html#cb32-1" tabindex="-1"></a><span class="fu">cp</span> /home/kvilleneuve/fish_edna/database/curatedcoi_db/coi_alberta_curated.fasta /home/kvilleneuve/fish_edna/code/barque/03_databases/</span>
-<span id="cb32-2"><a href="generating-custom-database.html#cb32-2" tabindex="-1"></a><span class="fu">mv</span> coi_alberta_curated.fasta coicuratedncbi.fasta</span>
-<span id="cb32-3"><a href="generating-custom-database.html#cb32-3" tabindex="-1"></a><span class="fu">gzip</span> coicuratedncbi.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="generating-custom-database.html#cb22-1" tabindex="-1"></a><span class="fu">cp</span> /home/kvilleneuve/fish_edna/database/curatedcoi_db/coi_alberta_curated.fasta /home/kvilleneuve/fish_edna/code/barque/03_databases/</span>
+<span id="cb22-2"><a href="generating-custom-database.html#cb22-2" tabindex="-1"></a><span class="fu">mv</span> coi_alberta_curated.fasta coicuratedncbi.fasta</span>
+<span id="cb22-3"><a href="generating-custom-database.html#cb22-3" tabindex="-1"></a><span class="fu">gzip</span> coicuratedncbi.fasta</span></code></pre></div>
 <p>::::::::::::::: RDP Classifier :::::::::::::::::</p>
 <p><strong>Prepare taxonomy file</strong></p>
 <ol style="list-style-type: decimal">
 <li>Extract sequence header using grep (2) Replace semi-colon with tab (3) remove <code>&gt;</code> (4) add header</li>
 </ol>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="generating-custom-database.html#cb33-1" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-e</span> <span class="st">&quot;&gt;&quot;</span> coi_alberta_curated.fasta <span class="op">&gt;</span> coi_header_4RDP.txt</span>
-<span id="cb33-2"><a href="generating-custom-database.html#cb33-2" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="generating-custom-database.html#cb33-3" tabindex="-1"></a><span class="co"># awk &#39;/^&gt;/{sub(&quot;&gt;&quot;, &quot;&gt;&quot;++i&quot;;&quot;)}1&#39; coi_NCBI_header.txt &gt; coi_header_4RDP.txt</span></span>
-<span id="cb33-4"><a href="generating-custom-database.html#cb33-4" tabindex="-1"></a><span class="co">#cp coi_NCBI_header.txt coi_header_4RDP.txt</span></span>
-<span id="cb33-5"><a href="generating-custom-database.html#cb33-5" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span>  <span class="st">&#39;s/;/\t/g&#39;</span> coi_header_4RDP.txt</span>
-<span id="cb33-6"><a href="generating-custom-database.html#cb33-6" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/&gt;//g&#39;</span> coi_header_4RDP.txt </span>
-<span id="cb33-7"><a href="generating-custom-database.html#cb33-7" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">$&#39;1 i</span><span class="dt">\\\n</span><span class="st">ID</span><span class="dt">\t</span><span class="st">cellularOrganisms</span><span class="dt">\t</span><span class="st">Superkingdom</span><span class="dt">\t</span><span class="st">Kingdom</span><span class="dt">\t</span><span class="st">Phylum</span><span class="dt">\t</span><span class="st">Class</span><span class="dt">\t</span><span class="st">Order</span><span class="dt">\t</span><span class="st">Family</span><span class="dt">\t</span><span class="st">Genus</span><span class="dt">\t</span><span class="st">Species&#39;</span> coi_header_4RDP.txt</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="generating-custom-database.html#cb23-1" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-e</span> <span class="st">&quot;&gt;&quot;</span> coi_alberta_curated.fasta <span class="op">&gt;</span> coi_header_4RDP.txt</span>
+<span id="cb23-2"><a href="generating-custom-database.html#cb23-2" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="generating-custom-database.html#cb23-3" tabindex="-1"></a><span class="co"># awk &#39;/^&gt;/{sub(&quot;&gt;&quot;, &quot;&gt;&quot;++i&quot;;&quot;)}1&#39; coi_NCBI_header.txt &gt; coi_header_4RDP.txt</span></span>
+<span id="cb23-4"><a href="generating-custom-database.html#cb23-4" tabindex="-1"></a><span class="co">#cp coi_NCBI_header.txt coi_header_4RDP.txt</span></span>
+<span id="cb23-5"><a href="generating-custom-database.html#cb23-5" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span>  <span class="st">&#39;s/;/\t/g&#39;</span> coi_header_4RDP.txt</span>
+<span id="cb23-6"><a href="generating-custom-database.html#cb23-6" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/&gt;//g&#39;</span> coi_header_4RDP.txt </span>
+<span id="cb23-7"><a href="generating-custom-database.html#cb23-7" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">$&#39;1 i</span><span class="dt">\\\n</span><span class="st">ID</span><span class="dt">\t</span><span class="st">cellularOrganisms</span><span class="dt">\t</span><span class="st">Superkingdom</span><span class="dt">\t</span><span class="st">Kingdom</span><span class="dt">\t</span><span class="st">Phylum</span><span class="dt">\t</span><span class="st">Class</span><span class="dt">\t</span><span class="st">Order</span><span class="dt">\t</span><span class="st">Family</span><span class="dt">\t</span><span class="st">Genus</span><span class="dt">\t</span><span class="st">Species&#39;</span> coi_header_4RDP.txt</span></code></pre></div>
 <p><strong>Prepare sequence file</strong></p>
 <p>The sequence file must be in fasta format and contain a unique identifier without any white space. The accession number makes a good identifier. Anything after the first white space is ignored. The following are acceptable:</p>
 <pre><code>&gt;DQ248313
@@ -254,14 +241,14 @@ ACGATTTTGACCCTTCGGGGTCGATCTCCAACCCTTT
 &gt;JF735302 k__Fungi;p__Ascomycota;c__Sordariomycetes;o__Hypocreales
 CCGAGTTTTCAACTCCCAAACCCCTGTGAACATACCA</code></pre>
 <p>Replace semi-colon with tab</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="generating-custom-database.html#cb35-1" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&#39;s/;/\t/g&#39;</span> coi_alberta_curated.fasta <span class="op">&gt;</span> coi_seq_4RDP.fasta</span>
-<span id="cb35-2"><a href="generating-custom-database.html#cb35-2" tabindex="-1"></a><span class="co">#cp coi_alberta_curated_derep_NCBI.fasta coi_seq_4RDP.fasta</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="generating-custom-database.html#cb25-1" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&#39;s/;/\t/g&#39;</span> coi_alberta_curated.fasta <span class="op">&gt;</span> coi_seq_4RDP.fasta</span>
+<span id="cb25-2"><a href="generating-custom-database.html#cb25-2" tabindex="-1"></a><span class="co">#cp coi_alberta_curated_derep_NCBI.fasta coi_seq_4RDP.fasta</span></span></code></pre></div>
 <p><strong>Train</strong></p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="generating-custom-database.html#cb36-1" tabindex="-1"></a><span class="ex">python2</span> lineage2taxTrain.py coi_header_4RDP.txt <span class="op">&gt;</span> ready4train_taxonomy.txt</span>
-<span id="cb36-2"><a href="generating-custom-database.html#cb36-2" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="generating-custom-database.html#cb36-3" tabindex="-1"></a><span class="ex">python2</span> addFullLineage.py coi_header_4RDP.txt coi_seq_4RDP.fasta <span class="op">&gt;</span> ready4train_seqs.fasta </span>
-<span id="cb36-4"><a href="generating-custom-database.html#cb36-4" tabindex="-1"></a></span>
-<span id="cb36-5"><a href="generating-custom-database.html#cb36-5" tabindex="-1"></a><span class="ex">java</span> <span class="at">-Xmx10g</span> <span class="at">-jar</span> ~/rdp_classifier_2.14/dist/classifier.jar train <span class="at">-o</span> COI_training_files <span class="at">-s</span> ready4train_seqs.fasta <span class="at">-t</span> ready4train_taxonomy.txt</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="generating-custom-database.html#cb26-1" tabindex="-1"></a><span class="ex">python2</span> lineage2taxTrain.py coi_header_4RDP.txt <span class="op">&gt;</span> ready4train_taxonomy.txt</span>
+<span id="cb26-2"><a href="generating-custom-database.html#cb26-2" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="generating-custom-database.html#cb26-3" tabindex="-1"></a><span class="ex">python2</span> addFullLineage.py coi_header_4RDP.txt coi_seq_4RDP.fasta <span class="op">&gt;</span> ready4train_seqs.fasta </span>
+<span id="cb26-4"><a href="generating-custom-database.html#cb26-4" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="generating-custom-database.html#cb26-5" tabindex="-1"></a><span class="ex">java</span> <span class="at">-Xmx10g</span> <span class="at">-jar</span> ~/rdp_classifier_2.14/dist/classifier.jar train <span class="at">-o</span> COI_training_files <span class="at">-s</span> ready4train_seqs.fasta <span class="at">-t</span> ready4train_taxonomy.txt</span></code></pre></div>
 <p>Output is a directory specified by the parameter -o which should contain the following files :</p>
 <ul>
 <li>bergeyTrainingTree.xml</li>
