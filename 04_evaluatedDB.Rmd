@@ -58,7 +58,7 @@ sed -i 's/\t/;/g' database.fasta
 
 2. Randomly select 10 sequences per species (COI databases only)
 
-```{bash = eval}
+```{bash, eval = FALSE}
 grep -e ">" coi_rdp_upp.fasta > coi_rdp_header.txt
 # Add unique sequence ID to BOLD database 
 awk '/^>/{sub(">", ">"++i"_")}1' coi_vsearch.fasta > coi_vsearchID.fasta
