@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Fish eDNA</title>
-  <meta name="description" content="Page not found | Fish eDNA" />
+  <title>Taxonomic classification | Fish eDNA</title>
+  <meta name="description" content="Taxonomic classification | Fish eDNA" />
   <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Fish eDNA" />
+  <meta property="og:title" content="Taxonomic classification | Fish eDNA" />
   <meta property="og:type" content="book" />
   
   
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Fish eDNA" />
+  <meta name="twitter:title" content="Taxonomic classification | Fish eDNA" />
   
   
   
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-
+<link rel="prev" href="processing-raw-fastq.html"/>
+<link rel="next" href="evaluate-performance-of-databases.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -222,11 +222,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="taxonomic-classification" class="section level1 unnumbered hasAnchor">
+<h1>Taxonomic classification<a href="taxonomic-classification.html#taxonomic-classification" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>RDP classifer to assign taxonomy to 12S ASVs from 12S fish classifier <a href="https://github.com/terrimporter/12SfishClassifier/tree/v1.0.1" class="uri">https://github.com/terrimporter/12SfishClassifier/tree/v1.0.1</a></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="taxonomic-classification.html#cb5-1" tabindex="-1"></a><span class="ex">java</span> <span class="at">-Xmx1g</span> <span class="at">-jar</span> ~/rdp_classifier_2.14/dist/classifier.jar classify <span class="at">-t</span> /home/kvilleneuve/fish_edna/database/12Sfishclassifier/mydata_trained/rRNAClassifier.properties <span class="at">-o</span> /home/kvilleneuve/fish_edna/outputs/workflow_output/12s_dada2_rdpraw_annotation.out <span class="at">-q</span> /home/kvilleneuve/fish_edna/outputs/workflow_output/12s_dada2_biostring4annotation.fna</span></code></pre></div>
+<p>RDP classifier with curated database</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="taxonomic-classification.html#cb6-1" tabindex="-1"></a><span class="ex">java</span> <span class="at">-Xmx1g</span> <span class="at">-jar</span> ~/rdp_classifier_2.14/dist/classifier.jar classify <span class="at">-t</span> /home/kvilleneuve/fish_edna/database/curated12s_db/12s_training_files/rRNAClassifier.properties <span class="at">-o</span> /home/kvilleneuve/fish_edna/outputs/workflow_output/12s_dada2_rdpcur_annotation.out <span class="at">-q</span> /home/kvilleneuve/fish_edna/outputs/workflow_output/12s_dada2_biostring4annotation.fna</span></code></pre></div>
+<p>Annotate using Vsearch</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="taxonomic-classification.html#cb7-1" tabindex="-1"></a><span class="co"># :::::::::::::::: 12S :::::::::::::::::::</span></span>
+<span id="cb7-2"><a href="taxonomic-classification.html#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="taxonomic-classification.html#cb7-3" tabindex="-1"></a><span class="co"># Curated 12SDB</span></span>
+<span id="cb7-4"><a href="taxonomic-classification.html#cb7-4" tabindex="-1"></a><span class="ex">vsearch</span> <span class="at">--usearch_global</span> /home/kvilleneuve/fish_edna/results/12s_dada2_biostring4annotation.fna <span class="at">-db</span> /home/kvilleneuve/fish_edna/database/curated_database/12s_alberta_curated_combined_derep.fasta <span class="at">--blast6out</span> /home/kvilleneuve/fish_edna/results/12s_dada2_vsearch_cur_annotation.out <span class="at">--top_hits_only</span> <span class="at">--notrunclabels</span> <span class="at">--id</span> 0.70 <span class="at">--id</span> 0.70 <span class="at">--maxaccepts</span> 0 <span class="at">--maxrejects</span> 0</span>
+<span id="cb7-5"><a href="taxonomic-classification.html#cb7-5" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="taxonomic-classification.html#cb7-6" tabindex="-1"></a><span class="co"># Raw DB </span></span>
+<span id="cb7-7"><a href="taxonomic-classification.html#cb7-7" tabindex="-1"></a><span class="ex">vsearch</span> <span class="at">--usearch_global</span> /home/kvilleneuve/fish_edna/results/12s_dada2_biostring4annotation.fna <span class="at">-db</span> /home/kvilleneuve/fish_edna/database/12Sfishclassifier/mydata_training/12S_rdp.fasta <span class="at">--blast6out</span>  /home/kvilleneuve/fish_edna/results/12s_dada2_vsearch_raw_annotation.out <span class="at">--dbmatched</span> /home/kvilleneuve/fish_edna/results/12s_dada2_vsearch_raw_match.fasta <span class="at">--alnout</span> /home/kvilleneuve/fish_edna/results/12s_dada2_vsearch_raw_test.out <span class="at">--top_hits_only</span> <span class="at">--notrunclabels</span> <span class="at">--id</span> 0.70 <span class="at">--maxaccepts</span> 0 <span class="at">--maxrejects</span> 0</span>
+<span id="cb7-8"><a href="taxonomic-classification.html#cb7-8" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="taxonomic-classification.html#cb7-9" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="taxonomic-classification.html#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="taxonomic-classification.html#cb7-11" tabindex="-1"></a><span class="co"># :::::::::::::::: COI ::::::::::::::::::::</span></span>
+<span id="cb7-12"><a href="taxonomic-classification.html#cb7-12" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="taxonomic-classification.html#cb7-13" tabindex="-1"></a><span class="ex">vsearch</span> <span class="at">--usearch_global</span> /home/kvilleneuve/fish_edna/results/coi_dada2_biostring4annotation.fna <span class="at">-db</span> /home/kvilleneuve/fish_edna/database/curated_database/coi/coi_alberta_curated_combined_derep.fasta <span class="at">--blast6out</span>  /home/kvilleneuve/fish_edna/results/curated_db/coi_dada2_vsearch_curated.out <span class="at">--top_hits_only</span> <span class="at">--notrunclabels</span> <span class="at">--id</span> 0.70 <span class="at">--maxaccepts</span> 0 <span class="at">--maxrejects</span> 0</span>
+<span id="cb7-14"><a href="taxonomic-classification.html#cb7-14" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="taxonomic-classification.html#cb7-15" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="taxonomic-classification.html#cb7-16" tabindex="-1"></a><span class="ex">vsearch</span> <span class="at">--usearch_global</span> /home/kvilleneuve/fish_edna/results/coi_dada2_biostring4annotation.fna <span class="at">-db</span> /home/kvilleneuve/fish_edna/database/curated_database/coi/alberta_curated_combinedCOI.fasta <span class="at">--blast6out</span>  /home/kvilleneuve/fish_edna/results/curated_db/coi_dada2_vsearch_curated.out <span class="at">--top_hits_only</span> <span class="at">--notrunclabels</span> <span class="at">--id</span> 0.70 <span class="at">--maxaccepts</span> 0 <span class="at">--maxrejects</span> 0</span>
+<span id="cb7-17"><a href="taxonomic-classification.html#cb7-17" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="taxonomic-classification.html#cb7-18" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="taxonomic-classification.html#cb7-19" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="taxonomic-classification.html#cb7-20" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="taxonomic-classification.html#cb7-21" tabindex="-1"></a><span class="co"># Trying vsearch with the untrained RDP databases</span></span>
+<span id="cb7-22"><a href="taxonomic-classification.html#cb7-22" tabindex="-1"></a><span class="ex">vsearch</span> <span class="at">--usearch_global</span> /home/kvilleneuve/fish_edna/results/coi_dada2_biostring4annotation.fna <span class="at">-db</span> /home/kvilleneuve/fish_edna/database/raw_db/RDP_COI.fasta <span class="at">--blast6out</span> /home/kvilleneuve/fish_edna/results/curated_db/coi_dada2_vsearch_rdpraw.out <span class="at">--top_hits_only</span> <span class="at">--notrunclabels</span> <span class="at">--id</span> 0.70 <span class="at">--maxaccepts</span> 0 <span class="at">--maxrejects</span> 0</span></code></pre></div>
+
 </div>
 <hr>
 <center>
@@ -254,8 +279,8 @@ the table of contents to find the page you are looking for.</p>
           </div>
         </div>
       </div>
-
-
+<a href="processing-raw-fastq.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="evaluate-performance-of-databases.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -286,7 +311,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/karinevilleneuve/fish_eDNA/master/%s",
+"link": "https://github.com/karinevilleneuve/fish_eDNA/master/03_classification.Rmd",
 "text": "Edit"
 },
 "history": {

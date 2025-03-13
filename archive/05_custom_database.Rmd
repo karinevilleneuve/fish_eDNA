@@ -1,0 +1,396 @@
+# Generating custom database {-}
+
+Steps overview 
+
+1. Extract sequence header
+2. Keep only sequence header of fish found in Alberta 
+3. Curate database using the curated sequence names 
+4. Modify sequence header to include all ranks (specific to barque databases)
+5. Ensure consistent higher ranks for all species across the different databases 
+6. Replace header in fasta with modified sequence header containing all ranks
+7. Use list of sequence header corresponding to freshwater fishes found in Alberta to extract sequence from original fasta
+8. Combine fasta of same marker genes from different database 
+9. Add missing sequences 
+10. Tim (?) 
+11. Dereplicate 
+9. Prepare databases for each classifier   
+
+1. Extract sequence header 
+
+Input file - 4 databases (fasta file) : 
+
+- 12S_rdp.fasta
+- RDP_COI.fasta
+- barque_12S.fasta
+- bold_coi_for_barque_2023-09-12.fasta 
+
+Output file : for each database a text file containing only the sequence headers 
+
+```{bash, eval = FALSE}
+for i in *.fasta ; do grep -e ">" $i > header_${i%%.*}.txt ; done 
+```
+
+2. Curate sequence header
+
+- Input file : Sequence header text files generated at step 1 
+- Output : for each database a text file containing only the sequence header of fish found in list of Alberta fish
+
+```{r, eval = FALSE}
+### ------------------------- Load the libraries -------------------------------------------------- #### 
+
+library(dplyr)
+library(stringr)
+library(tidyr)
+
+### ------------------------- Save path for output -------------------------------------------------- #### 
+
+path = "/home/kvilleneuve/fish_edna/database"
+
+### ------------------------- Load list of Alberta freshwater fish -------------------------------------------------- #### 
+
+
+alberta_fish = read.csv("/home/kvilleneuve/fish_edna/database/fishbase_alberta_with_missing.csv", header = TRUE, check.names = FALSE)
+species = gsub(" ", "_", alberta_fish$Species) # Replace space with underscore 
+
+### ------------------------- Load database sequence header -------------------------------------------------- #### 
+
+# I am intentionally specifying the wrong separator because I don't want to separate the columns yet
+
+## RDP classifier ## 
+rdp12s_raw = read.table("/home/kvilleneuve/fish_edna/database/header_rdp_12S.txt", sep = ",")
+rdpcoi_raw = read.table("/home/kvilleneuve/fish_edna/database/header_rdp_coi.txt", sep = ",")
+
+## barque ##
+barque12s_raw = read.table("/home/kvilleneuve/fish_edna/database/header_barque_12S.txt", sep = ",")
+barquecoi_raw = read.table("/home/kvilleneuve/fish_edna/database/header_bold_coi_barque.txt",  sep = ",")
+
+# Combine into single list
+list_db = list("ID_RDP_COI" = rdpcoi_raw, "ID_RDP_12S" = rdp12s_raw, "ID_barque_COI" = barquecoi_raw, "ID_barque_12S" = barque12s_raw)
+
+# Use string detect to select species found in list of Alberta fish and save output 
+for (databases in list_db){
+  filtered = databases %>% 
+    filter(if_any(1, str_detect, paste0(species, collapse = '|')))
+  write.table(filtered, file = paste(path, "/alberta_ID_", names(list_db)[i], ".txt", sep =""), quote = FALSE, row.names = FALSE, col.names = FALSE)
+} 
+
+```
+
+3. Curate databases to keep only Alberta freshwater fish
+
+Use `seqkit` tool to filter databases in order to keep only sequences of freshwater fishes found in Alberta using list of ID generated for each database. 
+
+For barque
+```{bash, eval = FALSE}
+seqkit grep -nrf alberta_ID_barque_12S.txt barque_12S.fasta -o alberta_curated_barque_12S.fasta
+seqkit grep -nrf alberta_ID_barque_COI.txt bold_coi_for_barque_2023-09-12.fasta -o alberta_curated_barque_COI.fasta
+``` 
+
+For RDP
+```{bash, eval = FALSE}
+sed -i 's/ /;/g' RDP_COI.fasta
+sed -i 's/ /;/g' alberta_ID_RDP_COI.txt
+seqkit grep -nrf alberta_ID_RDP_COI.txt RDP_COI.fasta -o alberta_curated_RDP_COI.fasta
+
+sed -i 's/\t/;/g' 12S_rdp.fasta
+sed -i 's/\t/;/g' alberta_ID_RDP_12S.txt
+seqkit grep -nrf alberta_ID_RDP_12S.txt 12S_rdp.fasta -o alberta_curated_RDP_12S.fasta
+```
+
+4. Modify sequence header to include all ranks ; and 
+5. Ensure consistent higher ranks for all species across the different databases 
+
+```{r, eval = FALSE}
+### ------------------------- Load the libraries -------------------------------------------------- #### 
+
+library(glue)
+library(dplyr)
+library(stringr)
+library(tidyr)
+
+### ------------------------- Load Alberta fish list -------------------------------------------------- #### 
+
+# Define path 
+
+path = "/home/kvilleneuve/fish_edna/database"
+
+alberta_fish = read.csv(glue("{path}/fishbase_alberta_with_missing.csv"), header = TRUE, check.names = FALSE)
+
+### ------------------------- Load database sequence header -------------------------------------------------- #### 
+
+# I want to combine together the curated database from similar marker genes (12S and COI). 
+# The format of the sequence header differs between the different database, notably, not all higher ranks are included in the barque databases.  
+
+raw_barque12s = read.table(glue("{path}/alberta_ID_barque_12S.txt"), sep = "_")
+raw_barquecoi = read.table(glue("{path}/alberta_ID_barque_COI.txt"), sep = "_")
+
+raw_rdp12s = read.table(glue("{path}/alberta_ID_RDP_12S.txt"), sep = ";")
+raw_rdpcoi = read.table(glue("{path}/alberta_ID_RDP_COI.txt"), sep = ";")
+
+### ------------------------- Parse database and fill missing ranks -------------------------------------------------- #### 
+
+# Parsing RDP and barque databases separately 
+
+raw_rdp_list = list("raw_rdp12s" = raw_rdp12s, "raw_rdpcoi" = raw_rdpcoi)
+list_unique_rdp = list()
+i = 0 
+
+for (df in raw_rdp_list){
+  i = i + 1
+  names(df) = c("ID", "Cellular_organism","Superkingdom", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
+  df = select(df, -c("ID"))
+  unique_df = df[!duplicated(df), ]
+  list_unique_rdp[[i]] = unique_df
+  names(list_unique_rdp)[i] = names(raw_rdp_list[i])
+}
+
+raw_barque_list = list("raw_barque12s" = raw_barque12s, "raw_barquecoi" = raw_barquecoi)
+list_unique_barque = list()
+i = 0 
+
+for (df in raw_barque_list){
+  i = i + 1
+  names(df) = c("Family", "Genus", "epithet")
+  df$Species = paste(df$Genus, df$epithet, sep = "_")
+  df = select(df, -c("epithet"))
+  unique_df = df[!duplicated(df), ]
+  list_unique_barque[[i]] = unique_df
+  names(list_unique_barque)[i] = names(raw_barque_list[i])
+}
+
+# ::::: Marker gene 12S ::::: #
+
+# Combine both 12S databases
+combined_12s = merge(list_unique_rdp$raw_rdp12s, list_unique_barque$raw_barque12s, by = "Species", all = TRUE, suffixes = c(x = "", y = ".barque"))
+
+# Fill missing ranks 
+combined_12s$Family = ifelse(is.na(combined_12s$Family), combined_12s$Family.barque, combined_12s$Family)
+combined_12s$Genus = ifelse(is.na(combined_12s$Genus), combined_12s$Genus.barque, combined_12s$Genus)  
+combined_12s =   combined_12s %>%
+  group_by(Family) %>% 
+  fill(Order, .direction = 'downup') %>%
+  fill(Class, .direction = 'downup') %>%
+  fill(Cellular_organism, .direction = 'downup') %>%
+  ungroup()
+
+combined_12s$Cellular_organism = "cellularOrganisms"
+combined_12s$Superkingdom = "Eukaryota"
+combined_12s$Kingdom = "Metazoa"
+combined_12s$Phylum = "Chordata"
+combined_12s$Class = "Actinopteri"
+
+# Remove columns we don't need anymore 
+combined_12s = select(combined_12s, -c("Family.barque", "Genus.barque"))
+
+# Validate if any rows still have missing values 
+unique(combined_12s[!complete.cases(combined_12s), ]) # 2 entries 
+# [1] Noturus_flavus
+# [2] Percopsis_omiscomaycus
+
+# Add rank information for these species 
+combined_12s$Order = ifelse(combined_12s$Species == "Noturus_flavus", "Siluriformes", combined_12s$Order)
+combined_12s$Order = ifelse(combined_12s$Species == "Percopsis_omiscomaycus", "Percopsiformes", combined_12s$Order)
+
+# Sanity check to validate there are no more missing values 
+unique(combined_12s[!complete.cases(combined_12s), ]) 
+# 0 entries 
+
+## -- Generate tabular text file to replace sequence header -- ##
+
+# Reorder columns to place species column at the end
+combined_12s = combined_12s[c(2:ncol(combined_12s),1)]
+# Combine together all columns to generate new names for the sequence header. 
+combined_12s$new_name = apply(combined_12s, 1, paste0, collapse =";")
+# Create column with the inital sequence header in the barque database
+raw_barque12s$initial_name = apply(raw_barque12s, 1, paste0, collapse ="_")
+# Create Species column to merge with generated dataframe 
+raw_barque12s$Species = paste(raw_barque12s$V2, raw_barque12s$V3, sep = "_")
+# Merge with dataframe
+barque_full_rank = merge(raw_barque12s, combined_12s, by = "Species")
+# Select only columns of interest 
+final_barque12s_df = select(barque_full_rank, c("initial_name", "new_name"))
+# Save table 
+write.table(final_barque12s_df, "/home/kvilleneuve/fish_edna/database/alberta_newID_barque_12S.txt", sep = "\t", col.names = FALSE, row.names = FALSE, quote = FALSE)
+
+# ::::: Marker gene cOI ::::: # 
+
+# Combine both COI databases
+combined_coi = merge(list_unique_rdp$raw_rdpcoi , list_unique_barque$raw_barquecoi, by = "Species", all = TRUE, suffixes = c(x = "", y = ".barque"))
+
+# Fill missing ranks 
+combined_coi$Family = ifelse(is.na(combined_coi$Family), combined_coi$Family.barque, combined_coi$Family)
+combined_coi$Genus = ifelse(is.na(combined_coi$Genus), combined_coi$Genus.barque, combined_coi$Genus)
+combined_coi =   combined_coi %>%
+  group_by(Family) %>% 
+  fill(Order, .direction = 'downup') %>%
+  fill(Class, .direction = 'downup') %>%
+  fill(Cellular_organism, .direction = 'downup') %>%
+  ungroup()
+
+combined_coi$Cellular_organism = "cellularOrganisms"
+combined_coi$Superkingdom = "Eukaryota"
+combined_coi$Kingdom = "Metazoa"
+combined_coi$Phylum = "Chordata"
+combined_coi$Class = "Actinopteri"
+
+# Remove columns we don't need anymore 
+combined_coi = select(combined_coi, -c("Family.barque", "Genus.barque"))
+
+# Validate if any rows still have missing values 
+unique(combined_coi[!complete.cases(combined_coi), ]) # 0 entries 
+
+## -- Generate tabular text file to replace sequence header -- ##
+
+# Reorder columns to place species column at the end
+combined_coi = combined_coi[c(2:ncol(combined_coi),1)]
+# Combine together all columns to generate new names for the sequence header. 
+combined_coi$new_name = apply(combined_coi, 1, paste0, collapse =";")
+# Create column with the initial sequence header in the barque database
+raw_barquecoi$initial_name = apply(raw_barquecoi, 1, paste0, collapse ="_")
+# Create Species column to merge with generated data frame 
+raw_barquecoi$Species = paste(raw_barquecoi$V2, raw_barquecoi$V3, sep = "_")
+# Merge with data frame
+barque_full_rank = merge(raw_barquecoi, combined_coi, by = "Species")
+# Select only columns of interest 
+final_barqueCOI_df = select(barque_full_rank, c("initial_name", "new_name"))
+# Remove duplicate rows 
+final_barqueCOI_df = final_barqueCOI_df[!duplicated(final_barqueCOI_df), ]
+# Save table 
+write.table(final_barqueCOI_df, "/home/kvilleneuve/fish_edna/database/alberta_newID_barque_12S.txt", sep = "\t", col.names = FALSE, row.names = FALSE, quote = FALSE)
+```
+
+The generated text files can be use to replace the sequence headers for the barque databases 
+
+6. Replace header in fasta with modified sequence header containing all ranks
+
+```{bash, eval = FALSE}
+# 12S 
+seqkit replace -p '(.+)' -r ' {kv}' -k alberta_newID_barque_12S.txt alberta_curated_barque_12S.fasta > alberta_curatednewname_barque_12S.fasta
+# COI 
+seqkit replace -p '(.+)' -r ' {kv}' -k alberta_newID_barque_COI.txt alberta_curated_barque_COI.fasta > alberta_curatednewname_barque_COI.fasta
+```
+
+7. Combine fasta 
+
+Add unique ID to the begging of every sequence header from the barque databases and remove generated white space
+
+```{bash, eval = FALSE}
+# 12S 
+awk '/^>/{sub(">", ">"++i"")}1' alberta_curatednewname_barque_12S.fasta > alberta_curatednewnameID_barque_12s.fasta
+sed -i 's/ //g' alberta_curatednewnameID_barque_12s.fasta
+# COI
+awk '/^>/{sub(">", ">"++i"")}1' alberta_curatednewname_barque_COI.fasta > alberta_curatednewnameID_barque_COI.fasta
+sed -i 's/ //g' alberta_curatednewnameID_barque_COI.fasta
+```
+
+Use `cat` to combine databases from the same marker genes and any missing sequence if applicable 
+
+Here, some sequence were missing in the 12S databases. Missing sequences were downloaded from NCBI then combined using `cat`. Sequence header were manually modified to include all ranks.
+
+```{bash}
+# 12S 
+cat alberta_curatednewnameID_barque_12s.fasta alberta_curated_RDP_12S.fasta 12S_missing_sequences.fasta >  12s_alberta_curated_combined.fasta
+# COI
+cat alberta_curateduppercase_RDP_COI.fasta alberta_curatednewnameID_barque_COI.fasta > alberta_curated_combinedCOI.fasta
+```
+
+Petromyzontiformes were classified as Class Hyperoartia in the RDP database and Actinopteri in the barque database. Decided to go with class Actinopteri. 
+```{bash}
+sed -i 's/Hyperoartia/Actinopteri/g' alberta_curated_combinedCOI.fasta 
+```
+
+9. TRIM sequences 
+
+Sequences from the RDP databases are longer than our target sequence and include primers used to amplify and sequence our target sequence. Cutadpt was used to remove primers and any nucleotide before / after (primers are removed separately)
+
+```{bash, eval = FALSE}
+# Forward primer 
+/home/kvilleneuve/anaconda/envs/cutadapt/bin/cutadapt -g CCGGTAAAACTCGTGCCAGC -o 12s_alberta_curated_combined_partialtrim.fasta 12s_alberta_curated_combined.fasta
+# Reverse primer
+/home/kvilleneuve/anaconda/envs/cutadapt/bin/cutadapt -a CAAACTGGGATTAGATACCCCACTATG -o 12s_alberta_curated_combined_trim.fasta  12s_alberta_curated_combined_partialtrim.fasta
+```
+
+9. Dereplicate 
+
+```{bash, eval = FALSE}
+vsearch --derep_fulllength 12s_alberta_curated_combined_trim.fasta --output 12s_alberta_curated_combined_trim_derep.fasta
+vsearch --derep_fulllength 12s_alberta_curated_combined.fasta --output 12s_alberta_curated_combined_derep.fasta
+```
+
+
+grep -e ">" 12s_alberta_curated_combined_trim_derep.fasta > header_trim_derep.txt
+grep -e ">" 12s_alberta_curated_combined_derep.fasta > header_notrim_derep.txt
+ 
+10. Prepare databases 
+
+::::::::::::::: vsearch Classifier for barque :::::::::::::::::
+
+(1) Copy the curate database to folder `03_database` in the barque directory
+(2) Rename file with shorter name
+(3) Replace semi-colon to underscore 
+(4) gzip file 
+
+```{bash}
+cp /home/kvilleneuve/fish_edna/database/curated_database/alberta_curated_combinedCOI.fasta /home/kvilleneuve/fish_edna/code/barque/03_databases/coialbcur.fasta
+sed -i 's/;/_/g' coialbcur.fasta
+gzip coialbcur.fasta
+```
+
+::::::::::::::: RDP Classifier :::::::::::::::::
+
+**Prepare taxonomy file**
+
+(1) Extract sequence header using grep (2) Replace semi-colon with tab (3) remove > 
+```{bash}
+grep -e ">" alberta_curated_combinedCOI.fasta > COItrainheader.txt
+sed -i 's/;/\t/g' COItrainheader.txt
+sed -i 's/>//g' COItrainheader.txt 
+````
+
+Add header 
+```{bash}
+sed -i $'1 i\\\nID\tcellularOrganisms\tSuperkingdom\tKingdom\tPhylum\tClass\tOrder\tFamily\tGenus\tSpecies' COItrainheader.txt
+```
+
+**Prepare sequence file**
+
+```{bash}
+sed -i 's/;/\t/g' alberta_curated_combinedCOI.fasta
+```
+
+**Train**
+```{bash}
+python2 lineage2taxTrain.py COItrainheader.txt > COIready4train_tax.txt
+python2 addFullLineage.py COItrainheader.txt alberta_curated_combinedCOI.fasta > COIready4train_seqs.fasta 
+
+java -Xmx10g -jar ~/rdp_classifier_2.14/dist/classifier.jar train -o COI_training_files -s COIready4train_seqs.fasta -t COIready4train_tax.txt
+``` 
+
+Output is a directory specified by the parameter -o which should contain the following files :
+
+- bergeyTrainingTree.xml
+- genus_wordConditionalProbList.txt
+- logWordPrior.txt
+- wordConditionalProbIndexArr.txt
+
+Move into this newly created directory and create the file rRNAClassifier.properties with the following text :
+``` 
+# Sample ResourceBundle properties file
+bergeyTree=bergeyTrainingTree.xml
+
+probabilityList=genus_wordConditionalProbList.txt
+
+probabilityIndex=wordConditionalProbIndexArr.txt
+
+wordPrior=logWordPrior.txt
+
+classifierVersion=RDP Naive Bayesian rRNA Classifier Version 2.14
+```
+```{bash}
+rdp_classifier -Xmx10g classify -t /home/kvilleneuve/fish_edna/database/curated_database/COI_training_files/rRNAClassifier.properties -q /home/kvilleneuve/fish_edna/results/01_dada2_COI_biostring.fna -o /home/kvilleneuve/fish_edna/results/COI_dada2_rdp_curated.out 
+``` 
+
+
+
+
+

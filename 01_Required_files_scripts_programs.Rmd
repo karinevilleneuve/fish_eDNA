@@ -18,7 +18,7 @@
 
 ## Databases {-}
 
-The following databases can be downloaded be following the hyperlinks. 
+The following databases can be downloaded with following the hyperlinks. 
 
 - [COI formatted for Barque](https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/)
 - [Eukaryote CO1 Classifier for RDP V5.1](https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0) 

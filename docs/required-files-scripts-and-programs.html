@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Required files, scripts and programs | Fish eDNA</title>
   <meta name="description" content="Required files, scripts and programs | Fish eDNA" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Required files, scripts and programs | Fish eDNA" />
   <meta property="og:type" content="book" />
@@ -29,7 +29,7 @@
   
   
 <link rel="prev" href="index.html"/>
-<link rel="next" href="taxonomy-cross-validation-by-identity-taxxi.html"/>
+<link rel="next" href="processing-raw-fastq.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -63,7 +63,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -73,7 +73,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -151,6 +151,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#alberta-fishes"><i class="fa fa-check"></i>Alberta fishes</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#methods-and-their-associated-available-databases"><i class="fa fa-check"></i>Methods and their associated available databases</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#representation-of-alberta-freshwater-fishes-in-databases"><i class="fa fa-check"></i>Representation of Alberta freshwater fishes in databases</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#notes-on-otus-vs-asvs"><i class="fa fa-check"></i>Notes on OTUs vs ASVs</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html"><i class="fa fa-check"></i>Required files, scripts and programs</a>
 <ul>
@@ -158,12 +159,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html#databases"><i class="fa fa-check"></i>Databases</a></li>
 <li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html#scripts"><i class="fa fa-check"></i>Scripts</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="processing-raw-fastq.html"><a href="processing-raw-fastq.html"><i class="fa fa-check"></i>Processing raw fastq</a>
+<ul>
+<li class="chapter" data-level="" data-path="processing-raw-fastq.html"><a href="processing-raw-fastq.html#dada2"><i class="fa fa-check"></i>DADA2</a></li>
+<li class="chapter" data-level="" data-path="processing-raw-fastq.html"><a href="processing-raw-fastq.html#barque"><i class="fa fa-check"></i>barque</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="taxonomic-classification.html"><a href="taxonomic-classification.html"><i class="fa fa-check"></i>Taxonomic classification</a></li>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html"><i class="fa fa-check"></i>Evaluate performance of databases</a>
+<ul>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#description"><i class="fa fa-check"></i>Description</a></li>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#methods"><i class="fa fa-check"></i>Methods</a></li>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#implementing-cvi-with-our-data"><i class="fa fa-check"></i>Implementing CVI with our data</a></li>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#generate-benchmark-datasets"><i class="fa fa-check"></i>Generate benchmark datasets</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html"><i class="fa fa-check"></i>Taxonomy cross validation by identity (TAXXI)</a>
 <ul>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#description"><i class="fa fa-check"></i>Description</a></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#methods"><i class="fa fa-check"></i>Methods</a></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#implementing-cvi-with-our-data"><i class="fa fa-check"></i>Implementing CVI with our data</a></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-benchmark-datasets"><i class="fa fa-check"></i>Generate benchmark datasets</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#description-1"><i class="fa fa-check"></i>Description</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#methods-1"><i class="fa fa-check"></i>Methods</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#implementing-cvi-with-our-data-1"><i class="fa fa-check"></i>Implementing CVI with our data</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-benchmark-datasets-1"><i class="fa fa-check"></i>Generate benchmark datasets</a></li>
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions"><i class="fa fa-check"></i>Generate predictions</a>
 <ul>
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#rdp-classifier"><i class="fa fa-check"></i>RDP Classifier</a></li>
@@ -174,20 +188,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#script-to-evaluate-prediction"><i class="fa fa-check"></i>Script to evaluate prediction</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="generating-custom-database-of-the-12s-marker-gene.html"><a href="generating-custom-database-of-the-12s-marker-gene.html"><i class="fa fa-check"></i>Generating custom database of the 12S marker gene</a>
+<ul>
+<li class="chapter" data-level="" data-path="generating-custom-database-of-the-12s-marker-gene.html"><a href="generating-custom-database-of-the-12s-marker-gene.html#evaluate-resolution-blindspots"><i class="fa fa-check"></i>Evaluate resolution blindspots</a></li>
+<li class="chapter" data-level="" data-path="generating-custom-database-of-the-12s-marker-gene.html"><a href="generating-custom-database-of-the-12s-marker-gene.html#notes-on-resolution-blindspot"><i class="fa fa-check"></i>Notes on resolution blindspot</a></li>
+<li class="chapter" data-level="" data-path="generating-custom-database-of-the-12s-marker-gene.html"><a href="generating-custom-database-of-the-12s-marker-gene.html#assessing-hybrids"><i class="fa fa-check"></i>Assessing hybrids</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="generating-custom-database.html"><a href="generating-custom-database.html"><i class="fa fa-check"></i>Generating custom database</a></li>
+<li class="chapter" data-level="" data-path="generating-mock-communities.html"><a href="generating-mock-communities.html"><i class="fa fa-check"></i>Generating mock communities</a></li>
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html"><i class="fa fa-check"></i>Supplementary workflow</a>
 <ul>
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#curating-databases-for-distance-matrix"><i class="fa fa-check"></i>Curating databases for distance matrix</a>
 <ul>
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#rdp"><i class="fa fa-check"></i>RDP</a></li>
-<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#barque"><i class="fa fa-check"></i>Barque</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#worklow-used"><i class="fa fa-check"></i>Worklow used</a>
-<ul>
-<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#dada2"><i class="fa fa-check"></i>DADA2</a></li>
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#barque-1"><i class="fa fa-check"></i>Barque</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="curating-databases-for-alberta-freshwater-fish.html"><a href="curating-databases-for-alberta-freshwater-fish.html"><i class="fa fa-check"></i>Curating databases for Alberta freshwater fish</a></li>
+<li class="chapter" data-level="" data-path="random-subsample-10-sequences.html"><a href="random-subsample-10-sequences.html"><i class="fa fa-check"></i>Random subsample 10 sequences</a></li>
 </ul>
 
       </nav>
@@ -232,7 +249,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="databases" class="section level2 unnumbered hasAnchor">
 <h2>Databases<a href="required-files-scripts-and-programs.html#databases" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The following databases can be downloaded be following the hyperlinks.</p>
+<p>The following databases can be downloaded with following the hyperlinks.</p>
 <ul>
 <li><a href="https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/">COI formatted for Barque</a></li>
 <li><a href="https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0">Eukaryote CO1 Classifier for RDP V5.1</a></li>
@@ -277,7 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="taxonomy-cross-validation-by-identity-taxxi.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="processing-raw-fastq.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -328,6 +345,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

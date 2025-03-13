@@ -1,0 +1,320 @@
+# Generating mock communities {-}
+
+Using the article by Morney et al. we identified 16 species we believed to be good candidate to include in the mock communities. Four types of mock communities were designed : 
+
+16 species - normalized abundance (richness + / evenness +)
+16 species - non-normalized  (richness + / evenness -) 
+8 species - normalized abundance (richness - / evenness +) 
+8 species - normalized abundance (richness - / evenness -) 
+
+To generate the low richness communities, 8 species were randomly selected from the 16 species. 
+
+Required libraries 
+```{r, eval=FALSE}
+library(dplyr)
+library(stringr)
+library(phyloseq)
+```
+
+Generate and load required files (list of fishes and databases sequence headers)
+```{r, eval=FALSE}
+rich_plus = c("Salvelinus_fontinalis","Oncorhynchus_mykiss","Lota_lota","Culaea_inconstans","Thymallus_arcticus","Perca_flavescens","Coregonus_clupeaformis","Prosopium_williamsoni","Salmo_trutta","Sander_vitreus","Couesius_plumbeus","Platygobio_gracilis","Coregonus_artedi","Catostomus_catostomus","Percopsis_omiscomaycus","Cottus_cognatus")
+# Low richness community 
+# Random subsample to ID which fishes to include in the low richness community 
+rich_low = sample(x=fish_id_bad, size = 8)
+rich_low
+#"Salvelinus_fontinalis","Oncorhynchus_mykiss","Lota_lota","Culaea_inconstans","Thymallus_arcticus","Perca_flavescens","Coregonus_clupeaformis","Prosopium_williamsoni"
+```
+
+:::::::::::::::::::::::::::::::: 12S marker gene ::::::::::::::::::::::::::::::::
+
+Extract sequence header name 
+```{bash, eval = FALSE}
+grep -e ">" /home/kvilleneuve/fish_edna/database/curated12s_db/12s_alberta_curated_combined.fasta > /home/kvilleneuve/fish_edna/database/curated12s_db/12s_curated_header.txt
+```
+
+Generate read count file for each type of communities
+
+Subset sequence header to keep only fish from generated list
+```{r, eval=FALSE}
+# Load sequence header from database 
+header12s = read.table("/home/kvilleneuve/fish_edna/database/curated12s_db/12s_alberta_curated_combined_ready.fasta")
+# Set reads per samples (number obtain from the DADA2 workflow)
+average_reads = 80492
+
+############################################################
+##########  High Richness and high evenness community ###########
+############################################################
+
+# Subset sequence header to keep only fish from generate list 
+header12s_richHIGH = header12s %>% 
+  filter(if_any(1, str_detect, paste0(rich_plus, collapse = '|')))
+# Remove > at the beginning 
+header12s_richHIGH$V1 = gsub(">", "", header12s_richHIGH$V1)
+# Save list 
+write.table(header12s_richHIGH, "/home/kvilleneuve/fish_edna/raw/mock_comm/12s_header_richplus.txt", quote = FALSE, col.names = FALSE, row.names = FALSE)
+
+# Generate read count file for (richness + / evenness +) mock community. We want the sum of all the ASV in our sample to be similar to the average read count per sample in the regular samples. 
+header12s_richHIGH$count = floor(average_reads/nrow(header12s_richHIGH))
+write.table(header12s_richHIGH, "/home/kvilleneuve/fish_edna/raw/mock_comm/12s_counts_richplusevenplus.txt", quote = FALSE, col.names = FALSE, row.names = FALSE, sep = "\t")
+
+###########################################################
+##########  Low Richness and high evenness community ###########
+###########################################################
+
+header12s_richLOW = header12s %>% 
+  filter(if_any(1, str_detect, paste0(rich_low, collapse = '|')))
+# Remove > at the beginning 
+header12s_richLOW$V1 = gsub(">", "", header12s_richLOW$V1)
+# Save list 
+write.table(header12s_richLOW, "/home/kvilleneuve/fish_edna/raw/mock_comm/12s_header_richlow.txt", quote = FALSE, col.names = FALSE, row.names = FALSE)
+
+# Generate readcount_file for  (richness - / evenness +) mock community 
+header12s_richLOW$count = floor(average_reads/nrow(header12s_richLOW))
+
+write.table(header12s_richLOW, "/home/kvilleneuve/fish_edna/raw/mock_comm/12s_counts_richlowevenplus.txt", quote = FALSE, col.names = FALSE, row.names = FALSE, sep = "\t")
+
+###########################################################
+###############  Low evenness communities #################
+###########################################################
+
+# The low-evenness of both richness types of mock community was manually 
+# generated to have an exponential distribution of reads alternating between 
+# non- and consistently identified fishes.
+
+# 12s_counts_richplusevenlow.txt
+# 12s_counts_richlowevenlow.txt
+```
+
+**Create FASTA for InSilicoSeq**
+
+Generate FASTA file with sequences from all 16 fishes used to generate mock community.
+
+Because InSilicoSeq only keeps the first 300 nucleotides, the generated amplicon sequence did not initially correspond to our amplified region and no merged reads were generated. I are therefore used cutadapt to remove all the nucleotides before the forward primer while retaining the primer. The same methodology was used for the reverse primer in order to generate a reverse sequence. We then need to seperately generate the forward and reverse reads
+
+```{bash, eval=FALSE}
+# Forward primer 
+cutadapt --action=retain -g CCGGTAAAACTCGTGCCAGC -o 12s_seqTRIMF.fasta 12S_allnormline.fasta 
+# Reverse primer
+cutadapt --action=retain -a CAAACTGGGATTAGATACCCCACTATG -o 12s_seqTRIMR.fasta  12S_allnormline.fasta
+```
+
+**Use InSilicoSeq**
+
+Use [InSilicoSeq](https://insilicoseq.readthedocs.io/en/latest/index.html) pre-computed error models to generate amplicon reads. Illumina instruments : 
+
+```{bash, eval=FALSE}
+#!bin/bash
+############# High Richness and High Evenness ############# 
+# FORWARD read
+echo "Generating reads for High Richness and High Evenness"
+iss generate --genomes 12s_seqTRIMF.fasta --readcount_file  12s_counts_richplusevenplus.txt --sequence_type amplicon --model MiSeq  --output 12s-richplusevenplus_L001 --cpus 20
+# Delete the reverse (R2) and move R1 to folder fastq
+rm *R2* 
+mv *.fastq fastq 
+# REVERSE  read
+iss generate --genomes 12s_seqTRIMR.fasta --readcount_file  12s_counts_richplusevenplus.txt --sequence_type amplicon --model MiSeq  --output 12s-richplusevenplus_L001 --cpus 20
+rm *R1*
+mv *.fastq fastq 
+
+############# Low Richness and high evenness ############# 
+echo "Generating reads for Low Richness and High Evenness"
+# FORWARD read
+iss generate --genomes 12s_seqTRIMF.fasta --readcount_file  12s_counts_richlowevenplus.txt --sequence_type amplicon --model MiSeq  --output 12s-richlowevenplus_L001 --cpus 20
+# Delete the reverse (R2) and move R1 to folder fastq
+rm *R2* 
+mv *.fastq fastq 
+# REVERSE  read
+iss generate --genomes 12s_seqTRIMR.fasta --readcount_file  12s_counts_richlowevenplus.txt --sequence_type amplicon --model MiSeq  --output 12s-richlowevenplus_L001 --cpus 20
+# Delete  the forward (R1) and move R2 to folder fastq
+rm *R1*
+mv *.fastq fastq 
+
+############# High Richness and low evenness ############# 
+echo "Generating reads for High Richness and Low Evenness"
+# FORWARD read
+iss generate --genomes 12s_seqTRIMF.fasta --readcount_file 12s_counts_richplusevenlow.txt --sequence_type amplicon --model MiSeq  --output 12s-richplusevenlow_L001 --cpus 20
+# Delete all the reverse (R2) and move R1 to another folder (fastq)
+rm *R2* 
+mv *.fastq fastq 
+# REVERSE  read
+iss generate --genomes 12s_seqTRIMR.fasta --readcount_file  12s_counts_richplusevenlow.txt --sequence_type amplicon --model MiSeq  --output 12s-richplusevenlow_L001 --cpus 20
+# Delete all the forward (R1) and move R2 to another folder (fastq)
+rm *R1*
+mv *.fastq fastq 
+
+############# Low Richness and low evenness ############# 
+echo "Generating reads for Low Richness and Low Evenness"
+# FORWARD read
+iss generate --genomes 12s_seqTRIMF.fasta --readcount_file 12s_counts_richlowevenlow.txt --sequence_type amplicon --model MiSeq  --output 12s-richlowevenlow_L001 --cpus 20
+# Delete all the reverse (R2) and move R1 to another folder (fastq)
+rm *R2* 
+mv *.fastq fastq 
+# REVERSE  read
+iss generate --genomes 12s_seqTRIMR.fasta --readcount_file  12s_counts_richlowevenlow.txt --sequence_type amplicon --model MiSeq  --output 12s-richlowevenlow_L001 --cpus 20
+# Delete all the forward (R1) and move R2 to another folder (fastq)
+rm *R1*
+mv *.fastq fastq 
+
+rm *.vcf
+```
+
+The pattern `_001` was then manually added to every fastq generated to match pattern from our other samples. 
+
+:::::::::::::::::::::::::::::::: COI marker gene ::::::::::::::::::::::::::::::::
+
+Extract sequence header name 
+```{bash, eval = FALSE}
+grep -e ">" /home/kvilleneuve/fish_edna/database/curatedcoi_db/coi_alberta_curated_NCBI.fasta > /home/kvilleneuve/fish_edna/database/curatedcoi_db/coi_NCBI_header.txt
+```
+
+Generate read count files for each type of communities 
+```{r, eval = FALSE}
+#  Load Sequence header from databases
+headercoi = read.table("/home/kvilleneuve/fish_edna/database/curatedcoi_db/coi_NCBI_header.txt")
+# Set reads per samples (number obtain from the DADA2 workflow)
+average_reads = 55424
+
+############################################################
+##########  High Richness and evenness community ###########
+############################################################
+
+# High richness community 
+rich_plus = c(fish_id_good, fish_id_bad)
+
+# Subset sequence header to keep only fish from generated list
+headercoi_richHIGH = headercoi %>% 
+  filter(if_any(1, str_detect, paste0(rich_plus, collapse = '|')))
+
+headercoi_richHIGH$V1 = gsub(">", "", headercoi_richHIGH$V1)
+
+write.table(headercoi_richHIGH, "/home/kvilleneuve/fish_edna/raw/mock_comm/coi_header_richplus.txt", quote = FALSE, col.names = FALSE, row.names = FALSE, sep = ";")
+
+# Generate read count file for (richness + / evenness +) mock community. We want the sum of all the ASV in our sample to be similar to the average read count per sample in the regular samples. 
+headercoi_richHIGH$count = floor(average_reads/nrow(headercoi_richHIGH))
+write.table(headercoi_richHIGH, "/home/kvilleneuve/fish_edna/raw/mock_comm/coi_counts_richplusevenplus.txt", quote = FALSE, col.names = FALSE, row.names = FALSE, sep = "\t")
+
+###########################################################
+##########  Low Richness and evenness community ###########
+###########################################################
+
+# Low richness community 
+rich_low = c("Oncorhynchus_mykiss_x_Salmo_salar","Notropis_atherinoides","Percina_caprodes","Coregonus_artedi","Sander_vitreus","Percopsis_omiscomaycus","Culaea_inconstans","Lota_lota")
+
+# Subset sequence header to keep only fish from generated list
+headercoi_richLOW = headercoi %>% filter(if_any(1, str_detect, paste0(rich_low, collapse = '|')))
+
+headercoi_richLOW$V1 = gsub(">", "", headercoi_richLOW$V1)
+
+write.table(headercoi_richLOW, "/home/kvilleneuve/fish_edna/raw/mock_comm/coi_header_richlow.txt", quote = FALSE, col.names = FALSE, row.names = FALSE)
+
+# Generate read count file for (richness - / evenness +) mock community.  
+
+headercoi_richLOW$count = floor(average_reads/nrow(headercoi_richLOW))
+
+write.table(headercoi_richLOW, "/home/kvilleneuve/fish_edna/raw/mock_comm/coi_counts_richlowevenplus.txt", quote = FALSE, col.names = FALSE, row.names = FALSE, sep = "\t")
+
+###########################################################
+###############  Low evenness communities #################
+###########################################################
+
+# The low-evenness of both richness types of mock community was manually 
+# generated to have an exponential distribution of reads alternating between 
+# non- and consistently identified fishes.
+```
+
+**Create FASTA for InSilicoSeq**
+
+Generate FASTA file with sequences from all 16 fishes used to generate mock community and make this fasta linear 
+
+```{bash, eval = FALSE}
+seqkit grep -nrf coi_header_richplus.txt
+```
+
+Because InSilicoSeq only keeps the first 300 nucleotides, the generated amplicon sequence did not initially correspond to our amplified region and no merged reads were generated. I therefore used cutadapt to remove all the nucleotides before the forward primer while retaining the primer. 
+
+For the reverse primer, the actual primer sequence was not consistently present in our sequences. Increasing the -e value did allow the primer to be found but this resulted in sequences less then 300 bp for some fishes. I therefore decided to instead cut the trimF fasta at 300 bp. 
+
+```{bash, eval = FALSE}
+cutadapt --action=retain -g GTATTTGGYGCYTGRGCCGGRATAGT -o coi_seq_TRIMF.fasta coi_all.fasta -e 0.2
+cutadapt --action=retain -a CGAATRAAYAAYATRAGYTTYTG -o coi_seq_TRIMR.fasta coi_all.fasta -e 0.2
+
+#cutadapt --length 350 -o coi_seq_TRIMFR.fasta  coi_seq_TRIMF.fasta
+```
+
+**InSilicoSeq**
+
+Use [InSilicoSeq](https://insilicoseq.readthedocs.io/en/latest/index.html) pre-computed error models to generate amplicon reads. 
+
+```{bash, eval = FALSE}
+# High Richness and high evenness
+iss generate --genomes coi_seq_TRIMFR.fasta --readcount_file  coi_counts_richplusevenplus.txt --sequence_type amplicon --model MiSeq  --output coi-richplusevenplus_L001
+
+# High Richness and low evenness
+iss generate --genomes coi_seq_TRIMFR.fasta --readcount_file coi_counts_richplusevenlow.txt --sequence_type amplicon --model MiSeq  --output coi-richplusevenlow_L001
+
+# Low Richness and high evenness
+iss generate --genomes coi_seq_TRIMFR.fasta --readcount_file  coi_counts_richlowevenplus.txt --sequence_type amplicon --model MiSeq  --output coi-richlowevenplus_L001
+
+# Low Richness and low evenness
+iss generate --genomes coi_seq_TRIMFR.fasta --readcount_file coi_counts_richlowevenlow.txt --sequence_type amplicon --model MiSeq  --output coi-richlowevenlow_L001
+```
+
+The pattern `_001` was then manually added to every FASTQ generated to match pattern from our other samples. 
+
+```{bash, eval = FALSE}
+#!/bin/bash
+############# High Richness and High Evenness ############# 
+# FORWARD read
+echo "Generating reads for High Richness and High Evenness"
+iss generate --genomes coi_seq_TRIMF.fasta --readcount_file  coi_counts_richplusevenplus.txt --sequence_type amplicon --model MiSeq  --output coi-richplusevenplus_L001 --cpus 20
+# Delete the reverse (R2) and move R1 to folder fastq
+rm *R2* 
+mv *.fastq fastq 
+# REVERSE  read
+iss generate --genomes coi_seq_TRIMR.fasta --readcount_file  coi_counts_richplusevenplus.txt --sequence_type amplicon --model MiSeq  --output coi-richplusevenplus_L001 --cpus 20
+rm *R1*
+mv *.fastq fastq 
+
+############# Low Richness and high evenness ############# 
+echo "Generating reads for Low Richness and High Evenness"
+# FORWARD read
+iss generate --genomes coi_seq_TRIMF.fasta --readcount_file  coi_counts_richlowevenplus.txt --sequence_type amplicon --model MiSeq  --output coi-richlowevenplus_L001 --cpus 20
+# Delete the reverse (R2) and move R1 to folder fastq
+rm *R2* 
+mv *.fastq fastq 
+# REVERSE  read
+iss generate --genomes coi_seq_TRIMR.fasta --readcount_file  coi_counts_richlowevenplus.txt --sequence_type amplicon --model MiSeq  --output coi-richlowevenplus_L001 --cpus 20
+# Delete  the forward (R1) and move R2 to folder fastq
+rm *R1*
+mv *.fastq fastq 
+
+############# High Richness and low evenness ############# 
+echo "Generating reads for High Richness and Low Evenness"
+# FORWARD read
+iss generate --genomes coi_seq_TRIMF.fasta --readcount_file coi_counts_richplusevenlow.txt --sequence_type amplicon --model MiSeq  --output coi-richplusevenlow_L001 --cpus 20
+# Delete all the reverse (R2) and move R1 to another folder (fastq)
+rm *R2* 
+mv *.fastq fastq 
+# REVERSE  read
+iss generate --genomes coi_seq_TRIMR.fasta --readcount_file  coi_counts_richplusevenlow.txt --sequence_type amplicon --model MiSeq  --output coi-richplusevenlow_L001 --cpus 20
+# Delete all the forward (R1) and move R2 to another folder (fastq)
+rm *R1*
+mv *.fastq fastq 
+
+############# Low Richness and low evenness ############# 
+echo "Generating reads for Low Richness and Low Evenness"
+# FORWARD read
+iss generate --genomes coi_seq_TRIMF.fasta --readcount_file coi_counts_richlowevenlow.txt --sequence_type amplicon --model MiSeq  --output coi-richlowevenlow_L001 --cpus 20
+# Delete all the reverse (R2) and move R1 to another folder (fastq)
+rm *R2* 
+mv *.fastq fastq 
+# REVERSE  read
+iss generate --genomes coi_seq_TRIMR.fasta --readcount_file  coi_counts_richlowevenlow.txt --sequence_type amplicon --model MiSeq  --output coi-richlowevenlow_L001 --cpus 20
+# Delete all the forward (R1) and move R2 to another folder (fastq)
+rm *R1*
+mv *.fastq fastq 
+
+rm *.vcf
+```
+for f in *.fastq; do mv "$f" "$(echo "$f" | sed s/IMG/VACATION/)"; done

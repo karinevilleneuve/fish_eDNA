@@ -1,0 +1,214 @@
+# Evaluate performance of databases {-}
+
+Link to [article](https://peerj.com/articles/4652/) and [TAXXI website](https://drive5.com/taxxi/doc/index.html). 
+
+## Description {-}
+
+Edgar (2018) developed a Cross-Validation by Identity (CVI) framework that tests 16 unique classifiers and 3 parameter settings of the SINTAX, RDP, and Non-Bayensien-Classifier classifiers to assign taxonomy to specially modified test and training data sets (Warcup ITS, 16S full length, 16S V4 and 16S V3-5). These data sets were designed by Edgar (2018) to 1) have even representation across genera, and 2) test classifier effectiveness across different loci of the same gene (16S). Each classifier is then assessed for the true positive rate (TPR), the over-classification rate (OCR), the under classification rate (UCR), the misclassification rate (MCR), and the accuracy (ACC). 
+
+- The true positive rate (TPR) indicates how frequently the correct taxonomy was assigned out of the total number of opportunities for correct classification. 
+- The over-classification rate (OCR) indicates how frequently too many ranks are predicted for query sequences out of the total opportunities to make an over classification error.
+- The under-classification rate (UCR) indicates how frequently too few ranks are predicted for query sequences out of the total number of opportunities to make this error.
+- The misclassification rate (MCR) indicates how frequently a sequence matching a query is available in the database but is not predicted for that query out to the number of opportunities to make this error.
+- The accuracy (ACC) indicates the number of correct taxonomic calls out of the number of opportunities to determine correct taxonomy.
+
+## Methods {-}
+
+A reference with known taxonomies is split into test and training sets such that for all test sequences, the most similar training sequence has a given identity (*d*). This is repeated for different identities, enabling assessment of prediction accuracy at varying distances from the reference.
+
+<img style="padding:30px" src="data/taxxi_figures.jpg" align="left" width="20%"/>
+
+\
+- *R* is the reference dataset divided into four disjoint subsets *S*, *T*, *W* and *Z*.\
+- *S* is the **test set**.\
+- *A* is the **training set** formed by the union of *T* and *W*.\
+      - *T* is the set of top hits for sequences in *S*, which are constrained to have identities in the range *d* ± σ \
+            (where σ specifies the maximum allowed deviation from the desired identity (*d*)).\
+      - *W* contains reference sequences with identity < *d*; these are retained to create the largest possible training set. \
+      - *Z* contains sequences which cannot be assigned to *S*, *T* or *W* without violating the identity constraint.
+
+<br clear="left"/>
+
+## Implementing CVI with our data {-}
+
+Usearch was downloaded here : https://github.com/rcedgar/usearch_old_binaries/blob/main/bin/usearch11.0.667_i86linux64 
+
+TAXXI framework was used to compare the performance of the RDP and vsearch classifiers with the following databases : 
+
+12S.fasta => 12s_vsearch.fasta ------ Evaluate with vsearch
+12S_rdp.fasta => 12s_rdp.fasta ------ Evaluate with RDP 
+12s_alberta_curated.fasta => 12s_cur.fasta --- Evaluate with RDP and vsearch
+
+bold.fasta => coi_vsearch.fasta  ----------------------------- Evaluate with vsearch
+mytrainseq.fasta => coi_rdp.fasta ---------------------------- Evaluate with RDP
+coi_alberta_curated_derep_NCBI.fasta => coi_cur.fasta -------- Evaluate with RDP and vsearch
+
+- COI BOLD [3](https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/)
+- COI Eukaryote V5.1.0 [5](https://github.com/terrimporter/CO1Classifier/releases/tag/RDP-COI-v5.1.0)
+- 12S MitoFISH V1.0.1  
+- Custom 12S from barque 
+
+## Preformatting the databases {-}
+
+1. Make all sequence uppercase (RDP COI only) and if necessary replace tab for semi-colon in sequence header 
+```{bash, eval = FALSE}
+/home/karine/seqkit seq coi_rdp.fasta --upper-case -o coi_rdp_upp.fasta
+sed -i 's/\t/;/g' database.fasta 
+```
+
+2. Randomly select 10 sequences per species (COI databases only)
+
+```{bash = eval}
+grep -e ">" coi_rdp_upp.fasta > coi_rdp_header.txt
+# Add unique sequence ID to BOLD database 
+awk '/^>/{sub(">", ">"++i"_")}1' coi_vsearch.fasta > coi_vsearchID.fasta
+grep -e ">" coi_vsearchID.fasta > coi_vsearch_header.txt
+```
+
+```{r, eval = FALSE}
+#####################################################
+######################## RDP ########################
+#####################################################
+
+raw_rdp = read.table("/home/kvilleneuve/fish_edna/code/evalute_db/coi_rdp_header.txt", sep = ";")
+rdp_10sp_list = list()
+i = 0
+
+for (species in unique(raw_rdp$V10)){
+  i = i + 1
+  sub_df = subset(raw_rdp, V10 == species)
+  if (nrow(sub_df) > 10) {
+    rand_sub_df = sub_df[sample(nrow(sub_df), size=10), ] 
+  } else {
+    rand_sub_df = sub_df
+  }
+  rdp_10sp_list[[i]] = rand_sub_df
+}
+rdP10sp = do.call("rbind", rdp_10sp_list)
+
+write.table(rdP10sp, 
+            "/home/kvilleneuve/fish_edna/code/evalute_db/coi_rdp_header2keep.txt", quote = FALSE, row.names = FALSE, col.names = FALSE, sep = ";")
+
+#####################################################
+######################## BOLD ########################
+#####################################################
+
+raw = read.table("/home/karine/coi_vsearch_header.txt", sep = "_")
+raw$Species = paste(raw$V2, raw$V3, sep = "_")
+list_10sp = list()
+i = 0
+
+for (specie in unique(raw$Species)){
+  i = i + 1
+  sub_df = subset(raw, Species == specie)
+  if (nrow(sub_df) > 10) {
+    rand_sub_df = sub_df[sample(nrow(sub_df), size=10), ] 
+  } else {
+    rand_sub_df = sub_df
+  }
+  list_10sp[[i]] = rand_sub_df
+}
+final_10sp = do.call("rbind", list_10sp)
+
+final_10sp$good_name = paste(final_10sp$V1, final_10sp$V4, sep = "_")
+final_10sp$good_name = gsub(">", "", final_10sp$good_name)
+
+final = as.data.frame(final_10sp$good_name)
+
+write.table(final, 
+            "/home/karine/coi_vsearch_header2keep.txt", 
+            quote = FALSE, row.names = FALSE, col.names = FALSE, sep = ";")
+```
+
+```{bash, eval = FALSE}
+./seqkit grep -f coi_vsearch_header2keep.txt coi_vsearch.fasta -o coi_vsearch_10sp.fasta --threads 40
+
+
+sed -i 's/>//g' coi_rdp_header2keep.txt
+/home/karine/seqkit grep -f coi_rdp_header2keep.txt coi_rdp_upp.fasta -o coi_rdp_10sp.fasta --threads 20
+``` 
+
+##  Generate benchmark datasets {-}
+
+**1. Generate distance matrix  ** 
+
+```{bash, eval = FALSE}
+for i in *.fasta ; do /home/karine/usearch11 -calc_distmx $i -maxdist 0.2 -termdist 0.3 -tabbedout ${i%%.*}_dist.txt; done
+```
+
+**2. Generate training and test sets ** 
+
+The `distmx_split_identity` command from [USEARCH](https://www.drive5.com/usearch/manual/cvi.html) divides sequences into subsets such that the top-hit identity is a given value. This is used to create test-training pairs for cross-validation by identity. Input is a distance matrix created by the `calc_distmx command`. As per the methods specified in Edgar (2018) maximum allowed deviation (σ) from *d* used : σ = 1% for *d* = 90% and σ = 0.5% for *d* = 99, 97 and 95%. The following code was adapted from [Donhauser *et al.* (2024)](https://doi.org/10.1016/j.ecoinf.2024.102817) and validated with available documentation from [USEARCH](https://www.drive5.com/usearch/manual/cvi.html). 
+
+To create training and test sets at different identity thresholds
+
+```{bash, eval = FALSE}
+for i in *.fasta ; do
+        ~/usearch11 -distmx_split_identity ${i%%.*}_dist.txt -mindist 0.025 -maxdist 0.035 -tabbedout ${i%%.*}.97.subsets.txt
+        ~/usearch11 -distmx_split_identity ${i%%.*}_dist.txt -mindist 0.045 -maxdist 0.055 -tabbedout ${i%%.*}.95.subsets.txt
+        ~/usearch11 -distmx_split_identity ${i%%.*}_dist.txt -mindist 0.095 -maxdist 0.105 -tabbedout ${i%%.*}.90.subsets.txt
+done
+```
+
+Output is a tabbed text given by the -tabbedout option. Fields are:
+
+- Col1 - `Subset name` : there are four subsets with names `1`, `2`, `1x` and `2x`.
+- Col2 - `Label1` : label1 is the label of a sequence in the subset given by Col1.
+- Col3 - `Label2` : label2 is the top hit in the other subset (1 or 2)
+- Col4 - `Dist`   : distance between Label1 and Label2.
+
+Subsets `1` and `2` have top hits to each other in the specified range. Subset `1x` has lower identities with subset `2`, and can therefore be added to the training set if subset `2` is the query set. Similarly, subset `2x` has lower identities with subset `1` and can be added to the training set if subset `1` is the query
+
+Get sequence ID for training and test set 
+
+```{bash, eval = FALSE}
+for i in *.subsets.txt ; do awk '$1==1 || $1=="1x" {print $2}' $i > $i.trainingIDs.txt; awk '$1==2 {print $2}' $i > $i.testIDs.txt; done
+```
+
+Create FASTA file with test and training set at each identity, use subset 1 as training and subset 2 as test.
+
+```{bash, eval = FALSE}
+for i in *.trainingIDs.txt ; do ~/seqkit grep -n -f $i ${i%%.*}.fasta > $i.trainning.fasta ; done
+for i in *.testIDs.txt ; do ~/seqkit grep -n -f $i ${i%%.*}.fasta > $i.test.fasta ; done 
+```
+
+**3. Rename files** 
+
+By renaming the files this way we can use a for loop to generate the predictions. 
+
+```{bash, eval = FALSE}
+for file in *subsets* ; do mv $file ${file//.9/_9} ; done
+```
+
+We now have, for each identity level, a set for training and a set for testing. We can now generate the prediction with either VSEARCH or RDP  
+
+## Generate predictions {-}
+
+### VSEARCH {-}
+
+Using option `usearch_global` (option used by barque) : 
+
+```{bash, eval = FALSE}
+for i in *.subsets.txt.testIDs.txt.test.fasta ; do vsearch --usearch_global $i -db ${i%%.*}.subsets.txt.trainingIDs.txt.trainning.fasta --blast6out  ${i%%.*}.vsearch_predictions.tsv --top_hits_only --notrunclabels --id 0.70; done 
+``` 
+
+Output is a tabbed text given by the -blast6out option. Fields are:
+
+- Col1 : `query_name` 
+- Col2 : `target` - database sequence label
+- Col3 : `id` - percentage of identity (real value ranging from 0.0 to 100.0). The percentage identity is defined as 100 * (matching columns) / (alignment length - terminal gaps). See fields id0 to id4 for other definitions.
+- Col4 : `alnlen`
+- Col5 : `mism`
+- Col6 : `opens` 
+- Col7 : `qlo` 
+- Col8 : `qhi`
+- Col9 : `tlo`
+- Col10 : `thi`
+- Col11 : `evalue`
+- Col12 : `bits`
+
+### RDP {-}
+
+
+
+

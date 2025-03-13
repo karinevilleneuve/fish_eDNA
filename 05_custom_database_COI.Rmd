@@ -1,0 +1,123 @@
+# Generating custom database {-}
+
+To build the curated COI database I downloaded the complete COX1 sequences from NCBI. I then validated that our amplified region of interest was included in the downloaded sequences by using cutadapt, this step was especially important for fishes with only partial COX1 sequences.
+
+Notes. The reverse primer used below with CutAdapt corresponds to the RevComp of the actual reverse primer sequence (CARAARCTYATRTTRTTYATTCG). 
+
+```{bash, eval = FALSE}
+/usr/local/bin/cutadapt --action=mask -g TATTTGGYGCYTGRGCCGGRATAG -o trimF.fasta coi_alberta_curated.fasta --untrimmed-output readswithnoforward.txt  -e 0.2 
+
+# Reverse primer
+/usr/local/bin/cutadapt --action=mask -a CGAATRAAYAAYATRAGYTTYTG -o trimFR.fasta  trimF.fasta --untrimmed-output readswithnoReverse.txt -e 0.3
+```
+
+To evaluate resolution blindspot between two or more taxa the trim FASTA was dereplicated using vsearch `derep_fulllength` and every sequences removed were evaluated by aligning them with MEGA11. 
+
+```{bash, eval = FALSE}
+vsearch --derep_fulllength trimFR.fasta --output coi_trimFR_derep.fasta
+```
+
+See section [Notes on resolution blindspot](Notes on resolution blindspot) for more details about which sequences were removed. 
+
+::::::::::::::: vsearch Classifier for barque :::::::::::::::::
+
+(1) Copy the curate database to folder `03_database` in the barque directory
+(2) Rename file with shorter name
+(4) gzip file 
+
+```{bash, eval = FALSE}
+cp /home/kvilleneuve/fish_edna/database/curatedcoi_db/coi_alberta_curated.fasta /home/kvilleneuve/fish_edna/code/barque/03_databases/
+mv coi_alberta_curated.fasta coicuratedncbi.fasta
+gzip coicuratedncbi.fasta
+```
+
+::::::::::::::: RDP Classifier :::::::::::::::::
+
+**Prepare taxonomy file**
+
+(1) Extract sequence header using grep (2) Replace semi-colon with tab (3) remove `>` (4) add header  
+```{bash, eval = FALSE}
+grep -e ">" coi_alberta_curated.fasta > coi_header_4RDP.txt
+
+# awk '/^>/{sub(">", ">"++i";")}1' coi_NCBI_header.txt > coi_header_4RDP.txt
+#cp coi_NCBI_header.txt coi_header_4RDP.txt
+sed -i  's/;/\t/g' coi_header_4RDP.txt
+sed -i 's/>//g' coi_header_4RDP.txt 
+sed -i $'1 i\\\nID\tcellularOrganisms\tSuperkingdom\tKingdom\tPhylum\tClass\tOrder\tFamily\tGenus\tSpecies' coi_header_4RDP.txt
+```
+
+**Prepare sequence file**
+
+The sequence file must be in fasta format and contain a unique identifier without any white space. The accession number makes a good identifier. Anything after the first white space is ignored. The following are acceptable:
+
+```
+>DQ248313
+ACGATTTTGACCCTTCGGGGTCGATCTCCAACCCTTT
+>JF735302 k__Fungi;p__Ascomycota;c__Sordariomycetes;o__Hypocreales
+CCGAGTTTTCAACTCCCAAACCCCTGTGAACATACCA
+```
+
+Replace semi-colon with tab 
+```{bash, eval = FALSE}
+sed 's/;/\t/g' coi_alberta_curated.fasta > coi_seq_4RDP.fasta
+#cp coi_alberta_curated_derep_NCBI.fasta coi_seq_4RDP.fasta
+
+```
+
+**Train**
+
+```{bash, eval = FALSE}
+python2 lineage2taxTrain.py coi_header_4RDP.txt > ready4train_taxonomy.txt
+
+python2 addFullLineage.py coi_header_4RDP.txt coi_seq_4RDP.fasta > ready4train_seqs.fasta 
+
+java -Xmx10g -jar ~/rdp_classifier_2.14/dist/classifier.jar train -o COI_training_files -s ready4train_seqs.fasta -t ready4train_taxonomy.txt
+``` 
+
+Output is a directory specified by the parameter -o which should contain the following files :
+
+- bergeyTrainingTree.xml
+- genus_wordConditionalProbList.txt
+- logWordPrior.txt
+- wordConditionalProbIndexArr.txt
+
+Move into this newly created directory and create the file `rRNAClassifier.properties` with the following text :
+
+``` 
+# Sample ResourceBundle properties file
+bergeyTree=bergeyTrainingTree.xml
+
+probabilityList=genus_wordConditionalProbList.txt
+
+probabilityIndex=wordConditionalProbIndexArr.txt
+
+wordPrior=logWordPrior.txt
+
+classifierVersion=RDP Naive Bayesian rRNA Classifier Version 2.14
+```
+
+## Notes on resolution blindspot {-}
+
+**Coregonus**
+
+Sequence : 
+
+`GTATTTGGTGCCTGAGCCGGAATAGTCGGCACAGCCCTAAGCCTTTTAATCCGAGCGGAACTAAGCCAACCTGGGGCTCTTCTGGGGGATGATCAGATTTATAATGTAATCGTCACGGCCCACGCCTTCGTTATGATTTTCTTTATAGTTATGCCAATTATGATTGGAGGCTTTGGAAACTGATTAATTCCACTTATAATCGGGGCCCCCGACATGGCATTTCCCCGAATGAATAATATGAGCTTTTG`
+
+Which was exactly similar between the following taxa : 
+
+>JX960903;cellularOrganisms;Eukaryota;Metazoa;Chordata;Actinopteri;Salmoniformes;Salmonidae;Coregonus;Coregonus_zenithicus
+>NC_036393;cellularOrganisms;Eukaryota;Metazoa;Chordata;Actinopteri;Salmoniformes;Salmonidae;Coregonus;Coregonus_artedi
+
+Both were removed from the database and replaced with a single copy of the trimmed sequence with the following sequence header :    
+
+`similarseq01;cellularOrganisms;Eukaryota;Metazoa;Chordata;Actinopteri;Salmoniformes;Salmonidae;Coregonus;Coregonus_artedi:zenithicus`
+
+## Assessing hybrids {-}
+
+The following hybrids were removed considering on one of the species is not found in Alberta. 
+
+- Carassius_auratus_x_Cyprinus_carpio
+- Carassius_auratus_x_Cyprinus_carpio_x_Carassius_cuvieri
+- Cyprinus_carpio_wuyuanensis_x_Carassius_auratus
+- All Megalobrama amblycephala

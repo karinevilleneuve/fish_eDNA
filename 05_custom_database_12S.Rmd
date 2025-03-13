@@ -1,0 +1,222 @@
+# Generating custom database of the 12S marker gene {-}
+
+Sequences from the RDP databases consist of the complete 12S region while the sequences from the barque databases are trimmed to the amplified region of interest. Therefore, I am keeping the sequences from the RDP databases and adding to it some missing sequences. 
+
+Steps overview 
+
+1. Filter RDP database 
+  a. Extract sequence header
+  b. Keep only sequence header of fish found in Alberta 
+  c. Curate database using the curated sequence names 
+2. Add missing sequences 
+  a. Download sequences from Genbank 
+  b. Modify sequence header
+  c. Combine with curated RDP database
+ 
+1. **Filter RDP database**
+  
+  a. **Extract sequence header**
+
+```{bash, eval = FALSE}
+grep -e ">" 12S_rdp.fasta > header_12s_rdp.txt 
+```
+
+  b. **Keep only sequence header of fish found in Alberta** 
+
+```{r, eval = FALSE}
+### ------------------------- Load the libraries -------------------------------------------------- #### 
+library(dplyr)
+library(stringr)
+### ------------------------- Save path for output -------------------------------------------------- #### 
+path = "/home/kvilleneuve/fish_edna/database"
+### ------------------------- Load list of Alberta freshwater fish -------------------------------------------------- #### 
+alberta_fish = read.csv("/home/kvilleneuve/fish_edna/database/fishbase_alberta_with_missing.csv", header = TRUE, check.names = FALSE)
+species = gsub(" ", "_", alberta_fish$Species) # Replace space with underscore 
+### ------------------------- Load database sequence header -------------------------------------------------- #### 
+# I am intentionally specifying the wrong separator because I don't want to separate the columns yet
+rdp12s_raw = read.table("/home/kvilleneuve/fish_edna/database/header_rdp_12S.txt", sep = ",")
+filtered = rdp12s_raw %>% filter(if_any(1, str_detect, paste0(species, collapse = '|')))
+write.table(filtered, file = paste(path, "/alberta_ID_", names(list_db)[i], ".txt", sep =""), quote = FALSE, row.names = FALSE, col.names = FALSE)
+```
+
+  c. **Curate database using the curated sequence names**
+
+Use `seqkit` tool to filter databases in order to keep only sequences of freshwater fishes found in Alberta using list of ID generated for each database. 
+
+For RDP
+```{bash, eval = FALSE}
+sed -i 's/\t/;/g' 12S_rdp.fasta
+sed -i 's/\t/;/g' alberta_ID_RDP_12S.txt
+seqkit grep -nrf alberta_ID_RDP_12S.txt 12S_rdp.fasta -o 12s_01_alberta_curated_RDP_raw.fasta
+```
+
+2. **Add missing sequences**
+
+  a. **Download sequences from Genbank**
+  
+Missing sequences were downloaded from NCBI 
+
+  b. **Modify sequence header**
+  
+Sequence header of downloaded sequences were manually modified to include all ranks.
+   
+  c. **Combine with curated RDP database**
+
+```{bash, eval = FALSE}
+# 12S 
+cat 12s_01_alberta_curated_RDP_raw.fasta 12s_02_missing_sequences.fasta >  12s_03_alberta_curated_withmissing.fasta
+
+# Normalize length 
+seqkit seq -w 60 12s_03_alberta_curated_withmissing.fasta > 12s_04_alberta_curated_clean.fasta
+```
+
+## Evaluate resolution blindspots {-}
+
+To evaluate resolution blindspot between two or more taxa the the sequence from the databases were trimmed using the Forward and Reverse primer (rev-comp) with Cutadapt. The sequences were then dereplicated using vsearch `derep_fulllength` and every sequences removed were evaluated by aligning them with MEGA11. 
+
+Trim
+
+```{bash, eval = FALSE}
+# Forward primer 
+cutadapt -g --action=retain CCGGTAAAACTCGTGCCAGC -o 12s_alberta_curated_combined_trimF.fasta 12s_03_alberta_curated_withmissing.fasta -e 0.2 --untrimmed-output readswithnoforward.txt
+# Reverse primer
+cutadapt -a CAAACTGGGATTAGATACCCCACTATG -o 12s_alberta_curated_combined_trimFR.fasta  12s_alberta_curated_combined_trimF.fasta
+```
+
+Dereplicate 
+
+```{bash, eval = FALSE}
+vsearch --derep_fulllength 12s_alberta_curated_combined_trimFR.fasta --output 12s_alberta_curated_combined_trim_derep.fasta
+```
+
+See section [Notes on resolution blindspot](Notes on resolution blindspot) for more details about which sequences were removed. 
+
+## Prepare files for classifiers {-}
+
+::::::::::::::: vsearch Classifier for barque :::::::::::::::::
+
+(1) Copy the curate database to folder `03_database` in the barque directory
+(2) Rename file with shorter name
+(3) gzip file 
+
+```{bash, eval = FALSE}
+cp /home/kvilleneuve/fish_edna/database/curated12s_db/12s_04_alberta_curated_clean.fasta /home/kvilleneuve/fish_edna/code/barque_12s/03_databases/12Scurated.fasta
+gzip 12Scurated.fasta
+```
+
+::::::::::::::: RDP Classifier :::::::::::::::::
+
+**Prepare taxonomy file**
+
+(1) Extract sequence header using grep (2) Replace semi-colon with tab (3) remove > 
+```{bash, eval = FALSE}
+grep -e ">" 12s_04_alberta_curated_clean.fasta > 12s_curated_header.txt
+sed 's/;/\t/g' 12s_curated_header.txt > header4rdp.txt
+sed -i 's/>//g' header4rdp.txt 
+```
+
+Add header 
+```{bash, eval = FALSE}
+sed -i $'1 i\\\nID\tcellularOrganisms\tSuperkingdom\tKingdom\tPhylum\tClass\tOrder\tFamily\tGenus\tSpecies' header4rdp.txt
+```
+
+**Prepare sequence file**
+
+```{bash, eval = FALSE}
+sed 's/;/\t/g' 12s_04_alberta_curated_clean.fasta > seq4rdp.fasta
+```
+
+**Train**
+```{bash, eval = FALSE}
+python2 lineage2taxTrain.py header4rdp.txt > ready4train_tax.txt
+python2 addFullLineage.py header4rdp.txt seq4rdp.fasta > ready4train_seqs.fasta 
+
+java -Xmx10g -jar ~/rdp_classifier_2.14/dist/classifier.jar train -o 12s_training_files -s ready4train_seqs.fasta -t ready4train_tax.txt
+``` 
+
+Output is a directory specified by the parameter -o which should contain the following files :
+
+- bergeyTrainingTree.xml
+- genus_wordConditionalProbList.txt
+- logWordPrior.txt
+- wordConditionalProbIndexArr.txt
+
+Move into this newly created directory and create the file `rRNAClassifier.properties` with the following text :
+``` 
+# Sample ResourceBundle properties file
+bergeyTree=bergeyTrainingTree.xml
+
+probabilityList=genus_wordConditionalProbList.txt
+
+probabilityIndex=wordConditionalProbIndexArr.txt
+
+wordPrior=logWordPrior.txt
+
+classifierVersion=RDP Naive Bayesian rRNA Classifier Version 2.14
+```
+ 
+## Notes on resolution blindspot {-}
+
+**Cottus** 
+
+Sequence : 
+
+`CACCGCGGTTATACGAGAGGCCCAAGTTGACAAACACCGGCGTAAAGCGTGGTTAAGTTAAAAATCGTACTAAAGCCAAACATCTTCAAGACTGTTATACGTAACCGAAGACAGGAAGTTCAACCACGAAAGTCGCTTTATCTGATCTGAATCCACGAAAGCTAAGGAA`
+
+Which was exactly similar between the following taxa : 
+
+- NC 068673 [...] Cottus cognatus
+- NC 028277 [...] Cottus bairdii
+
+These were all removed from the database and replaced with a single copy of the trimmed sequence with the following sequence header : 
+
+>NC_028277:NC_068673;cellularOrganisms;Eukaryota;Metazoa;Chordata;Actinopteri;Perciformes;Cottidae;Cottus;Cottus_bairdii:cognatus`
+CCGGTAAAACTCGTGCCAGCCACCGCGGTTATACGAGAGGCCCAAGTTGACAAACACCG
+GCGTAAAGCGTGGTTAAGTTAAAAATCGTACTAAAGCCAAACATCTTCAAGACTGTTAT
+ACGTAACCGAAGACAGGAAGTTCAACCACGAAAGTCGCTTTATCTGATCTGAATCCACG
+AAAGCTAAGGAACAAACTGGGATTAGATACCCCACTATG
+
+**Salvelinus**
+
+Sequence :  
+
+`CACCGCGGTTATACGAGAGGCCCTAGTTGATAACTACCGGCGTAAAGAGTGGTTACGGAAAAATGTTTAATAAAGCCGAACACCCCCTCAGCCGTCATACGCACCTGGGGGCACGAAGACCTACTGCGAAAGCAGCTTTAATTGTACCCGAACCCACGACAGCTACGACA`
+
+Which was exactly similar between the following taxa : 
+
+- NC 000861 [...] Salvelinus alpinus
+- NC 037502 [...] Salvelinus malma
+
+These were all removed from the database and replaced with a single copy of the trimmed sequence with the following sequence header : 
+
+>NC_000861:NC_037502;cellularOrganisms;Eukaryota;Metazoa;Chordata;Actinopteri;Salmoniformes;Salmonidae;Salvelinus;Salvelinus_alpinus:malma
+CCGGTAAAACTCGTGCCAGCCACCGCGGTTATACGAGAGGCCCTAGTTGATAACTACCG
+GCGTAAAGAGTGGTTACGGAAAAATGTTTAATAAAGCCGAACACCCCCTCAGCCGTCAT
+ACGCACCTGGGGGCACGAAGACCTACTGCGAAAGCAGCTTTAATTGTACCCGAACCCAC
+GACAGCTACGACACAAACTGGGATTAGATACCCCACTATG
+
+**Salmo**
+
+There were 2 copies of the same 12S sequences for Salmo_trutta (NC_024032 and NC_010007), only sequence NC_024032 was kept
+
+## Assessing hybrids {-}
+
+If one of the specie has not been found in Alberta the taxa and it's sequence were remove. List of remove hybrids :
+
+- Carassius_auratus_x_Cyprinus_carpio
+- Carassius_auratus_x_Cyprinus_carpio_x_Carassius_cuvieri
+- Cyprinus_carpio_wuyuanensis_x_Carassius_auratus
+
+Upon researching if Megalobrama amblycephala have been found in Canada and Alberta I found no evidence of such cases. Therefore all the hybrid sequences were removed. 
+
+- NC 013431 [...] Carassius auratus x Megalobrama amblyceph ala triploid hybrid
+- NC 035976 [...] Carassius auratus x Megalobrama amblycephala x Carassius cuvieri
+- NC 013430  [...] Carassius auratus x Megalobrama amblycephala tetraploid hybrid
+- NC 012980  [...] natural gynogenetic Carassius auratus red var.
+
+Upon researching if the hybrid has been found in Alberta / Canada I found no evidence of the such. The article associated with this genome (https://doi.org/10.1080/23802359.2019.1574636) states that this hybrid was developed in Tonghua, Jilin Province, Republic of China. I therefore removed the hybrid sequence.
+
+- NC 042195 [...] Salvelinus fontinalis x Salvelinus malma
+
+
+

@@ -1,0 +1,41 @@
+# Taxonomic classification {-}
+
+RDP classifer to assign taxonomy to 12S ASVs from 12S fish classifier https://github.com/terrimporter/12SfishClassifier/tree/v1.0.1
+```{bash, eval = FALSE}
+java -Xmx1g -jar ~/rdp_classifier_2.14/dist/classifier.jar classify -t /home/kvilleneuve/fish_edna/database/12Sfishclassifier/mydata_trained/rRNAClassifier.properties -o /home/kvilleneuve/fish_edna/outputs/workflow_output/12s_dada2_rdpraw_annotation.out -q /home/kvilleneuve/fish_edna/outputs/workflow_output/12s_dada2_biostring4annotation.fna
+``` 
+
+RDP classifier with curated database 
+```{bash, eval = FALSE}
+java -Xmx1g -jar ~/rdp_classifier_2.14/dist/classifier.jar classify -t /home/kvilleneuve/fish_edna/database/curated12s_db/12s_training_files/rRNAClassifier.properties -o /home/kvilleneuve/fish_edna/outputs/workflow_output/12s_dada2_rdpcur_annotation.out -q /home/kvilleneuve/fish_edna/outputs/workflow_output/12s_dada2_biostring4annotation.fna
+``` 
+
+
+
+Annotate using Vsearch  
+
+```{bash, eval = FALSE}
+# :::::::::::::::: 12S :::::::::::::::::::
+
+# Curated 12SDB
+vsearch --usearch_global /home/kvilleneuve/fish_edna/results/12s_dada2_biostring4annotation.fna -db /home/kvilleneuve/fish_edna/database/curated_database/12s_alberta_curated_combined_derep.fasta --blast6out /home/kvilleneuve/fish_edna/results/12s_dada2_vsearch_cur_annotation.out --top_hits_only --notrunclabels --id 0.70 --id 0.70 --maxaccepts 0 --maxrejects 0
+
+# Raw DB 
+vsearch --usearch_global /home/kvilleneuve/fish_edna/results/12s_dada2_biostring4annotation.fna -db /home/kvilleneuve/fish_edna/database/12Sfishclassifier/mydata_training/12S_rdp.fasta --blast6out  /home/kvilleneuve/fish_edna/results/12s_dada2_vsearch_raw_annotation.out --dbmatched /home/kvilleneuve/fish_edna/results/12s_dada2_vsearch_raw_match.fasta --alnout /home/kvilleneuve/fish_edna/results/12s_dada2_vsearch_raw_test.out --top_hits_only --notrunclabels --id 0.70 --maxaccepts 0 --maxrejects 0
+
+
+
+# :::::::::::::::: COI ::::::::::::::::::::
+
+vsearch --usearch_global /home/kvilleneuve/fish_edna/results/coi_dada2_biostring4annotation.fna -db /home/kvilleneuve/fish_edna/database/curated_database/coi/coi_alberta_curated_combined_derep.fasta --blast6out  /home/kvilleneuve/fish_edna/results/curated_db/coi_dada2_vsearch_curated.out --top_hits_only --notrunclabels --id 0.70 --maxaccepts 0 --maxrejects 0
+
+
+vsearch --usearch_global /home/kvilleneuve/fish_edna/results/coi_dada2_biostring4annotation.fna -db /home/kvilleneuve/fish_edna/database/curated_database/coi/alberta_curated_combinedCOI.fasta --blast6out  /home/kvilleneuve/fish_edna/results/curated_db/coi_dada2_vsearch_curated.out --top_hits_only --notrunclabels --id 0.70 --maxaccepts 0 --maxrejects 0
+
+
+
+
+# Trying vsearch with the untrained RDP databases
+vsearch --usearch_global /home/kvilleneuve/fish_edna/results/coi_dada2_biostring4annotation.fna -db /home/kvilleneuve/fish_edna/database/raw_db/RDP_COI.fasta --blast6out /home/kvilleneuve/fish_edna/results/curated_db/coi_dada2_vsearch_rdpraw.out --top_hits_only --notrunclabels --id 0.70 --maxaccepts 0 --maxrejects 0
+```
+

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Supplementary workflow | Fish eDNA</title>
   <meta name="description" content="Supplementary workflow | Fish eDNA" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Supplementary workflow | Fish eDNA" />
   <meta property="og:type" content="book" />
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="taxonomy-cross-validation-by-identity-taxxi.html"/>
-<link rel="next" href="curating-databases-for-alberta-freshwater-fish.html"/>
+<link rel="prev" href="generating-mock-communities.html"/>
+<link rel="next" href="random-subsample-10-sequences.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -63,7 +63,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -73,7 +73,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -151,6 +151,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#alberta-fishes"><i class="fa fa-check"></i>Alberta fishes</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#methods-and-their-associated-available-databases"><i class="fa fa-check"></i>Methods and their associated available databases</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#representation-of-alberta-freshwater-fishes-in-databases"><i class="fa fa-check"></i>Representation of Alberta freshwater fishes in databases</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#notes-on-otus-vs-asvs"><i class="fa fa-check"></i>Notes on OTUs vs ASVs</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html"><i class="fa fa-check"></i>Required files, scripts and programs</a>
 <ul>
@@ -158,12 +159,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html#databases"><i class="fa fa-check"></i>Databases</a></li>
 <li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html#scripts"><i class="fa fa-check"></i>Scripts</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="processing-raw-fastq.html"><a href="processing-raw-fastq.html"><i class="fa fa-check"></i>Processing raw fastq</a>
+<ul>
+<li class="chapter" data-level="" data-path="processing-raw-fastq.html"><a href="processing-raw-fastq.html#dada2"><i class="fa fa-check"></i>DADA2</a></li>
+<li class="chapter" data-level="" data-path="processing-raw-fastq.html"><a href="processing-raw-fastq.html#barque"><i class="fa fa-check"></i>barque</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="taxonomic-classification.html"><a href="taxonomic-classification.html"><i class="fa fa-check"></i>Taxonomic classification</a></li>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html"><i class="fa fa-check"></i>Evaluate performance of databases</a>
+<ul>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#description"><i class="fa fa-check"></i>Description</a></li>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#methods"><i class="fa fa-check"></i>Methods</a></li>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#implementing-cvi-with-our-data"><i class="fa fa-check"></i>Implementing CVI with our data</a></li>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#generate-benchmark-datasets"><i class="fa fa-check"></i>Generate benchmark datasets</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html"><i class="fa fa-check"></i>Taxonomy cross validation by identity (TAXXI)</a>
 <ul>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#description"><i class="fa fa-check"></i>Description</a></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#methods"><i class="fa fa-check"></i>Methods</a></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#implementing-cvi-with-our-data"><i class="fa fa-check"></i>Implementing CVI with our data</a></li>
-<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-benchmark-datasets"><i class="fa fa-check"></i>Generate benchmark datasets</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#description-1"><i class="fa fa-check"></i>Description</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#methods-1"><i class="fa fa-check"></i>Methods</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#implementing-cvi-with-our-data-1"><i class="fa fa-check"></i>Implementing CVI with our data</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-benchmark-datasets-1"><i class="fa fa-check"></i>Generate benchmark datasets</a></li>
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions"><i class="fa fa-check"></i>Generate predictions</a>
 <ul>
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#rdp-classifier"><i class="fa fa-check"></i>RDP Classifier</a></li>
@@ -174,20 +188,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#script-to-evaluate-prediction"><i class="fa fa-check"></i>Script to evaluate prediction</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="generating-custom-database-of-the-12s-marker-gene.html"><a href="generating-custom-database-of-the-12s-marker-gene.html"><i class="fa fa-check"></i>Generating custom database of the 12S marker gene</a>
+<ul>
+<li class="chapter" data-level="" data-path="generating-custom-database-of-the-12s-marker-gene.html"><a href="generating-custom-database-of-the-12s-marker-gene.html#evaluate-resolution-blindspots"><i class="fa fa-check"></i>Evaluate resolution blindspots</a></li>
+<li class="chapter" data-level="" data-path="generating-custom-database-of-the-12s-marker-gene.html"><a href="generating-custom-database-of-the-12s-marker-gene.html#notes-on-resolution-blindspot"><i class="fa fa-check"></i>Notes on resolution blindspot</a></li>
+<li class="chapter" data-level="" data-path="generating-custom-database-of-the-12s-marker-gene.html"><a href="generating-custom-database-of-the-12s-marker-gene.html#assessing-hybrids"><i class="fa fa-check"></i>Assessing hybrids</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="generating-custom-database.html"><a href="generating-custom-database.html"><i class="fa fa-check"></i>Generating custom database</a></li>
+<li class="chapter" data-level="" data-path="generating-mock-communities.html"><a href="generating-mock-communities.html"><i class="fa fa-check"></i>Generating mock communities</a></li>
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html"><i class="fa fa-check"></i>Supplementary workflow</a>
 <ul>
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#curating-databases-for-distance-matrix"><i class="fa fa-check"></i>Curating databases for distance matrix</a>
 <ul>
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#rdp"><i class="fa fa-check"></i>RDP</a></li>
-<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#barque"><i class="fa fa-check"></i>Barque</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#worklow-used"><i class="fa fa-check"></i>Worklow used</a>
-<ul>
-<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#dada2"><i class="fa fa-check"></i>DADA2</a></li>
 <li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#barque-1"><i class="fa fa-check"></i>Barque</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="curating-databases-for-alberta-freshwater-fish.html"><a href="curating-databases-for-alberta-freshwater-fish.html"><i class="fa fa-check"></i>Curating databases for Alberta freshwater fish</a></li>
+<li class="chapter" data-level="" data-path="random-subsample-10-sequences.html"><a href="random-subsample-10-sequences.html"><i class="fa fa-check"></i>Random subsample 10 sequences</a></li>
 </ul>
 
       </nav>
@@ -219,197 +236,128 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol style="list-style-type: decimal">
 <li>Filter out sequence which do not belong to class Actinopteri</li>
 </ol>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="supplementary-workflow.html#cb19-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-r</span> <span class="at">-n</span> <span class="at">-p</span> <span class="st">&#39;.*Actinopteri*&#39;</span> rdp_coi.fasta <span class="at">-o</span> chord_rdp_coi.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb57-1"><a href="supplementary-workflow.html#cb57-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-r</span> <span class="at">-n</span> <span class="at">-p</span> <span class="st">&#39;.*Actinopteri*&#39;</span> coi_rdp.fasta <span class="at">-o</span> coi_rdp_acti.fasta</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Extract sequences header and print into txt file</li>
 </ol>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="supplementary-workflow.html#cb20-1" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;&gt;&quot;</span> chord_rdp_coi.fasta <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-e</span> <span class="st">&quot;s/&gt;//&quot;</span> <span class="op">&gt;</span> rdp_coi_header.txt</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb58-1"><a href="supplementary-workflow.html#cb58-1" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;&gt;&quot;</span> acti_rdp_coi.fasta acti_rdp_coi.fasta</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
-<li>The file with the sequence headers can then be passed to R to generate a list of which headers to keep. As per methodology by Edgar (2018), because the databases have a highly uneven numbers of sequences per genus, a subset is create by imposing a maximum of 10 sequences per genus. Headers are sampled at random to meet this constraint.</li>
+<li>The file with the sequence headers can then be passed to R to generate a list of headers to keep. As per methodology by Edgar (2018), because the databases have a highly uneven numbers of sequences per genus, a subset is create by imposing a maximum of 10 sequences per genus. Headers are sampled at random to meet this constraint.</li>
 </ol>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="supplementary-workflow.html#cb21-1" tabindex="-1"></a><span class="do">#### ------------------------- Load libraries ------------------------------------------------------------------####  </span></span>
-<span id="cb21-2"><a href="supplementary-workflow.html#cb21-2" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="supplementary-workflow.html#cb21-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb21-4"><a href="supplementary-workflow.html#cb21-4" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb21-5"><a href="supplementary-workflow.html#cb21-5" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="supplementary-workflow.html#cb21-6" tabindex="-1"></a><span class="do">#### ------------------------- Load databases sequence header -------------------------------------------------- #### </span></span>
-<span id="cb21-7"><a href="supplementary-workflow.html#cb21-7" tabindex="-1"></a></span>
-<span id="cb21-8"><a href="supplementary-workflow.html#cb21-8" tabindex="-1"></a>rdpcoi <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/rdp_coi_header.txt&quot;</span>,<span class="at">sep =</span> <span class="st">&quot;;&quot;</span>)</span>
-<span id="cb21-9"><a href="supplementary-workflow.html#cb21-9" tabindex="-1"></a></span>
-<span id="cb21-10"><a href="supplementary-workflow.html#cb21-10" tabindex="-1"></a><span class="do">#### ------------------------- Format dataframes -------------------------------------------------------------- #### </span></span>
-<span id="cb21-11"><a href="supplementary-workflow.html#cb21-11" tabindex="-1"></a><span class="fu">names</span>(rdpcoi) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Cellular_organism&quot;</span>,<span class="st">&quot;Superkingdom&quot;</span>, <span class="st">&quot;Kingdom&quot;</span>, <span class="st">&quot;Phylum&quot;</span>, <span class="st">&quot;Class&quot;</span>, <span class="st">&quot;Order&quot;</span>, <span class="st">&quot;Family&quot;</span>, <span class="st">&quot;Genus&quot;</span>, <span class="st">&quot;Species&quot;</span>)</span>
-<span id="cb21-12"><a href="supplementary-workflow.html#cb21-12" tabindex="-1"></a>rdp_coi_actino <span class="ot">=</span> <span class="fu">subset</span>(rdpcoi, Class <span class="sc">==</span> <span class="st">&quot;Actinopteri&quot;</span>)</span>
-<span id="cb21-13"><a href="supplementary-workflow.html#cb21-13" tabindex="-1"></a></span>
-<span id="cb21-14"><a href="supplementary-workflow.html#cb21-14" tabindex="-1"></a><span class="do">#### ------------------------- Random sampling  --------------------------------------------------------------- #### </span></span>
-<span id="cb21-15"><a href="supplementary-workflow.html#cb21-15" tabindex="-1"></a></span>
-<span id="cb21-16"><a href="supplementary-workflow.html#cb21-16" tabindex="-1"></a>random_sampling_list <span class="ot">=</span> <span class="fu">list</span>()</span>
-<span id="cb21-17"><a href="supplementary-workflow.html#cb21-17" tabindex="-1"></a>i <span class="ot">=</span> <span class="dv">0</span> </span>
-<span id="cb21-18"><a href="supplementary-workflow.html#cb21-18" tabindex="-1"></a></span>
-<span id="cb21-19"><a href="supplementary-workflow.html#cb21-19" tabindex="-1"></a><span class="cf">for</span> (genus <span class="cf">in</span> <span class="fu">unique</span>(rdp_coi_actino<span class="sc">$</span>Genus)){</span>
-<span id="cb21-20"><a href="supplementary-workflow.html#cb21-20" tabindex="-1"></a>  i <span class="ot">=</span> i <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb21-21"><a href="supplementary-workflow.html#cb21-21" tabindex="-1"></a>  sub_df <span class="ot">=</span> <span class="fu">subset</span>(rdp_coi_actino, Genus <span class="sc">==</span> genus)</span>
-<span id="cb21-22"><a href="supplementary-workflow.html#cb21-22" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nrow</span>(sub_df) <span class="sc">&gt;</span> <span class="dv">10</span>) {</span>
-<span id="cb21-23"><a href="supplementary-workflow.html#cb21-23" tabindex="-1"></a>    rand_sub_df <span class="ot">=</span> sub_df[<span class="fu">sample</span>(<span class="fu">nrow</span>(sub_df), <span class="at">size=</span><span class="dv">10</span>), ] </span>
-<span id="cb21-24"><a href="supplementary-workflow.html#cb21-24" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb21-25"><a href="supplementary-workflow.html#cb21-25" tabindex="-1"></a>    rand_sub_df <span class="ot">=</span> sub_df</span>
-<span id="cb21-26"><a href="supplementary-workflow.html#cb21-26" tabindex="-1"></a>  }</span>
-<span id="cb21-27"><a href="supplementary-workflow.html#cb21-27" tabindex="-1"></a>    random_sampling_list[[i]] <span class="ot">=</span> rand_sub_df</span>
-<span id="cb21-28"><a href="supplementary-workflow.html#cb21-28" tabindex="-1"></a>}</span>
-<span id="cb21-29"><a href="supplementary-workflow.html#cb21-29" tabindex="-1"></a></span>
-<span id="cb21-30"><a href="supplementary-workflow.html#cb21-30" tabindex="-1"></a><span class="do">#### ------------------------- Generate list of headers to keep ----------------------------------------------- #### </span></span>
-<span id="cb21-31"><a href="supplementary-workflow.html#cb21-31" tabindex="-1"></a></span>
-<span id="cb21-32"><a href="supplementary-workflow.html#cb21-32" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">do.call</span>(<span class="st">&quot;rbind&quot;</span>, random_sampling_list)</span>
-<span id="cb21-33"><a href="supplementary-workflow.html#cb21-33" tabindex="-1"></a></span>
-<span id="cb21-34"><a href="supplementary-workflow.html#cb21-34" tabindex="-1"></a>df <span class="ot">=</span> df <span class="sc">%&gt;%</span> <span class="fu">unite</span>(<span class="st">&quot;sequence_header&quot;</span>, ID<span class="sc">:</span>Species, <span class="at">remove =</span> <span class="cn">FALSE</span>, <span class="at">sep  =</span> <span class="st">&quot;;&quot;</span>)</span>
-<span id="cb21-35"><a href="supplementary-workflow.html#cb21-35" tabindex="-1"></a><span class="fu">write.table</span>(df<span class="sc">$</span>sequence_header, <span class="st">&quot;/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/rdp_coi_headers_to_keep.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="supplementary-workflow.html#cb59-1" tabindex="-1"></a><span class="do">#### ------------------------- Load libraries ------------------------------------------------------------------####  </span></span>
+<span id="cb59-2"><a href="supplementary-workflow.html#cb59-2" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="supplementary-workflow.html#cb59-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb59-4"><a href="supplementary-workflow.html#cb59-4" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb59-5"><a href="supplementary-workflow.html#cb59-5" tabindex="-1"></a></span>
+<span id="cb59-6"><a href="supplementary-workflow.html#cb59-6" tabindex="-1"></a><span class="do">#### ------------------------- Load databases sequence header -------------------------------------------------- #### </span></span>
+<span id="cb59-7"><a href="supplementary-workflow.html#cb59-7" tabindex="-1"></a></span>
+<span id="cb59-8"><a href="supplementary-workflow.html#cb59-8" tabindex="-1"></a>rdpcoi <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/rdp_coi_header.txt&quot;</span>,<span class="at">sep =</span> <span class="st">&quot;;&quot;</span>)</span>
+<span id="cb59-9"><a href="supplementary-workflow.html#cb59-9" tabindex="-1"></a></span>
+<span id="cb59-10"><a href="supplementary-workflow.html#cb59-10" tabindex="-1"></a><span class="do">#### ------------------------- Format dataframes -------------------------------------------------------------- #### </span></span>
+<span id="cb59-11"><a href="supplementary-workflow.html#cb59-11" tabindex="-1"></a><span class="fu">names</span>(rdpcoi) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Cellular_organism&quot;</span>,<span class="st">&quot;Superkingdom&quot;</span>, <span class="st">&quot;Kingdom&quot;</span>, <span class="st">&quot;Phylum&quot;</span>, <span class="st">&quot;Class&quot;</span>, <span class="st">&quot;Order&quot;</span>, <span class="st">&quot;Family&quot;</span>, <span class="st">&quot;Genus&quot;</span>, <span class="st">&quot;Species&quot;</span>)</span>
+<span id="cb59-12"><a href="supplementary-workflow.html#cb59-12" tabindex="-1"></a>rdp_coi_actino <span class="ot">=</span> <span class="fu">subset</span>(rdpcoi, Class <span class="sc">==</span> <span class="st">&quot;Actinopteri&quot;</span>)</span>
+<span id="cb59-13"><a href="supplementary-workflow.html#cb59-13" tabindex="-1"></a></span>
+<span id="cb59-14"><a href="supplementary-workflow.html#cb59-14" tabindex="-1"></a><span class="do">#### ------------------------- Random sampling  --------------------------------------------------------------- #### </span></span>
+<span id="cb59-15"><a href="supplementary-workflow.html#cb59-15" tabindex="-1"></a></span>
+<span id="cb59-16"><a href="supplementary-workflow.html#cb59-16" tabindex="-1"></a>random_sampling_list <span class="ot">=</span> <span class="fu">list</span>()</span>
+<span id="cb59-17"><a href="supplementary-workflow.html#cb59-17" tabindex="-1"></a>i <span class="ot">=</span> <span class="dv">0</span> </span>
+<span id="cb59-18"><a href="supplementary-workflow.html#cb59-18" tabindex="-1"></a></span>
+<span id="cb59-19"><a href="supplementary-workflow.html#cb59-19" tabindex="-1"></a><span class="cf">for</span> (genus <span class="cf">in</span> <span class="fu">unique</span>(rdp_coi_actino<span class="sc">$</span>Genus)){</span>
+<span id="cb59-20"><a href="supplementary-workflow.html#cb59-20" tabindex="-1"></a>  i <span class="ot">=</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb59-21"><a href="supplementary-workflow.html#cb59-21" tabindex="-1"></a>  sub_df <span class="ot">=</span> <span class="fu">subset</span>(rdp_coi_actino, Genus <span class="sc">==</span> genus)</span>
+<span id="cb59-22"><a href="supplementary-workflow.html#cb59-22" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nrow</span>(sub_df) <span class="sc">&gt;</span> <span class="dv">10</span>) {</span>
+<span id="cb59-23"><a href="supplementary-workflow.html#cb59-23" tabindex="-1"></a>    rand_sub_df <span class="ot">=</span> sub_df[<span class="fu">sample</span>(<span class="fu">nrow</span>(sub_df), <span class="at">size=</span><span class="dv">10</span>), ] </span>
+<span id="cb59-24"><a href="supplementary-workflow.html#cb59-24" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb59-25"><a href="supplementary-workflow.html#cb59-25" tabindex="-1"></a>    rand_sub_df <span class="ot">=</span> sub_df</span>
+<span id="cb59-26"><a href="supplementary-workflow.html#cb59-26" tabindex="-1"></a>  }</span>
+<span id="cb59-27"><a href="supplementary-workflow.html#cb59-27" tabindex="-1"></a>    random_sampling_list[[i]] <span class="ot">=</span> rand_sub_df</span>
+<span id="cb59-28"><a href="supplementary-workflow.html#cb59-28" tabindex="-1"></a>}</span>
+<span id="cb59-29"><a href="supplementary-workflow.html#cb59-29" tabindex="-1"></a></span>
+<span id="cb59-30"><a href="supplementary-workflow.html#cb59-30" tabindex="-1"></a><span class="do">#### ------------------------- Generate list of headers to keep ----------------------------------------------- #### </span></span>
+<span id="cb59-31"><a href="supplementary-workflow.html#cb59-31" tabindex="-1"></a></span>
+<span id="cb59-32"><a href="supplementary-workflow.html#cb59-32" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">do.call</span>(<span class="st">&quot;rbind&quot;</span>, random_sampling_list)</span>
+<span id="cb59-33"><a href="supplementary-workflow.html#cb59-33" tabindex="-1"></a></span>
+<span id="cb59-34"><a href="supplementary-workflow.html#cb59-34" tabindex="-1"></a>df <span class="ot">=</span> df <span class="sc">%&gt;%</span> <span class="fu">unite</span>(<span class="st">&quot;sequence_header&quot;</span>, ID<span class="sc">:</span>Species, <span class="at">remove =</span> <span class="cn">FALSE</span>, <span class="at">sep  =</span> <span class="st">&quot;;&quot;</span>)</span>
+<span id="cb59-35"><a href="supplementary-workflow.html#cb59-35" tabindex="-1"></a><span class="fu">write.table</span>(df<span class="sc">$</span>sequence_header, <span class="st">&quot;/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/rdp_coi_headers_to_keep.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>Pass the file generated by the R script to seqkit to create a subset database</li>
 </ol>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="supplementary-workflow.html#cb22-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> rdp_coi_headers_to_keep.txt chord_rdp_coi.fasta <span class="at">-o</span> curated_rdp_coi.fasta</span></code></pre></div>
-</div>
-<div id="barque" class="section level3 unnumbered hasAnchor">
-<h3>Barque<a href="supplementary-workflow.html#barque" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<ol style="list-style-type: decimal">
-<li>Remove sequence of taxa which do not belong to phylum Chordata</li>
-</ol>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="supplementary-workflow.html#cb23-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-r</span> <span class="at">-n</span> <span class="at">-p</span> <span class="st">&#39;.*chordata_*&#39;</span> barque_coi.fasta <span class="at">-o</span> chord_barque_coi.fasta</span></code></pre></div>
-<ol start="2" style="list-style-type: decimal">
-<li>Add unique ID to every sequence header, this is required to randomly sample 10 sequences per genus</li>
-</ol>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="supplementary-workflow.html#cb24-1" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;/^&gt;/{sub(&quot;&gt;&quot;, &quot;&gt;&quot;++i&quot;_&quot;)}1&#39;</span> chord_barque_coi.fasta <span class="op">&gt;</span> chord_barque_coi_ID.fasta</span></code></pre></div>
-<ol start="3" style="list-style-type: decimal">
-<li>Extract sequences header and print into txt file</li>
-</ol>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="supplementary-workflow.html#cb25-1" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;&gt;&quot;</span> chord_barque_coi_ID.fasta <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-e</span> <span class="st">&quot;s/&gt;//&quot;</span> <span class="op">&gt;</span> barque_coi_ID_header.txt</span>
-<span id="cb25-2"><a href="supplementary-workflow.html#cb25-2" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;&gt;&quot;</span> rdp_coi.fasta <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-e</span> <span class="st">&quot;s/&gt;//&quot;</span> <span class="op">&gt;</span> rdp_coi_header.txt</span></code></pre></div>
-<ol start="4" style="list-style-type: decimal">
-<li>The file with the sequence headers can then be passed to R to generate a list of which headers to keep. As per methodology by Edgar (2018), because the databases have a highly uneven numbers of sequences per genus, a subset is create by imposing a maximum of 10 sequences per genus. Headers are sampled at random to meet this constraint.</li>
-</ol>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="supplementary-workflow.html#cb26-1" tabindex="-1"></a><span class="do">#### ------------------------- Load libraries ------------------------------------------------------------------####  </span></span>
-<span id="cb26-2"><a href="supplementary-workflow.html#cb26-2" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="supplementary-workflow.html#cb26-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb26-4"><a href="supplementary-workflow.html#cb26-4" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="supplementary-workflow.html#cb26-5" tabindex="-1"></a><span class="do">#### ------------------------- Load databases sequence header -------------------------------------------------- #### </span></span>
-<span id="cb26-6"><a href="supplementary-workflow.html#cb26-6" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="supplementary-workflow.html#cb26-7" tabindex="-1"></a></span>
-<span id="cb26-8"><a href="supplementary-workflow.html#cb26-8" tabindex="-1"></a>barquecoi <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/barque_coi_ID_header.txt&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span>
-<span id="cb26-9"><a href="supplementary-workflow.html#cb26-9" tabindex="-1"></a>rdpcoi <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/rdp_coi_header.txt&quot;</span>,<span class="at">sep =</span> <span class="st">&quot;;&quot;</span>)</span>
-<span id="cb26-10"><a href="supplementary-workflow.html#cb26-10" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="supplementary-workflow.html#cb26-11" tabindex="-1"></a><span class="do">#### ------------------------- Format dataframes for merging --------------------------------------------------- #### </span></span>
-<span id="cb26-12"><a href="supplementary-workflow.html#cb26-12" tabindex="-1"></a></span>
-<span id="cb26-13"><a href="supplementary-workflow.html#cb26-13" tabindex="-1"></a><span class="co"># The sequence headers of the COI database used by barque has the following format : Phylum_Genus_Species</span></span>
-<span id="cb26-14"><a href="supplementary-workflow.html#cb26-14" tabindex="-1"></a><span class="co"># Therefore, to keep only sequence belonging to class Actinopteri </span></span>
-<span id="cb26-15"><a href="supplementary-workflow.html#cb26-15" tabindex="-1"></a><span class="co"># I am merging the header from the barque COI database with headers from the RDP COI database to get complete </span></span>
-<span id="cb26-16"><a href="supplementary-workflow.html#cb26-16" tabindex="-1"></a><span class="co"># taxonomic rank</span></span>
-<span id="cb26-17"><a href="supplementary-workflow.html#cb26-17" tabindex="-1"></a></span>
-<span id="cb26-18"><a href="supplementary-workflow.html#cb26-18" tabindex="-1"></a>barquecoi<span class="sc">$</span>Species <span class="ot">=</span> <span class="fu">paste</span>(barquecoi<span class="sc">$</span>V2, barquecoi<span class="sc">$</span>V3, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>) <span class="co"># Create column with specie name </span></span>
-<span id="cb26-19"><a href="supplementary-workflow.html#cb26-19" tabindex="-1"></a>barquecoi_unique <span class="ot">=</span> barquecoi[<span class="sc">!</span><span class="fu">duplicated</span>(barquecoi), ] <span class="co"># Keeping only unique value</span></span>
-<span id="cb26-20"><a href="supplementary-workflow.html#cb26-20" tabindex="-1"></a></span>
-<span id="cb26-21"><a href="supplementary-workflow.html#cb26-21" tabindex="-1"></a><span class="co"># Add column names to RDP database </span></span>
-<span id="cb26-22"><a href="supplementary-workflow.html#cb26-22" tabindex="-1"></a><span class="fu">names</span>(rdpcoi) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Cellular_organism&quot;</span>,<span class="st">&quot;Superkingdom&quot;</span>, <span class="st">&quot;Kingdom&quot;</span>, <span class="st">&quot;Phylum&quot;</span>, <span class="st">&quot;Class&quot;</span>, <span class="st">&quot;Order&quot;</span>, <span class="st">&quot;Family&quot;</span>, <span class="st">&quot;Genus&quot;</span>, <span class="st">&quot;Species&quot;</span>)</span>
-<span id="cb26-23"><a href="supplementary-workflow.html#cb26-23" tabindex="-1"></a>rdpcoi_noID <span class="ot">=</span> <span class="fu">subset</span>(rdpcoi, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(ID)) <span class="co"># Remove column ID (they are unique values)</span></span>
-<span id="cb26-24"><a href="supplementary-workflow.html#cb26-24" tabindex="-1"></a>rdpcoi_unique <span class="ot">=</span> rdpcoi_noID[<span class="sc">!</span><span class="fu">duplicated</span>(rdpcoi_noID), ] <span class="co"># Keeping only unique value</span></span>
-<span id="cb26-25"><a href="supplementary-workflow.html#cb26-25" tabindex="-1"></a></span>
-<span id="cb26-26"><a href="supplementary-workflow.html#cb26-26" tabindex="-1"></a><span class="do">#### ------------------------- Merge dataframes  -------------------------------------------------------------- #### </span></span>
-<span id="cb26-27"><a href="supplementary-workflow.html#cb26-27" tabindex="-1"></a></span>
-<span id="cb26-28"><a href="supplementary-workflow.html#cb26-28" tabindex="-1"></a>comb_df <span class="ot">=</span> <span class="fu">merge</span>(barquecoi_unique, rdpcoi_unique, <span class="at">by =</span> <span class="st">&quot;Species&quot;</span>, <span class="at">all.y =</span> <span class="cn">FALSE</span> )</span>
-<span id="cb26-29"><a href="supplementary-workflow.html#cb26-29" tabindex="-1"></a></span>
-<span id="cb26-30"><a href="supplementary-workflow.html#cb26-30" tabindex="-1"></a><span class="do">#### ------------------------- Random sampling  --------------------------------------------------------------- #### </span></span>
-<span id="cb26-31"><a href="supplementary-workflow.html#cb26-31" tabindex="-1"></a></span>
-<span id="cb26-32"><a href="supplementary-workflow.html#cb26-32" tabindex="-1"></a>random_sampling_list <span class="ot">=</span> <span class="fu">list</span>()</span>
-<span id="cb26-33"><a href="supplementary-workflow.html#cb26-33" tabindex="-1"></a>i <span class="ot">=</span> <span class="dv">0</span> </span>
-<span id="cb26-34"><a href="supplementary-workflow.html#cb26-34" tabindex="-1"></a></span>
-<span id="cb26-35"><a href="supplementary-workflow.html#cb26-35" tabindex="-1"></a><span class="cf">for</span> (genus <span class="cf">in</span> <span class="fu">unique</span>(comb_df<span class="sc">$</span>Genus.x)){</span>
-<span id="cb26-36"><a href="supplementary-workflow.html#cb26-36" tabindex="-1"></a>  i <span class="ot">=</span> i <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb26-37"><a href="supplementary-workflow.html#cb26-37" tabindex="-1"></a>  sub_df <span class="ot">=</span> <span class="fu">subset</span>(comb_df, Genus.x <span class="sc">==</span> genus)</span>
-<span id="cb26-38"><a href="supplementary-workflow.html#cb26-38" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nrow</span>(sub_df) <span class="sc">&gt;</span> <span class="dv">10</span>) {</span>
-<span id="cb26-39"><a href="supplementary-workflow.html#cb26-39" tabindex="-1"></a>    rand_sub_df <span class="ot">=</span> sub_df[<span class="fu">sample</span>(<span class="fu">nrow</span>(sub_df), <span class="at">size=</span><span class="dv">10</span>), ] </span>
-<span id="cb26-40"><a href="supplementary-workflow.html#cb26-40" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb26-41"><a href="supplementary-workflow.html#cb26-41" tabindex="-1"></a>    rand_sub_df <span class="ot">=</span> sub_df</span>
-<span id="cb26-42"><a href="supplementary-workflow.html#cb26-42" tabindex="-1"></a>  }</span>
-<span id="cb26-43"><a href="supplementary-workflow.html#cb26-43" tabindex="-1"></a>    random_sampling_list[[i]] <span class="ot">=</span> rand_sub_df</span>
-<span id="cb26-44"><a href="supplementary-workflow.html#cb26-44" tabindex="-1"></a>}</span>
-<span id="cb26-45"><a href="supplementary-workflow.html#cb26-45" tabindex="-1"></a></span>
-<span id="cb26-46"><a href="supplementary-workflow.html#cb26-46" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">do.call</span>(<span class="st">&quot;rbind&quot;</span>, random_sampling_list)</span>
-<span id="cb26-47"><a href="supplementary-workflow.html#cb26-47" tabindex="-1"></a></span>
-<span id="cb26-48"><a href="supplementary-workflow.html#cb26-48" tabindex="-1"></a><span class="do">#### ------------------------- Generate list of headers to keep ----------------------------------------------- #### </span></span>
-<span id="cb26-49"><a href="supplementary-workflow.html#cb26-49" tabindex="-1"></a></span>
-<span id="cb26-50"><a href="supplementary-workflow.html#cb26-50" tabindex="-1"></a>df<span class="sc">$</span>barque_coi_header <span class="ot">=</span> <span class="fu">paste</span>(df<span class="sc">$</span>ID, df<span class="sc">$</span>Phylum.x, df<span class="sc">$</span>Species, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span>
-<span id="cb26-51"><a href="supplementary-workflow.html#cb26-51" tabindex="-1"></a></span>
-<span id="cb26-52"><a href="supplementary-workflow.html#cb26-52" tabindex="-1"></a><span class="fu">write.table</span>(df<span class="sc">$</span>barque_coi_header, <span class="st">&quot;/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/barque_coi_headers_to_keep.txt&quot;</span>,<span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<ol start="5" style="list-style-type: decimal">
-<li>Pass the file generated by the R script to seqkit to create a subset database.</li>
-</ol>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="supplementary-workflow.html#cb27-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> barque_coi_headers_to_keep.txt chord_barque_coi.fasta <span class="at">-o</span> curated_barque_coi.fasta</span></code></pre></div>
-</div>
-</div>
-<div id="worklow-used" class="section level2 unnumbered hasAnchor">
-<h2>Worklow used<a href="supplementary-workflow.html#worklow-used" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="dada2" class="section level3 unnumbered hasAnchor">
-<h3>DADA2<a href="supplementary-workflow.html#dada2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="s" class="section level4 unnumbered hasAnchor">
-<h4>12S<a href="supplementary-workflow.html#s" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-</div>
-<div id="coi" class="section level4 unnumbered hasAnchor">
-<h4>COI<a href="supplementary-workflow.html#coi" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>839 ASV | from these 839 ASVs, 20 (2.38 %) are species with a bootstrap level above 70 % | from these 20 species, 8 (40 %) are from class actinopteri | from these 8 actinopteri, 7 (87.5 %) are species of freshwater fishes found in Alberta.</p>
-</div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb60-1"><a href="supplementary-workflow.html#cb60-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> rdp_coi_headers_to_keep.txt chord_rdp_coi.fasta <span class="at">-o</span> curated_rdp_coi.fasta</span></code></pre></div>
 </div>
 <div id="barque-1" class="section level3 unnumbered hasAnchor">
 <h3>Barque<a href="supplementary-workflow.html#barque-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>NB. Barque will only work on GNU Linux or OSX</p>
 <ol style="list-style-type: decimal">
-<li>Install dependencies</li>
+<li>Remove sequence of taxa which do not belong to phylum Chordata</li>
 </ol>
-<ul>
-<li>bash 4+</li>
-<li>python 3.5+ (you can use miniconda3 to install python)</li>
-<li>python distutils package</li>
-<li>R 3+ (ubuntu/mint: sudo apt-get install r-base-core)</li>
-<li>java (ubuntu/mint: sudo apt-get install default-jre)</li>
-<li>gnu parallel
-<ul>
-<li>For mac OSX <code>brew install parallel</code></li>
-</ul></li>
-<li>flash (read merger) v1.2.11+
-<ul>
-<li><code>export PATH=/home/user/FLASH-1.2.11:$PATH</code></li>
-</ul></li>
-<li>vsearch v2.14.2+ (Barque will not work with older versions of vsearch)
-<ul>
-<li>Depending on how vsearch is installed either export PATH to location of vsearch or activate base conda environnement</li>
-</ul></li>
-</ul>
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb61-1"><a href="supplementary-workflow.html#cb61-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-r</span> <span class="at">-n</span> <span class="at">-p</span> <span class="st">&#39;.*chordata_*&#39;</span> barque_coi.fasta <span class="at">-o</span> chord_barque_coi.fasta</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Download a copy of the Barque repository</li>
+<li>Add unique ID to every sequence header, this is required to randomly sample 10 sequences per genus</li>
 </ol>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="supplementary-workflow.html#cb28-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/enormandeau/barque</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb62-1"><a href="supplementary-workflow.html#cb62-1" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;/^&gt;/{sub(&quot;&gt;&quot;, &quot;&gt;&quot;++i&quot;_&quot;)}1&#39;</span> chord_barque_coi.fasta <span class="op">&gt;</span> chord_barque_coi_ID.fasta</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
-<li><p>Edit 02_info/primers.csv to provide information describing your primers and database to use</p></li>
-<li><p>Get or prepare the database(s) (see Formatting database section below) and deposit the fasta.gz file in the 03_databases folder and give it a name that matches the information of the 02_info/primers.csv file.</p></li>
+<li>Extract sequences header and print into txt file</li>
 </ol>
-<ul>
-<li><a href="https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/">Link</a> to BOLD database</li>
-</ul>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb63-1"><a href="supplementary-workflow.html#cb63-1" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;&gt;&quot;</span> chord_barque_coi_ID.fasta <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-e</span> <span class="st">&quot;s/&gt;//&quot;</span> <span class="op">&gt;</span> barque_coi_ID_header.txt</span>
+<span id="cb63-2"><a href="supplementary-workflow.html#cb63-2" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;&gt;&quot;</span> rdp_coi.fasta <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-e</span> <span class="st">&quot;s/&gt;//&quot;</span> <span class="op">&gt;</span> rdp_coi_header.txt</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>The file with the sequence headers can then be passed to R to generate a list of which headers to keep. As per methodology by Edgar (2018), because the databases have a highly uneven numbers of sequences per genus, a subset is create by imposing a maximum of 10 sequences per genus. Headers are sampled at random to meet this constraint.</li>
+</ol>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="supplementary-workflow.html#cb64-1" tabindex="-1"></a><span class="do">#### ------------------------- Load libraries ------------------------------------------------------------------####  </span></span>
+<span id="cb64-2"><a href="supplementary-workflow.html#cb64-2" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="supplementary-workflow.html#cb64-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb64-4"><a href="supplementary-workflow.html#cb64-4" tabindex="-1"></a></span>
+<span id="cb64-5"><a href="supplementary-workflow.html#cb64-5" tabindex="-1"></a><span class="do">#### ------------------------- Load databases sequence header -------------------------------------------------- #### </span></span>
+<span id="cb64-6"><a href="supplementary-workflow.html#cb64-6" tabindex="-1"></a></span>
+<span id="cb64-7"><a href="supplementary-workflow.html#cb64-7" tabindex="-1"></a></span>
+<span id="cb64-8"><a href="supplementary-workflow.html#cb64-8" tabindex="-1"></a>barquecoi <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/barque_coi_ID_header.txt&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span>
+<span id="cb64-9"><a href="supplementary-workflow.html#cb64-9" tabindex="-1"></a>rdpcoi <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/rdp_coi_header.txt&quot;</span>,<span class="at">sep =</span> <span class="st">&quot;;&quot;</span>)</span>
+<span id="cb64-10"><a href="supplementary-workflow.html#cb64-10" tabindex="-1"></a></span>
+<span id="cb64-11"><a href="supplementary-workflow.html#cb64-11" tabindex="-1"></a><span class="do">#### ------------------------- Format dataframes for merging --------------------------------------------------- #### </span></span>
+<span id="cb64-12"><a href="supplementary-workflow.html#cb64-12" tabindex="-1"></a></span>
+<span id="cb64-13"><a href="supplementary-workflow.html#cb64-13" tabindex="-1"></a><span class="co"># The sequence headers of the COI database used by barque has the following format : Phylum_Genus_Species</span></span>
+<span id="cb64-14"><a href="supplementary-workflow.html#cb64-14" tabindex="-1"></a><span class="co"># Therefore, to keep only sequence belonging to class Actinopteri </span></span>
+<span id="cb64-15"><a href="supplementary-workflow.html#cb64-15" tabindex="-1"></a><span class="co"># I am merging the header from the barque COI database with headers from the RDP COI database to get complete </span></span>
+<span id="cb64-16"><a href="supplementary-workflow.html#cb64-16" tabindex="-1"></a><span class="co"># taxonomic rank</span></span>
+<span id="cb64-17"><a href="supplementary-workflow.html#cb64-17" tabindex="-1"></a></span>
+<span id="cb64-18"><a href="supplementary-workflow.html#cb64-18" tabindex="-1"></a>barquecoi<span class="sc">$</span>Species <span class="ot">=</span> <span class="fu">paste</span>(barquecoi<span class="sc">$</span>V2, barquecoi<span class="sc">$</span>V3, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>) <span class="co"># Create column with specie name </span></span>
+<span id="cb64-19"><a href="supplementary-workflow.html#cb64-19" tabindex="-1"></a>barquecoi_unique <span class="ot">=</span> barquecoi[<span class="sc">!</span><span class="fu">duplicated</span>(barquecoi), ] <span class="co"># Keeping only unique value</span></span>
+<span id="cb64-20"><a href="supplementary-workflow.html#cb64-20" tabindex="-1"></a></span>
+<span id="cb64-21"><a href="supplementary-workflow.html#cb64-21" tabindex="-1"></a><span class="co"># Add column names to RDP database </span></span>
+<span id="cb64-22"><a href="supplementary-workflow.html#cb64-22" tabindex="-1"></a><span class="fu">names</span>(rdpcoi) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;Cellular_organism&quot;</span>,<span class="st">&quot;Superkingdom&quot;</span>, <span class="st">&quot;Kingdom&quot;</span>, <span class="st">&quot;Phylum&quot;</span>, <span class="st">&quot;Class&quot;</span>, <span class="st">&quot;Order&quot;</span>, <span class="st">&quot;Family&quot;</span>, <span class="st">&quot;Genus&quot;</span>, <span class="st">&quot;Species&quot;</span>)</span>
+<span id="cb64-23"><a href="supplementary-workflow.html#cb64-23" tabindex="-1"></a>rdpcoi_noID <span class="ot">=</span> <span class="fu">subset</span>(rdpcoi, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(ID)) <span class="co"># Remove column ID (they are unique values)</span></span>
+<span id="cb64-24"><a href="supplementary-workflow.html#cb64-24" tabindex="-1"></a>rdpcoi_unique <span class="ot">=</span> rdpcoi_noID[<span class="sc">!</span><span class="fu">duplicated</span>(rdpcoi_noID), ] <span class="co"># Keeping only unique value</span></span>
+<span id="cb64-25"><a href="supplementary-workflow.html#cb64-25" tabindex="-1"></a></span>
+<span id="cb64-26"><a href="supplementary-workflow.html#cb64-26" tabindex="-1"></a><span class="do">#### ------------------------- Merge dataframes  -------------------------------------------------------------- #### </span></span>
+<span id="cb64-27"><a href="supplementary-workflow.html#cb64-27" tabindex="-1"></a></span>
+<span id="cb64-28"><a href="supplementary-workflow.html#cb64-28" tabindex="-1"></a>comb_df <span class="ot">=</span> <span class="fu">merge</span>(barquecoi_unique, rdpcoi_unique, <span class="at">by =</span> <span class="st">&quot;Species&quot;</span>, <span class="at">all.y =</span> <span class="cn">FALSE</span> )</span>
+<span id="cb64-29"><a href="supplementary-workflow.html#cb64-29" tabindex="-1"></a></span>
+<span id="cb64-30"><a href="supplementary-workflow.html#cb64-30" tabindex="-1"></a><span class="do">#### ------------------------- Random sampling  --------------------------------------------------------------- #### </span></span>
+<span id="cb64-31"><a href="supplementary-workflow.html#cb64-31" tabindex="-1"></a></span>
+<span id="cb64-32"><a href="supplementary-workflow.html#cb64-32" tabindex="-1"></a>random_sampling_list <span class="ot">=</span> <span class="fu">list</span>()</span>
+<span id="cb64-33"><a href="supplementary-workflow.html#cb64-33" tabindex="-1"></a>i <span class="ot">=</span> <span class="dv">0</span> </span>
+<span id="cb64-34"><a href="supplementary-workflow.html#cb64-34" tabindex="-1"></a></span>
+<span id="cb64-35"><a href="supplementary-workflow.html#cb64-35" tabindex="-1"></a><span class="cf">for</span> (genus <span class="cf">in</span> <span class="fu">unique</span>(comb_df<span class="sc">$</span>Genus.x)){</span>
+<span id="cb64-36"><a href="supplementary-workflow.html#cb64-36" tabindex="-1"></a>  i <span class="ot">=</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb64-37"><a href="supplementary-workflow.html#cb64-37" tabindex="-1"></a>  sub_df <span class="ot">=</span> <span class="fu">subset</span>(comb_df, Genus.x <span class="sc">==</span> genus)</span>
+<span id="cb64-38"><a href="supplementary-workflow.html#cb64-38" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nrow</span>(sub_df) <span class="sc">&gt;</span> <span class="dv">10</span>) {</span>
+<span id="cb64-39"><a href="supplementary-workflow.html#cb64-39" tabindex="-1"></a>    rand_sub_df <span class="ot">=</span> sub_df[<span class="fu">sample</span>(<span class="fu">nrow</span>(sub_df), <span class="at">size=</span><span class="dv">10</span>), ] </span>
+<span id="cb64-40"><a href="supplementary-workflow.html#cb64-40" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb64-41"><a href="supplementary-workflow.html#cb64-41" tabindex="-1"></a>    rand_sub_df <span class="ot">=</span> sub_df</span>
+<span id="cb64-42"><a href="supplementary-workflow.html#cb64-42" tabindex="-1"></a>  }</span>
+<span id="cb64-43"><a href="supplementary-workflow.html#cb64-43" tabindex="-1"></a>    random_sampling_list[[i]] <span class="ot">=</span> rand_sub_df</span>
+<span id="cb64-44"><a href="supplementary-workflow.html#cb64-44" tabindex="-1"></a>}</span>
+<span id="cb64-45"><a href="supplementary-workflow.html#cb64-45" tabindex="-1"></a></span>
+<span id="cb64-46"><a href="supplementary-workflow.html#cb64-46" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">do.call</span>(<span class="st">&quot;rbind&quot;</span>, random_sampling_list)</span>
+<span id="cb64-47"><a href="supplementary-workflow.html#cb64-47" tabindex="-1"></a></span>
+<span id="cb64-48"><a href="supplementary-workflow.html#cb64-48" tabindex="-1"></a><span class="do">#### ------------------------- Generate list of headers to keep ----------------------------------------------- #### </span></span>
+<span id="cb64-49"><a href="supplementary-workflow.html#cb64-49" tabindex="-1"></a></span>
+<span id="cb64-50"><a href="supplementary-workflow.html#cb64-50" tabindex="-1"></a>df<span class="sc">$</span>barque_coi_header <span class="ot">=</span> <span class="fu">paste</span>(df<span class="sc">$</span>ID, df<span class="sc">$</span>Phylum.x, df<span class="sc">$</span>Species, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span>
+<span id="cb64-51"><a href="supplementary-workflow.html#cb64-51" tabindex="-1"></a></span>
+<span id="cb64-52"><a href="supplementary-workflow.html#cb64-52" tabindex="-1"></a><span class="fu">write.table</span>(df<span class="sc">$</span>barque_coi_header, <span class="st">&quot;/home/kvilleneuve/fish_edna/database/taxxi_cvi/COI_DB/barque_coi_headers_to_keep.txt&quot;</span>,<span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <ol start="5" style="list-style-type: decimal">
-<li>Modify the parameters in 02_info/barque_config.sh for your run</li>
+<li>Pass the file generated by the R script to seqkit to create a subset database.</li>
 </ol>
-<ul>
-<li>for COI marker :</li>
-</ul>
-<p><code>COI_kv,CGTATTTGGYGCYTGRGCCGGRATAGT,CARAARCTYATRTTRTTYATTCG,100,450,bold,0.97,0.9,0.85</code></p>
-<ul>
-<li>for 12S marker</li>
-</ul>
-<p><code>12s200pb,GTCGGTAAAACTCGTGCCAGC,CATAGTGGGGTATCTAATCCCAGTTTG,150,350,12S,0.98,0.9,0.85</code></p>
-<ol start="6" style="list-style-type: decimal">
-<li>Launch Barque</li>
-</ol>
-<p>Move into the Github directory and launch barque</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="supplementary-workflow.html#cb29-1" tabindex="-1"></a><span class="ex">./barque</span> 02_info/barque_config.sh</span></code></pre></div>
-<p>Once the pipeline has finished running, all result files are found in the 12_results folder.
-After a run, it is recommended to make a copy of this folder with some additional info</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="supplementary-workflow.html#cb30-1" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> 12_results 12_results_PROJECT_NAME_DATE_SOME_ADDITIONAL_INFO</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb65-1"><a href="supplementary-workflow.html#cb65-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> barque_coi_headers_to_keep.txt chord_barque_coi.fasta <span class="at">-o</span> curated_barque_coi.fasta</span></code></pre></div>
 
 </div>
 </div>
@@ -440,8 +388,8 @@ After a run, it is recommended to make a copy of this folder with some additiona
           </div>
         </div>
       </div>
-<a href="taxonomy-cross-validation-by-identity-taxxi.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="curating-databases-for-alberta-freshwater-fish.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="generating-mock-communities.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="random-subsample-10-sequences.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -472,7 +420,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/karinevilleneuve/fish_eDNA/master/03_code.Rmd",
+"link": "https://github.com/karinevilleneuve/fish_eDNA/master/06_supplementary_data.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -492,6 +440,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

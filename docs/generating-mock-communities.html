@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Generating mock communities | Fish eDNA</title>
+  <meta name="description" content="Generating mock communities | Fish eDNA" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Generating mock communities | Fish eDNA" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Generating mock communities | Fish eDNA" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="generating-custom-database.html"/>
+<link rel="next" href="supplementary-workflow.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.33/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#objectives"><i class="fa fa-check"></i>Objectives</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dataset"><i class="fa fa-check"></i>Dataset</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#alberta-fishes"><i class="fa fa-check"></i>Alberta fishes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#methods-and-their-associated-available-databases"><i class="fa fa-check"></i>Methods and their associated available databases</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#representation-of-alberta-freshwater-fishes-in-databases"><i class="fa fa-check"></i>Representation of Alberta freshwater fishes in databases</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#notes-on-otus-vs-asvs"><i class="fa fa-check"></i>Notes on OTUs vs ASVs</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html"><i class="fa fa-check"></i>Required files, scripts and programs</a>
+<ul>
+<li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html#programs"><i class="fa fa-check"></i>Programs</a></li>
+<li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html#databases"><i class="fa fa-check"></i>Databases</a></li>
+<li class="chapter" data-level="" data-path="required-files-scripts-and-programs.html"><a href="required-files-scripts-and-programs.html#scripts"><i class="fa fa-check"></i>Scripts</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="processing-raw-fastq.html"><a href="processing-raw-fastq.html"><i class="fa fa-check"></i>Processing raw fastq</a>
+<ul>
+<li class="chapter" data-level="" data-path="processing-raw-fastq.html"><a href="processing-raw-fastq.html#dada2"><i class="fa fa-check"></i>DADA2</a></li>
+<li class="chapter" data-level="" data-path="processing-raw-fastq.html"><a href="processing-raw-fastq.html#barque"><i class="fa fa-check"></i>barque</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="taxonomic-classification.html"><a href="taxonomic-classification.html"><i class="fa fa-check"></i>Taxonomic classification</a></li>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html"><i class="fa fa-check"></i>Evaluate performance of databases</a>
+<ul>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#description"><i class="fa fa-check"></i>Description</a></li>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#methods"><i class="fa fa-check"></i>Methods</a></li>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#implementing-cvi-with-our-data"><i class="fa fa-check"></i>Implementing CVI with our data</a></li>
+<li class="chapter" data-level="" data-path="evaluate-performance-of-databases.html"><a href="evaluate-performance-of-databases.html#generate-benchmark-datasets"><i class="fa fa-check"></i>Generate benchmark datasets</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html"><i class="fa fa-check"></i>Taxonomy cross validation by identity (TAXXI)</a>
+<ul>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#description-1"><i class="fa fa-check"></i>Description</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#methods-1"><i class="fa fa-check"></i>Methods</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#implementing-cvi-with-our-data-1"><i class="fa fa-check"></i>Implementing CVI with our data</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-benchmark-datasets-1"><i class="fa fa-check"></i>Generate benchmark datasets</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#generate-predictions"><i class="fa fa-check"></i>Generate predictions</a>
+<ul>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#rdp-classifier"><i class="fa fa-check"></i>RDP Classifier</a></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#vsearch"><i class="fa fa-check"></i>VSEARCH</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#cvi-metrics"><i class="fa fa-check"></i>CVI metrics</a>
+<ul>
+<li class="chapter" data-level="" data-path="taxonomy-cross-validation-by-identity-taxxi.html"><a href="taxonomy-cross-validation-by-identity-taxxi.html#script-to-evaluate-prediction"><i class="fa fa-check"></i>Script to evaluate prediction</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="generating-custom-database-of-the-12s-marker-gene.html"><a href="generating-custom-database-of-the-12s-marker-gene.html"><i class="fa fa-check"></i>Generating custom database of the 12S marker gene</a>
+<ul>
+<li class="chapter" data-level="" data-path="generating-custom-database-of-the-12s-marker-gene.html"><a href="generating-custom-database-of-the-12s-marker-gene.html#evaluate-resolution-blindspots"><i class="fa fa-check"></i>Evaluate resolution blindspots</a></li>
+<li class="chapter" data-level="" data-path="generating-custom-database-of-the-12s-marker-gene.html"><a href="generating-custom-database-of-the-12s-marker-gene.html#notes-on-resolution-blindspot"><i class="fa fa-check"></i>Notes on resolution blindspot</a></li>
+<li class="chapter" data-level="" data-path="generating-custom-database-of-the-12s-marker-gene.html"><a href="generating-custom-database-of-the-12s-marker-gene.html#assessing-hybrids"><i class="fa fa-check"></i>Assessing hybrids</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="generating-custom-database.html"><a href="generating-custom-database.html"><i class="fa fa-check"></i>Generating custom database</a></li>
+<li class="chapter" data-level="" data-path="generating-mock-communities.html"><a href="generating-mock-communities.html"><i class="fa fa-check"></i>Generating mock communities</a></li>
+<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html"><i class="fa fa-check"></i>Supplementary workflow</a>
+<ul>
+<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#curating-databases-for-distance-matrix"><i class="fa fa-check"></i>Curating databases for distance matrix</a>
+<ul>
+<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#rdp"><i class="fa fa-check"></i>RDP</a></li>
+<li class="chapter" data-level="" data-path="supplementary-workflow.html"><a href="supplementary-workflow.html#barque-1"><i class="fa fa-check"></i>Barque</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="random-subsample-10-sequences.html"><a href="random-subsample-10-sequences.html"><i class="fa fa-check"></i>Random subsample 10 sequences</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fish eDNA</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="generating-mock-communities" class="section level1 unnumbered hasAnchor">
+<h1>Generating mock communities<a href="generating-mock-communities.html#generating-mock-communities" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Using the article by Morney et al. we identified 16 species we believed to be good candidate to include in the mock communities. Four types of mock communities were designed :</p>
+<p>16 species - normalized abundance (richness + / evenness +)
+16 species - non-normalized (richness + / evenness -)
+8 species - normalized abundance (richness - / evenness +)
+8 species - normalized abundance (richness - / evenness -)</p>
+<p>To generate the low richness communities, 8 species were randomly selected from the 16 species.</p>
+<p>Required libraries</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="generating-mock-communities.html#cb45-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb45-2"><a href="generating-mock-communities.html#cb45-2" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb45-3"><a href="generating-mock-communities.html#cb45-3" tabindex="-1"></a><span class="fu">library</span>(phyloseq)</span></code></pre></div>
+<p>Generate and load required files (list of fishes and databases sequence headers)</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="generating-mock-communities.html#cb46-1" tabindex="-1"></a>rich_plus <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Salvelinus_fontinalis&quot;</span>,<span class="st">&quot;Oncorhynchus_mykiss&quot;</span>,<span class="st">&quot;Lota_lota&quot;</span>,<span class="st">&quot;Culaea_inconstans&quot;</span>,<span class="st">&quot;Thymallus_arcticus&quot;</span>,<span class="st">&quot;Perca_flavescens&quot;</span>,<span class="st">&quot;Coregonus_clupeaformis&quot;</span>,<span class="st">&quot;Prosopium_williamsoni&quot;</span>,<span class="st">&quot;Salmo_trutta&quot;</span>,<span class="st">&quot;Sander_vitreus&quot;</span>,<span class="st">&quot;Couesius_plumbeus&quot;</span>,<span class="st">&quot;Platygobio_gracilis&quot;</span>,<span class="st">&quot;Coregonus_artedi&quot;</span>,<span class="st">&quot;Catostomus_catostomus&quot;</span>,<span class="st">&quot;Percopsis_omiscomaycus&quot;</span>,<span class="st">&quot;Cottus_cognatus&quot;</span>)</span>
+<span id="cb46-2"><a href="generating-mock-communities.html#cb46-2" tabindex="-1"></a><span class="co"># Low richness community </span></span>
+<span id="cb46-3"><a href="generating-mock-communities.html#cb46-3" tabindex="-1"></a><span class="co"># Random subsample to ID which fishes to include in the low richness community </span></span>
+<span id="cb46-4"><a href="generating-mock-communities.html#cb46-4" tabindex="-1"></a>rich_low <span class="ot">=</span> <span class="fu">sample</span>(<span class="at">x=</span>fish_id_bad, <span class="at">size =</span> <span class="dv">8</span>)</span>
+<span id="cb46-5"><a href="generating-mock-communities.html#cb46-5" tabindex="-1"></a>rich_low</span>
+<span id="cb46-6"><a href="generating-mock-communities.html#cb46-6" tabindex="-1"></a><span class="co">#&quot;Salvelinus_fontinalis&quot;,&quot;Oncorhynchus_mykiss&quot;,&quot;Lota_lota&quot;,&quot;Culaea_inconstans&quot;,&quot;Thymallus_arcticus&quot;,&quot;Perca_flavescens&quot;,&quot;Coregonus_clupeaformis&quot;,&quot;Prosopium_williamsoni&quot;</span></span></code></pre></div>
+<p>:::::::::::::::::::::::::::::::: 12S marker gene ::::::::::::::::::::::::::::::::</p>
+<p>Extract sequence header name</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href="generating-mock-communities.html#cb47-1" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-e</span> <span class="st">&quot;&gt;&quot;</span> /home/kvilleneuve/fish_edna/database/curated12s_db/12s_alberta_curated_combined.fasta <span class="op">&gt;</span> /home/kvilleneuve/fish_edna/database/curated12s_db/12s_curated_header.txt</span></code></pre></div>
+<p>Generate read count file for each type of communities</p>
+<p>Subset sequence header to keep only fish from generated list</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="generating-mock-communities.html#cb48-1" tabindex="-1"></a><span class="co"># Load sequence header from database </span></span>
+<span id="cb48-2"><a href="generating-mock-communities.html#cb48-2" tabindex="-1"></a>header12s <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;/home/kvilleneuve/fish_edna/database/curated12s_db/12s_alberta_curated_combined_ready.fasta&quot;</span>)</span>
+<span id="cb48-3"><a href="generating-mock-communities.html#cb48-3" tabindex="-1"></a><span class="co"># Set reads per samples (number obtain from the DADA2 workflow)</span></span>
+<span id="cb48-4"><a href="generating-mock-communities.html#cb48-4" tabindex="-1"></a>average_reads <span class="ot">=</span> <span class="dv">80492</span></span>
+<span id="cb48-5"><a href="generating-mock-communities.html#cb48-5" tabindex="-1"></a></span>
+<span id="cb48-6"><a href="generating-mock-communities.html#cb48-6" tabindex="-1"></a><span class="do">############################################################</span></span>
+<span id="cb48-7"><a href="generating-mock-communities.html#cb48-7" tabindex="-1"></a><span class="do">##########  High Richness and high evenness community ###########</span></span>
+<span id="cb48-8"><a href="generating-mock-communities.html#cb48-8" tabindex="-1"></a><span class="do">############################################################</span></span>
+<span id="cb48-9"><a href="generating-mock-communities.html#cb48-9" tabindex="-1"></a></span>
+<span id="cb48-10"><a href="generating-mock-communities.html#cb48-10" tabindex="-1"></a><span class="co"># Subset sequence header to keep only fish from generate list </span></span>
+<span id="cb48-11"><a href="generating-mock-communities.html#cb48-11" tabindex="-1"></a>header12s_richHIGH <span class="ot">=</span> header12s <span class="sc">%&gt;%</span> </span>
+<span id="cb48-12"><a href="generating-mock-communities.html#cb48-12" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">if_any</span>(<span class="dv">1</span>, str_detect, <span class="fu">paste0</span>(rich_plus, <span class="at">collapse =</span> <span class="st">&#39;|&#39;</span>)))</span>
+<span id="cb48-13"><a href="generating-mock-communities.html#cb48-13" tabindex="-1"></a><span class="co"># Remove &gt; at the beginning </span></span>
+<span id="cb48-14"><a href="generating-mock-communities.html#cb48-14" tabindex="-1"></a>header12s_richHIGH<span class="sc">$</span>V1 <span class="ot">=</span> <span class="fu">gsub</span>(<span class="st">&quot;&gt;&quot;</span>, <span class="st">&quot;&quot;</span>, header12s_richHIGH<span class="sc">$</span>V1)</span>
+<span id="cb48-15"><a href="generating-mock-communities.html#cb48-15" tabindex="-1"></a><span class="co"># Save list </span></span>
+<span id="cb48-16"><a href="generating-mock-communities.html#cb48-16" tabindex="-1"></a><span class="fu">write.table</span>(header12s_richHIGH, <span class="st">&quot;/home/kvilleneuve/fish_edna/raw/mock_comm/12s_header_richplus.txt&quot;</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb48-17"><a href="generating-mock-communities.html#cb48-17" tabindex="-1"></a></span>
+<span id="cb48-18"><a href="generating-mock-communities.html#cb48-18" tabindex="-1"></a><span class="co"># Generate read count file for (richness + / evenness +) mock community. We want the sum of all the ASV in our sample to be similar to the average read count per sample in the regular samples. </span></span>
+<span id="cb48-19"><a href="generating-mock-communities.html#cb48-19" tabindex="-1"></a>header12s_richHIGH<span class="sc">$</span>count <span class="ot">=</span> <span class="fu">floor</span>(average_reads<span class="sc">/</span><span class="fu">nrow</span>(header12s_richHIGH))</span>
+<span id="cb48-20"><a href="generating-mock-communities.html#cb48-20" tabindex="-1"></a><span class="fu">write.table</span>(header12s_richHIGH, <span class="st">&quot;/home/kvilleneuve/fish_edna/raw/mock_comm/12s_counts_richplusevenplus.txt&quot;</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb48-21"><a href="generating-mock-communities.html#cb48-21" tabindex="-1"></a></span>
+<span id="cb48-22"><a href="generating-mock-communities.html#cb48-22" tabindex="-1"></a><span class="do">###########################################################</span></span>
+<span id="cb48-23"><a href="generating-mock-communities.html#cb48-23" tabindex="-1"></a><span class="do">##########  Low Richness and high evenness community ###########</span></span>
+<span id="cb48-24"><a href="generating-mock-communities.html#cb48-24" tabindex="-1"></a><span class="do">###########################################################</span></span>
+<span id="cb48-25"><a href="generating-mock-communities.html#cb48-25" tabindex="-1"></a></span>
+<span id="cb48-26"><a href="generating-mock-communities.html#cb48-26" tabindex="-1"></a>header12s_richLOW <span class="ot">=</span> header12s <span class="sc">%&gt;%</span> </span>
+<span id="cb48-27"><a href="generating-mock-communities.html#cb48-27" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">if_any</span>(<span class="dv">1</span>, str_detect, <span class="fu">paste0</span>(rich_low, <span class="at">collapse =</span> <span class="st">&#39;|&#39;</span>)))</span>
+<span id="cb48-28"><a href="generating-mock-communities.html#cb48-28" tabindex="-1"></a><span class="co"># Remove &gt; at the beginning </span></span>
+<span id="cb48-29"><a href="generating-mock-communities.html#cb48-29" tabindex="-1"></a>header12s_richLOW<span class="sc">$</span>V1 <span class="ot">=</span> <span class="fu">gsub</span>(<span class="st">&quot;&gt;&quot;</span>, <span class="st">&quot;&quot;</span>, header12s_richLOW<span class="sc">$</span>V1)</span>
+<span id="cb48-30"><a href="generating-mock-communities.html#cb48-30" tabindex="-1"></a><span class="co"># Save list </span></span>
+<span id="cb48-31"><a href="generating-mock-communities.html#cb48-31" tabindex="-1"></a><span class="fu">write.table</span>(header12s_richLOW, <span class="st">&quot;/home/kvilleneuve/fish_edna/raw/mock_comm/12s_header_richlow.txt&quot;</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb48-32"><a href="generating-mock-communities.html#cb48-32" tabindex="-1"></a></span>
+<span id="cb48-33"><a href="generating-mock-communities.html#cb48-33" tabindex="-1"></a><span class="co"># Generate readcount_file for  (richness - / evenness +) mock community </span></span>
+<span id="cb48-34"><a href="generating-mock-communities.html#cb48-34" tabindex="-1"></a>header12s_richLOW<span class="sc">$</span>count <span class="ot">=</span> <span class="fu">floor</span>(average_reads<span class="sc">/</span><span class="fu">nrow</span>(header12s_richLOW))</span>
+<span id="cb48-35"><a href="generating-mock-communities.html#cb48-35" tabindex="-1"></a></span>
+<span id="cb48-36"><a href="generating-mock-communities.html#cb48-36" tabindex="-1"></a><span class="fu">write.table</span>(header12s_richLOW, <span class="st">&quot;/home/kvilleneuve/fish_edna/raw/mock_comm/12s_counts_richlowevenplus.txt&quot;</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb48-37"><a href="generating-mock-communities.html#cb48-37" tabindex="-1"></a></span>
+<span id="cb48-38"><a href="generating-mock-communities.html#cb48-38" tabindex="-1"></a><span class="do">###########################################################</span></span>
+<span id="cb48-39"><a href="generating-mock-communities.html#cb48-39" tabindex="-1"></a><span class="do">###############  Low evenness communities #################</span></span>
+<span id="cb48-40"><a href="generating-mock-communities.html#cb48-40" tabindex="-1"></a><span class="do">###########################################################</span></span>
+<span id="cb48-41"><a href="generating-mock-communities.html#cb48-41" tabindex="-1"></a></span>
+<span id="cb48-42"><a href="generating-mock-communities.html#cb48-42" tabindex="-1"></a><span class="co"># The low-evenness of both richness types of mock community was manually </span></span>
+<span id="cb48-43"><a href="generating-mock-communities.html#cb48-43" tabindex="-1"></a><span class="co"># generated to have an exponential distribution of reads alternating between </span></span>
+<span id="cb48-44"><a href="generating-mock-communities.html#cb48-44" tabindex="-1"></a><span class="co"># non- and consistently identified fishes.</span></span>
+<span id="cb48-45"><a href="generating-mock-communities.html#cb48-45" tabindex="-1"></a></span>
+<span id="cb48-46"><a href="generating-mock-communities.html#cb48-46" tabindex="-1"></a><span class="co"># 12s_counts_richplusevenlow.txt</span></span>
+<span id="cb48-47"><a href="generating-mock-communities.html#cb48-47" tabindex="-1"></a><span class="co"># 12s_counts_richlowevenlow.txt</span></span></code></pre></div>
+<p><strong>Create FASTA for InSilicoSeq</strong></p>
+<p>Generate FASTA file with sequences from all 16 fishes used to generate mock community.</p>
+<p>Because InSilicoSeq only keeps the first 300 nucleotides, the generated amplicon sequence did not initially correspond to our amplified region and no merged reads were generated. I are therefore used cutadapt to remove all the nucleotides before the forward primer while retaining the primer. The same methodology was used for the reverse primer in order to generate a reverse sequence. We then need to seperately generate the forward and reverse reads</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb49-1"><a href="generating-mock-communities.html#cb49-1" tabindex="-1"></a><span class="co"># Forward primer </span></span>
+<span id="cb49-2"><a href="generating-mock-communities.html#cb49-2" tabindex="-1"></a><span class="ex">cutadapt</span> <span class="at">--action</span><span class="op">=</span>retain <span class="at">-g</span> CCGGTAAAACTCGTGCCAGC <span class="at">-o</span> 12s_seqTRIMF.fasta 12S_allnormline.fasta </span>
+<span id="cb49-3"><a href="generating-mock-communities.html#cb49-3" tabindex="-1"></a><span class="co"># Reverse primer</span></span>
+<span id="cb49-4"><a href="generating-mock-communities.html#cb49-4" tabindex="-1"></a><span class="ex">cutadapt</span> <span class="at">--action</span><span class="op">=</span>retain <span class="at">-a</span> CAAACTGGGATTAGATACCCCACTATG <span class="at">-o</span> 12s_seqTRIMR.fasta  12S_allnormline.fasta</span></code></pre></div>
+<p><strong>Use InSilicoSeq</strong></p>
+<p>Use <a href="https://insilicoseq.readthedocs.io/en/latest/index.html">InSilicoSeq</a> pre-computed error models to generate amplicon reads. Illumina instruments :</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb50-1"><a href="generating-mock-communities.html#cb50-1" tabindex="-1"></a><span class="co">#!bin/bash</span></span>
+<span id="cb50-2"><a href="generating-mock-communities.html#cb50-2" tabindex="-1"></a><span class="co">############# High Richness and High Evenness ############# </span></span>
+<span id="cb50-3"><a href="generating-mock-communities.html#cb50-3" tabindex="-1"></a><span class="co"># FORWARD read</span></span>
+<span id="cb50-4"><a href="generating-mock-communities.html#cb50-4" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Generating reads for High Richness and High Evenness&quot;</span></span>
+<span id="cb50-5"><a href="generating-mock-communities.html#cb50-5" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> 12s_seqTRIMF.fasta <span class="at">--readcount_file</span>  12s_counts_richplusevenplus.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> 12s-richplusevenplus_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb50-6"><a href="generating-mock-communities.html#cb50-6" tabindex="-1"></a><span class="co"># Delete the reverse (R2) and move R1 to folder fastq</span></span>
+<span id="cb50-7"><a href="generating-mock-communities.html#cb50-7" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R2<span class="pp">*</span> </span>
+<span id="cb50-8"><a href="generating-mock-communities.html#cb50-8" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb50-9"><a href="generating-mock-communities.html#cb50-9" tabindex="-1"></a><span class="co"># REVERSE  read</span></span>
+<span id="cb50-10"><a href="generating-mock-communities.html#cb50-10" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> 12s_seqTRIMR.fasta <span class="at">--readcount_file</span>  12s_counts_richplusevenplus.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> 12s-richplusevenplus_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb50-11"><a href="generating-mock-communities.html#cb50-11" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R1<span class="pp">*</span></span>
+<span id="cb50-12"><a href="generating-mock-communities.html#cb50-12" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb50-13"><a href="generating-mock-communities.html#cb50-13" tabindex="-1"></a></span>
+<span id="cb50-14"><a href="generating-mock-communities.html#cb50-14" tabindex="-1"></a><span class="co">############# Low Richness and high evenness ############# </span></span>
+<span id="cb50-15"><a href="generating-mock-communities.html#cb50-15" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Generating reads for Low Richness and High Evenness&quot;</span></span>
+<span id="cb50-16"><a href="generating-mock-communities.html#cb50-16" tabindex="-1"></a><span class="co"># FORWARD read</span></span>
+<span id="cb50-17"><a href="generating-mock-communities.html#cb50-17" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> 12s_seqTRIMF.fasta <span class="at">--readcount_file</span>  12s_counts_richlowevenplus.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> 12s-richlowevenplus_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb50-18"><a href="generating-mock-communities.html#cb50-18" tabindex="-1"></a><span class="co"># Delete the reverse (R2) and move R1 to folder fastq</span></span>
+<span id="cb50-19"><a href="generating-mock-communities.html#cb50-19" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R2<span class="pp">*</span> </span>
+<span id="cb50-20"><a href="generating-mock-communities.html#cb50-20" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb50-21"><a href="generating-mock-communities.html#cb50-21" tabindex="-1"></a><span class="co"># REVERSE  read</span></span>
+<span id="cb50-22"><a href="generating-mock-communities.html#cb50-22" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> 12s_seqTRIMR.fasta <span class="at">--readcount_file</span>  12s_counts_richlowevenplus.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> 12s-richlowevenplus_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb50-23"><a href="generating-mock-communities.html#cb50-23" tabindex="-1"></a><span class="co"># Delete  the forward (R1) and move R2 to folder fastq</span></span>
+<span id="cb50-24"><a href="generating-mock-communities.html#cb50-24" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R1<span class="pp">*</span></span>
+<span id="cb50-25"><a href="generating-mock-communities.html#cb50-25" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb50-26"><a href="generating-mock-communities.html#cb50-26" tabindex="-1"></a></span>
+<span id="cb50-27"><a href="generating-mock-communities.html#cb50-27" tabindex="-1"></a><span class="co">############# High Richness and low evenness ############# </span></span>
+<span id="cb50-28"><a href="generating-mock-communities.html#cb50-28" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Generating reads for High Richness and Low Evenness&quot;</span></span>
+<span id="cb50-29"><a href="generating-mock-communities.html#cb50-29" tabindex="-1"></a><span class="co"># FORWARD read</span></span>
+<span id="cb50-30"><a href="generating-mock-communities.html#cb50-30" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> 12s_seqTRIMF.fasta <span class="at">--readcount_file</span> 12s_counts_richplusevenlow.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> 12s-richplusevenlow_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb50-31"><a href="generating-mock-communities.html#cb50-31" tabindex="-1"></a><span class="co"># Delete all the reverse (R2) and move R1 to another folder (fastq)</span></span>
+<span id="cb50-32"><a href="generating-mock-communities.html#cb50-32" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R2<span class="pp">*</span> </span>
+<span id="cb50-33"><a href="generating-mock-communities.html#cb50-33" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb50-34"><a href="generating-mock-communities.html#cb50-34" tabindex="-1"></a><span class="co"># REVERSE  read</span></span>
+<span id="cb50-35"><a href="generating-mock-communities.html#cb50-35" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> 12s_seqTRIMR.fasta <span class="at">--readcount_file</span>  12s_counts_richplusevenlow.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> 12s-richplusevenlow_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb50-36"><a href="generating-mock-communities.html#cb50-36" tabindex="-1"></a><span class="co"># Delete all the forward (R1) and move R2 to another folder (fastq)</span></span>
+<span id="cb50-37"><a href="generating-mock-communities.html#cb50-37" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R1<span class="pp">*</span></span>
+<span id="cb50-38"><a href="generating-mock-communities.html#cb50-38" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb50-39"><a href="generating-mock-communities.html#cb50-39" tabindex="-1"></a></span>
+<span id="cb50-40"><a href="generating-mock-communities.html#cb50-40" tabindex="-1"></a><span class="co">############# Low Richness and low evenness ############# </span></span>
+<span id="cb50-41"><a href="generating-mock-communities.html#cb50-41" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Generating reads for Low Richness and Low Evenness&quot;</span></span>
+<span id="cb50-42"><a href="generating-mock-communities.html#cb50-42" tabindex="-1"></a><span class="co"># FORWARD read</span></span>
+<span id="cb50-43"><a href="generating-mock-communities.html#cb50-43" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> 12s_seqTRIMF.fasta <span class="at">--readcount_file</span> 12s_counts_richlowevenlow.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> 12s-richlowevenlow_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb50-44"><a href="generating-mock-communities.html#cb50-44" tabindex="-1"></a><span class="co"># Delete all the reverse (R2) and move R1 to another folder (fastq)</span></span>
+<span id="cb50-45"><a href="generating-mock-communities.html#cb50-45" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R2<span class="pp">*</span> </span>
+<span id="cb50-46"><a href="generating-mock-communities.html#cb50-46" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb50-47"><a href="generating-mock-communities.html#cb50-47" tabindex="-1"></a><span class="co"># REVERSE  read</span></span>
+<span id="cb50-48"><a href="generating-mock-communities.html#cb50-48" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> 12s_seqTRIMR.fasta <span class="at">--readcount_file</span>  12s_counts_richlowevenlow.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> 12s-richlowevenlow_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb50-49"><a href="generating-mock-communities.html#cb50-49" tabindex="-1"></a><span class="co"># Delete all the forward (R1) and move R2 to another folder (fastq)</span></span>
+<span id="cb50-50"><a href="generating-mock-communities.html#cb50-50" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R1<span class="pp">*</span></span>
+<span id="cb50-51"><a href="generating-mock-communities.html#cb50-51" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb50-52"><a href="generating-mock-communities.html#cb50-52" tabindex="-1"></a></span>
+<span id="cb50-53"><a href="generating-mock-communities.html#cb50-53" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>.vcf</span></code></pre></div>
+<p>The pattern <code>_001</code> was then manually added to every fastq generated to match pattern from our other samples.</p>
+<p>:::::::::::::::::::::::::::::::: COI marker gene ::::::::::::::::::::::::::::::::</p>
+<p>Extract sequence header name</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="generating-mock-communities.html#cb51-1" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-e</span> <span class="st">&quot;&gt;&quot;</span> /home/kvilleneuve/fish_edna/database/curatedcoi_db/coi_alberta_curated_NCBI.fasta <span class="op">&gt;</span> /home/kvilleneuve/fish_edna/database/curatedcoi_db/coi_NCBI_header.txt</span></code></pre></div>
+<p>Generate read count files for each type of communities</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="generating-mock-communities.html#cb52-1" tabindex="-1"></a><span class="co">#  Load Sequence header from databases</span></span>
+<span id="cb52-2"><a href="generating-mock-communities.html#cb52-2" tabindex="-1"></a>headercoi <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;/home/kvilleneuve/fish_edna/database/curatedcoi_db/coi_NCBI_header.txt&quot;</span>)</span>
+<span id="cb52-3"><a href="generating-mock-communities.html#cb52-3" tabindex="-1"></a><span class="co"># Set reads per samples (number obtain from the DADA2 workflow)</span></span>
+<span id="cb52-4"><a href="generating-mock-communities.html#cb52-4" tabindex="-1"></a>average_reads <span class="ot">=</span> <span class="dv">55424</span></span>
+<span id="cb52-5"><a href="generating-mock-communities.html#cb52-5" tabindex="-1"></a></span>
+<span id="cb52-6"><a href="generating-mock-communities.html#cb52-6" tabindex="-1"></a><span class="do">############################################################</span></span>
+<span id="cb52-7"><a href="generating-mock-communities.html#cb52-7" tabindex="-1"></a><span class="do">##########  High Richness and evenness community ###########</span></span>
+<span id="cb52-8"><a href="generating-mock-communities.html#cb52-8" tabindex="-1"></a><span class="do">############################################################</span></span>
+<span id="cb52-9"><a href="generating-mock-communities.html#cb52-9" tabindex="-1"></a></span>
+<span id="cb52-10"><a href="generating-mock-communities.html#cb52-10" tabindex="-1"></a><span class="co"># High richness community </span></span>
+<span id="cb52-11"><a href="generating-mock-communities.html#cb52-11" tabindex="-1"></a>rich_plus <span class="ot">=</span> <span class="fu">c</span>(fish_id_good, fish_id_bad)</span>
+<span id="cb52-12"><a href="generating-mock-communities.html#cb52-12" tabindex="-1"></a></span>
+<span id="cb52-13"><a href="generating-mock-communities.html#cb52-13" tabindex="-1"></a><span class="co"># Subset sequence header to keep only fish from generated list</span></span>
+<span id="cb52-14"><a href="generating-mock-communities.html#cb52-14" tabindex="-1"></a>headercoi_richHIGH <span class="ot">=</span> headercoi <span class="sc">%&gt;%</span> </span>
+<span id="cb52-15"><a href="generating-mock-communities.html#cb52-15" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">if_any</span>(<span class="dv">1</span>, str_detect, <span class="fu">paste0</span>(rich_plus, <span class="at">collapse =</span> <span class="st">&#39;|&#39;</span>)))</span>
+<span id="cb52-16"><a href="generating-mock-communities.html#cb52-16" tabindex="-1"></a></span>
+<span id="cb52-17"><a href="generating-mock-communities.html#cb52-17" tabindex="-1"></a>headercoi_richHIGH<span class="sc">$</span>V1 <span class="ot">=</span> <span class="fu">gsub</span>(<span class="st">&quot;&gt;&quot;</span>, <span class="st">&quot;&quot;</span>, headercoi_richHIGH<span class="sc">$</span>V1)</span>
+<span id="cb52-18"><a href="generating-mock-communities.html#cb52-18" tabindex="-1"></a></span>
+<span id="cb52-19"><a href="generating-mock-communities.html#cb52-19" tabindex="-1"></a><span class="fu">write.table</span>(headercoi_richHIGH, <span class="st">&quot;/home/kvilleneuve/fish_edna/raw/mock_comm/coi_header_richplus.txt&quot;</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;;&quot;</span>)</span>
+<span id="cb52-20"><a href="generating-mock-communities.html#cb52-20" tabindex="-1"></a></span>
+<span id="cb52-21"><a href="generating-mock-communities.html#cb52-21" tabindex="-1"></a><span class="co"># Generate read count file for (richness + / evenness +) mock community. We want the sum of all the ASV in our sample to be similar to the average read count per sample in the regular samples. </span></span>
+<span id="cb52-22"><a href="generating-mock-communities.html#cb52-22" tabindex="-1"></a>headercoi_richHIGH<span class="sc">$</span>count <span class="ot">=</span> <span class="fu">floor</span>(average_reads<span class="sc">/</span><span class="fu">nrow</span>(headercoi_richHIGH))</span>
+<span id="cb52-23"><a href="generating-mock-communities.html#cb52-23" tabindex="-1"></a><span class="fu">write.table</span>(headercoi_richHIGH, <span class="st">&quot;/home/kvilleneuve/fish_edna/raw/mock_comm/coi_counts_richplusevenplus.txt&quot;</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb52-24"><a href="generating-mock-communities.html#cb52-24" tabindex="-1"></a></span>
+<span id="cb52-25"><a href="generating-mock-communities.html#cb52-25" tabindex="-1"></a><span class="do">###########################################################</span></span>
+<span id="cb52-26"><a href="generating-mock-communities.html#cb52-26" tabindex="-1"></a><span class="do">##########  Low Richness and evenness community ###########</span></span>
+<span id="cb52-27"><a href="generating-mock-communities.html#cb52-27" tabindex="-1"></a><span class="do">###########################################################</span></span>
+<span id="cb52-28"><a href="generating-mock-communities.html#cb52-28" tabindex="-1"></a></span>
+<span id="cb52-29"><a href="generating-mock-communities.html#cb52-29" tabindex="-1"></a><span class="co"># Low richness community </span></span>
+<span id="cb52-30"><a href="generating-mock-communities.html#cb52-30" tabindex="-1"></a>rich_low <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Oncorhynchus_mykiss_x_Salmo_salar&quot;</span>,<span class="st">&quot;Notropis_atherinoides&quot;</span>,<span class="st">&quot;Percina_caprodes&quot;</span>,<span class="st">&quot;Coregonus_artedi&quot;</span>,<span class="st">&quot;Sander_vitreus&quot;</span>,<span class="st">&quot;Percopsis_omiscomaycus&quot;</span>,<span class="st">&quot;Culaea_inconstans&quot;</span>,<span class="st">&quot;Lota_lota&quot;</span>)</span>
+<span id="cb52-31"><a href="generating-mock-communities.html#cb52-31" tabindex="-1"></a></span>
+<span id="cb52-32"><a href="generating-mock-communities.html#cb52-32" tabindex="-1"></a><span class="co"># Subset sequence header to keep only fish from generated list</span></span>
+<span id="cb52-33"><a href="generating-mock-communities.html#cb52-33" tabindex="-1"></a>headercoi_richLOW <span class="ot">=</span> headercoi <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">if_any</span>(<span class="dv">1</span>, str_detect, <span class="fu">paste0</span>(rich_low, <span class="at">collapse =</span> <span class="st">&#39;|&#39;</span>)))</span>
+<span id="cb52-34"><a href="generating-mock-communities.html#cb52-34" tabindex="-1"></a></span>
+<span id="cb52-35"><a href="generating-mock-communities.html#cb52-35" tabindex="-1"></a>headercoi_richLOW<span class="sc">$</span>V1 <span class="ot">=</span> <span class="fu">gsub</span>(<span class="st">&quot;&gt;&quot;</span>, <span class="st">&quot;&quot;</span>, headercoi_richLOW<span class="sc">$</span>V1)</span>
+<span id="cb52-36"><a href="generating-mock-communities.html#cb52-36" tabindex="-1"></a></span>
+<span id="cb52-37"><a href="generating-mock-communities.html#cb52-37" tabindex="-1"></a><span class="fu">write.table</span>(headercoi_richLOW, <span class="st">&quot;/home/kvilleneuve/fish_edna/raw/mock_comm/coi_header_richlow.txt&quot;</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb52-38"><a href="generating-mock-communities.html#cb52-38" tabindex="-1"></a></span>
+<span id="cb52-39"><a href="generating-mock-communities.html#cb52-39" tabindex="-1"></a><span class="co"># Generate read count file for (richness - / evenness +) mock community.  </span></span>
+<span id="cb52-40"><a href="generating-mock-communities.html#cb52-40" tabindex="-1"></a></span>
+<span id="cb52-41"><a href="generating-mock-communities.html#cb52-41" tabindex="-1"></a>headercoi_richLOW<span class="sc">$</span>count <span class="ot">=</span> <span class="fu">floor</span>(average_reads<span class="sc">/</span><span class="fu">nrow</span>(headercoi_richLOW))</span>
+<span id="cb52-42"><a href="generating-mock-communities.html#cb52-42" tabindex="-1"></a></span>
+<span id="cb52-43"><a href="generating-mock-communities.html#cb52-43" tabindex="-1"></a><span class="fu">write.table</span>(headercoi_richLOW, <span class="st">&quot;/home/kvilleneuve/fish_edna/raw/mock_comm/coi_counts_richlowevenplus.txt&quot;</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb52-44"><a href="generating-mock-communities.html#cb52-44" tabindex="-1"></a></span>
+<span id="cb52-45"><a href="generating-mock-communities.html#cb52-45" tabindex="-1"></a><span class="do">###########################################################</span></span>
+<span id="cb52-46"><a href="generating-mock-communities.html#cb52-46" tabindex="-1"></a><span class="do">###############  Low evenness communities #################</span></span>
+<span id="cb52-47"><a href="generating-mock-communities.html#cb52-47" tabindex="-1"></a><span class="do">###########################################################</span></span>
+<span id="cb52-48"><a href="generating-mock-communities.html#cb52-48" tabindex="-1"></a></span>
+<span id="cb52-49"><a href="generating-mock-communities.html#cb52-49" tabindex="-1"></a><span class="co"># The low-evenness of both richness types of mock community was manually </span></span>
+<span id="cb52-50"><a href="generating-mock-communities.html#cb52-50" tabindex="-1"></a><span class="co"># generated to have an exponential distribution of reads alternating between </span></span>
+<span id="cb52-51"><a href="generating-mock-communities.html#cb52-51" tabindex="-1"></a><span class="co"># non- and consistently identified fishes.</span></span></code></pre></div>
+<p><strong>Create FASTA for InSilicoSeq</strong></p>
+<p>Generate FASTA file with sequences from all 16 fishes used to generate mock community and make this fasta linear</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb53-1"><a href="generating-mock-communities.html#cb53-1" tabindex="-1"></a><span class="ex">seqkit</span> grep <span class="at">-nrf</span> coi_header_richplus.txt</span></code></pre></div>
+<p>Because InSilicoSeq only keeps the first 300 nucleotides, the generated amplicon sequence did not initially correspond to our amplified region and no merged reads were generated. I therefore used cutadapt to remove all the nucleotides before the forward primer while retaining the primer.</p>
+<p>For the reverse primer, the actual primer sequence was not consistently present in our sequences. Increasing the -e value did allow the primer to be found but this resulted in sequences less then 300 bp for some fishes. I therefore decided to instead cut the trimF fasta at 300 bp.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb54-1"><a href="generating-mock-communities.html#cb54-1" tabindex="-1"></a><span class="ex">cutadapt</span> <span class="at">--action</span><span class="op">=</span>retain <span class="at">-g</span> GTATTTGGYGCYTGRGCCGGRATAGT <span class="at">-o</span> coi_seq_TRIMF.fasta coi_all.fasta <span class="at">-e</span> 0.2</span>
+<span id="cb54-2"><a href="generating-mock-communities.html#cb54-2" tabindex="-1"></a><span class="ex">cutadapt</span> <span class="at">--action</span><span class="op">=</span>retain <span class="at">-a</span> CGAATRAAYAAYATRAGYTTYTG <span class="at">-o</span> coi_seq_TRIMR.fasta coi_all.fasta <span class="at">-e</span> 0.2</span>
+<span id="cb54-3"><a href="generating-mock-communities.html#cb54-3" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="generating-mock-communities.html#cb54-4" tabindex="-1"></a><span class="co">#cutadapt --length 350 -o coi_seq_TRIMFR.fasta  coi_seq_TRIMF.fasta</span></span></code></pre></div>
+<p><strong>InSilicoSeq</strong></p>
+<p>Use <a href="https://insilicoseq.readthedocs.io/en/latest/index.html">InSilicoSeq</a> pre-computed error models to generate amplicon reads.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb55-1"><a href="generating-mock-communities.html#cb55-1" tabindex="-1"></a><span class="co"># High Richness and high evenness</span></span>
+<span id="cb55-2"><a href="generating-mock-communities.html#cb55-2" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> coi_seq_TRIMFR.fasta <span class="at">--readcount_file</span>  coi_counts_richplusevenplus.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> coi-richplusevenplus_L001</span>
+<span id="cb55-3"><a href="generating-mock-communities.html#cb55-3" tabindex="-1"></a></span>
+<span id="cb55-4"><a href="generating-mock-communities.html#cb55-4" tabindex="-1"></a><span class="co"># High Richness and low evenness</span></span>
+<span id="cb55-5"><a href="generating-mock-communities.html#cb55-5" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> coi_seq_TRIMFR.fasta <span class="at">--readcount_file</span> coi_counts_richplusevenlow.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> coi-richplusevenlow_L001</span>
+<span id="cb55-6"><a href="generating-mock-communities.html#cb55-6" tabindex="-1"></a></span>
+<span id="cb55-7"><a href="generating-mock-communities.html#cb55-7" tabindex="-1"></a><span class="co"># Low Richness and high evenness</span></span>
+<span id="cb55-8"><a href="generating-mock-communities.html#cb55-8" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> coi_seq_TRIMFR.fasta <span class="at">--readcount_file</span>  coi_counts_richlowevenplus.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> coi-richlowevenplus_L001</span>
+<span id="cb55-9"><a href="generating-mock-communities.html#cb55-9" tabindex="-1"></a></span>
+<span id="cb55-10"><a href="generating-mock-communities.html#cb55-10" tabindex="-1"></a><span class="co"># Low Richness and low evenness</span></span>
+<span id="cb55-11"><a href="generating-mock-communities.html#cb55-11" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> coi_seq_TRIMFR.fasta <span class="at">--readcount_file</span> coi_counts_richlowevenlow.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> coi-richlowevenlow_L001</span></code></pre></div>
+<p>The pattern <code>_001</code> was then manually added to every FASTQ generated to match pattern from our other samples.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb56-1"><a href="generating-mock-communities.html#cb56-1" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb56-2"><a href="generating-mock-communities.html#cb56-2" tabindex="-1"></a><span class="co">############# High Richness and High Evenness ############# </span></span>
+<span id="cb56-3"><a href="generating-mock-communities.html#cb56-3" tabindex="-1"></a><span class="co"># FORWARD read</span></span>
+<span id="cb56-4"><a href="generating-mock-communities.html#cb56-4" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Generating reads for High Richness and High Evenness&quot;</span></span>
+<span id="cb56-5"><a href="generating-mock-communities.html#cb56-5" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> coi_seq_TRIMF.fasta <span class="at">--readcount_file</span>  coi_counts_richplusevenplus.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> coi-richplusevenplus_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb56-6"><a href="generating-mock-communities.html#cb56-6" tabindex="-1"></a><span class="co"># Delete the reverse (R2) and move R1 to folder fastq</span></span>
+<span id="cb56-7"><a href="generating-mock-communities.html#cb56-7" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R2<span class="pp">*</span> </span>
+<span id="cb56-8"><a href="generating-mock-communities.html#cb56-8" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb56-9"><a href="generating-mock-communities.html#cb56-9" tabindex="-1"></a><span class="co"># REVERSE  read</span></span>
+<span id="cb56-10"><a href="generating-mock-communities.html#cb56-10" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> coi_seq_TRIMR.fasta <span class="at">--readcount_file</span>  coi_counts_richplusevenplus.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> coi-richplusevenplus_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb56-11"><a href="generating-mock-communities.html#cb56-11" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R1<span class="pp">*</span></span>
+<span id="cb56-12"><a href="generating-mock-communities.html#cb56-12" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb56-13"><a href="generating-mock-communities.html#cb56-13" tabindex="-1"></a></span>
+<span id="cb56-14"><a href="generating-mock-communities.html#cb56-14" tabindex="-1"></a><span class="co">############# Low Richness and high evenness ############# </span></span>
+<span id="cb56-15"><a href="generating-mock-communities.html#cb56-15" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Generating reads for Low Richness and High Evenness&quot;</span></span>
+<span id="cb56-16"><a href="generating-mock-communities.html#cb56-16" tabindex="-1"></a><span class="co"># FORWARD read</span></span>
+<span id="cb56-17"><a href="generating-mock-communities.html#cb56-17" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> coi_seq_TRIMF.fasta <span class="at">--readcount_file</span>  coi_counts_richlowevenplus.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> coi-richlowevenplus_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb56-18"><a href="generating-mock-communities.html#cb56-18" tabindex="-1"></a><span class="co"># Delete the reverse (R2) and move R1 to folder fastq</span></span>
+<span id="cb56-19"><a href="generating-mock-communities.html#cb56-19" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R2<span class="pp">*</span> </span>
+<span id="cb56-20"><a href="generating-mock-communities.html#cb56-20" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb56-21"><a href="generating-mock-communities.html#cb56-21" tabindex="-1"></a><span class="co"># REVERSE  read</span></span>
+<span id="cb56-22"><a href="generating-mock-communities.html#cb56-22" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> coi_seq_TRIMR.fasta <span class="at">--readcount_file</span>  coi_counts_richlowevenplus.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> coi-richlowevenplus_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb56-23"><a href="generating-mock-communities.html#cb56-23" tabindex="-1"></a><span class="co"># Delete  the forward (R1) and move R2 to folder fastq</span></span>
+<span id="cb56-24"><a href="generating-mock-communities.html#cb56-24" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R1<span class="pp">*</span></span>
+<span id="cb56-25"><a href="generating-mock-communities.html#cb56-25" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb56-26"><a href="generating-mock-communities.html#cb56-26" tabindex="-1"></a></span>
+<span id="cb56-27"><a href="generating-mock-communities.html#cb56-27" tabindex="-1"></a><span class="co">############# High Richness and low evenness ############# </span></span>
+<span id="cb56-28"><a href="generating-mock-communities.html#cb56-28" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Generating reads for High Richness and Low Evenness&quot;</span></span>
+<span id="cb56-29"><a href="generating-mock-communities.html#cb56-29" tabindex="-1"></a><span class="co"># FORWARD read</span></span>
+<span id="cb56-30"><a href="generating-mock-communities.html#cb56-30" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> coi_seq_TRIMF.fasta <span class="at">--readcount_file</span> coi_counts_richplusevenlow.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> coi-richplusevenlow_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb56-31"><a href="generating-mock-communities.html#cb56-31" tabindex="-1"></a><span class="co"># Delete all the reverse (R2) and move R1 to another folder (fastq)</span></span>
+<span id="cb56-32"><a href="generating-mock-communities.html#cb56-32" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R2<span class="pp">*</span> </span>
+<span id="cb56-33"><a href="generating-mock-communities.html#cb56-33" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb56-34"><a href="generating-mock-communities.html#cb56-34" tabindex="-1"></a><span class="co"># REVERSE  read</span></span>
+<span id="cb56-35"><a href="generating-mock-communities.html#cb56-35" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> coi_seq_TRIMR.fasta <span class="at">--readcount_file</span>  coi_counts_richplusevenlow.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> coi-richplusevenlow_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb56-36"><a href="generating-mock-communities.html#cb56-36" tabindex="-1"></a><span class="co"># Delete all the forward (R1) and move R2 to another folder (fastq)</span></span>
+<span id="cb56-37"><a href="generating-mock-communities.html#cb56-37" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R1<span class="pp">*</span></span>
+<span id="cb56-38"><a href="generating-mock-communities.html#cb56-38" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb56-39"><a href="generating-mock-communities.html#cb56-39" tabindex="-1"></a></span>
+<span id="cb56-40"><a href="generating-mock-communities.html#cb56-40" tabindex="-1"></a><span class="co">############# Low Richness and low evenness ############# </span></span>
+<span id="cb56-41"><a href="generating-mock-communities.html#cb56-41" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Generating reads for Low Richness and Low Evenness&quot;</span></span>
+<span id="cb56-42"><a href="generating-mock-communities.html#cb56-42" tabindex="-1"></a><span class="co"># FORWARD read</span></span>
+<span id="cb56-43"><a href="generating-mock-communities.html#cb56-43" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> coi_seq_TRIMF.fasta <span class="at">--readcount_file</span> coi_counts_richlowevenlow.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> coi-richlowevenlow_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb56-44"><a href="generating-mock-communities.html#cb56-44" tabindex="-1"></a><span class="co"># Delete all the reverse (R2) and move R1 to another folder (fastq)</span></span>
+<span id="cb56-45"><a href="generating-mock-communities.html#cb56-45" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R2<span class="pp">*</span> </span>
+<span id="cb56-46"><a href="generating-mock-communities.html#cb56-46" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb56-47"><a href="generating-mock-communities.html#cb56-47" tabindex="-1"></a><span class="co"># REVERSE  read</span></span>
+<span id="cb56-48"><a href="generating-mock-communities.html#cb56-48" tabindex="-1"></a><span class="ex">iss</span> generate <span class="at">--genomes</span> coi_seq_TRIMR.fasta <span class="at">--readcount_file</span>  coi_counts_richlowevenlow.txt <span class="at">--sequence_type</span> amplicon <span class="at">--model</span> MiSeq  <span class="at">--output</span> coi-richlowevenlow_L001 <span class="at">--cpus</span> 20</span>
+<span id="cb56-49"><a href="generating-mock-communities.html#cb56-49" tabindex="-1"></a><span class="co"># Delete all the forward (R1) and move R2 to another folder (fastq)</span></span>
+<span id="cb56-50"><a href="generating-mock-communities.html#cb56-50" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>R1<span class="pp">*</span></span>
+<span id="cb56-51"><a href="generating-mock-communities.html#cb56-51" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>.fastq fastq </span>
+<span id="cb56-52"><a href="generating-mock-communities.html#cb56-52" tabindex="-1"></a></span>
+<span id="cb56-53"><a href="generating-mock-communities.html#cb56-53" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>.vcf</span></code></pre></div>
+<p>for f in *.fastq; do mv “<span class="math inline">\(f&quot; &quot;\)</span>(echo”$f” | sed s/IMG/VACATION/)“; done</p>
+
+</div>
+<hr>
+<center>
+  <div class="footer">
+      Karine Villeneuve
+      <p : id="date"></p>
+<script>
+  // Get current date and time
+//  var now = new Date();
+//  var date = now.toLocaleString();
+//  n =  new Date();
+//  y = n.getFullYear();
+//  m = n.getMonth();
+//  d = n.getDate();
+//  document.getElementById("date").innerHTML = d + "/" + m + "/" + y;
+  n = new Date().toDateString()
+  document.getElementById("date").innerHTML = n
+  // Insert date and time into HTML
+//  document.getElementById("date").innerHTML = date;
+</script>
+  </div>
+</center>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="generating-custom-database.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="supplementary-workflow.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/karinevilleneuve/fish_eDNA/master/06_mock_communities.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

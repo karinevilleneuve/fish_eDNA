@@ -1,0 +1,355 @@
+# Processing raw fastq {-}
+
+The two following FASTQ processing workflow were used in the context of this study : 
+
+1. DADA2 
+2. barque
+
+## DADA2 {-}
+
+```{r, eval = FALSE}
+# :::::::::::::::::::::::::::::::::::::::::::: 12S MARKER GENE :::::::::::::::::::::::::::::::::::::::::::::::::
+
+################################################################################
+#### ----------------------------- libraries ------------------------------ ####
+################################################################################
+
+library(dada2)
+library(ShortRead)
+library(Biostrings)
+library(reticulate)
+library(dplyr)
+library(phyloseq)
+
+################################################################################
+#### -------------------------- Prepare files ----------------------------- ####
+################################################################################
+
+path = "/home/kvilleneuve/fish_edna/raw/12s"
+
+myfiles = list.files(path = path, pattern="fastq.gz")
+
+fnFs = sort(list.files(path,pattern = "_R1_001.fastq.gz",full.names=TRUE))
+fnRs = sort(list.files(path,pattern = "_R2_001.fastq.gz",full.names=TRUE))
+sample.names = sapply(strsplit(basename(fnFs), "_"), `[`, 1)
+
+
+################################################################################
+#### --------------------------- Plot quality ----------------------------- ####
+################################################################################
+
+plotQualityProfile(fnFs.filtN) #read quality drops after about 225bp
+plotQualityProfile(fnRs.filtN) #read quality drops around 225bp
+
+################################################################################
+#### ------------------------ Finding primers ----------------------------- ####
+################################################################################
+
+FWD = "CCGGTAAAACTCGTGCCAGC"
+REV = "CATAGTGGGGTATCTAATCCCAGTTTG"
+
+allOrients = function(primer){
+  require(Biostrings)
+  dna = DNAString(primer)
+  orients = c(Forward = dna, Complement = complement(dna), Reverse = reverse(dna), RevComp = reverseComplement(dna))
+  return(sapply(orients,toString))
+}
+
+FWD.orients = allOrients(FWD)
+REV.orients = allOrients(REV)
+
+primerHits = function(primer,fn){
+  nhits = vcountPattern(primer,sread(readFastq(fn)),fixed=FALSE)
+  return(sum(nhits>0))
+}
+
+rbind(FWD.ForwardReads=sapply(FWD.orients,primerHits,fnFs[[1]]),
+      FWD.ReverseReads=sapply(FWD.orients,primerHits,fnRs[[1]]),
+      REV.ForwardReads=sapply(REV.orients,primerHits,fnFs[[1]]),
+      REV.ReverseReads=sapply(REV.orients,primerHits,fnRs[[1]]))
+
+
+################################################################################
+#### ------------------------ Removing primers ---------------------------- ####
+################################################################################
+
+cutadapt = "/home/kvilleneuve/anaconda/envs/cutadapt/bin/cutadapt"
+system2(cutadapt, args = '--version')
+
+path.cut = file.path(path, "cutadapt") # create folder cutadapt in directory path_raw
+if(!dir.exists(path.cut)) dir.create(path.cut)
+fnFs.cut = file.path(path.cut, basename(fnFs))
+fnRs.cut = file.path(path.cut, basename(fnRs))
+
+FWD.RC = dada2:::rc(FWD)
+REV.RC = dada2:::rc(REV)
+
+R1.flags = paste("-g", FWD, "-a", REV.RC)
+R2.flags = paste("-G", REV, "-A", FWD.RC)
+
+#Trim primers with cutadapt
+for(i in seq_along(fnFs)){
+  system2(cutadapt, arg = c(R1.flags, R2.flags, "-n", 2, "-m", 10, "-o", 
+                            fnFs.cut[i],"-p",fnRs.cut[i],fnFs[i],fnRs[i]))
+}
+
+# Sanity check to confirm primers were removed 
+rbind(FWD.ForwardReads=sapply(FWD.orients,primerHits,fnFs.cut[[1]]),
+      FWD.ReverseReads=sapply(FWD.orients,primerHits,fnRs.cut[[1]]),
+      REV.ForwardReads=sapply(REV.orients,primerHits,fnFs.cut[[1]]),
+      REV.ReverseReads=sapply(REV.orients,primerHits,fnRs.cut[[1]]))
+                                                                                                                                                                   
+################################################################################
+#### ------------------------- Filter and trim ---------------------------- ####
+################################################################################
+
+cutFs = sort(list.files(path.cut, pattern ="_R1_001.fastq.gz", full.names=TRUE))
+cutRs = sort(list.files(path.cut, pattern ="_R2_001.fastq.gz", full.names=TRUE))
+
+
+filtFs = file.path(path,"filtered", basename(cutFs))
+filtRs = file.path(path,"filtered", basename(cutRs))
+
+out = filterAndTrim(cutFs, filtFs, cutRs, filtRs, maxN = 0, maxEE = c(2,2),truncQ = 2,
+                    minLen = 50, rm.phix = TRUE, compress = TRUE)
+
+head(out)
+exists = file.exists(filtFs) # All files have reads
+
+errF = learnErrors(filtFs[exists], multithread = TRUE)
+errR = learnErrors(filtRs[exists], multithread = TRUE)
+
+#plotErrors(errF,nominalQ=TRUE)
+#plotErrors(errR,nominalQ=TRUE)
+
+derepFs = derepFastq(filtFs[exists],verbose=TRUE)
+derepRs = derepFastq(filtRs[exists],verbose=TRUE)
+
+dadaFs = dada(filtFs, err = errF, multithread = TRUE, pool = "pseudo")
+dadaRs = dada(filtRs, err = errR, multithread = TRUE, pool = "pseudo")
+
+mergers = mergePairs(dadaFs, filtFs, dadaRs, filtRs, verbose=TRUE)
+names(mergers) = sample.names[exists]
+seqtab = makeSequenceTable(mergers)
+table(nchar(getSequences(seqtab))) # Most sequences are 259 bp long
+#seqtab2 = seqtab[,nchar(colnames(seqtab)) %in% 200:300]
+
+seqtab.nochim = removeBimeraDenovo(seqtab, method="consensus", multithread=TRUE,verbose=TRUE)
+sum(seqtab.nochim)/sum(seqtab) # 99.9% of reads remain
+
+getN = function(x) sum(getUniques(x))
+out_ex = row.names(out)[exists]
+
+track = cbind(out,sapply(dadaFs,getN),sapply(dadaRs,getN),sapply(mergers,getN),
+              rowSums(seqtab.nochim))
+
+colnames(track) = c("input","filtered","denoisedF","denoisedR","merged","nochim")
+
+ps_base = phyloseq(otu_table(seqtab.nochim,taxa_are_rows = FALSE))
+dna = Biostrings::DNAStringSet(taxa_names(ps_base))
+names(dna) = taxa_names(ps_base)
+ps_base = merge_phyloseq(ps_base,dna)
+ps_sub = prune_taxa(taxa_sums(ps_base) > 2, ps_base) # 2982 taxa remain
+
+taxa_names(ps_sub)<-paste0("ASV",seq(ntaxa(ps_sub)))
+ps_sub %>%
+  refseq() %>%
+  Biostrings::writeXStringSet("/home/kvilleneuve/fish_edna/results/12s_dada2_biostring4annotation.fna", 
+                              append = FALSE, compress = FALSE, compression_level = NA, format = "fasta")
+saveRDS(ps_sub, file = "/home/kvilleneuve/fish_edna/results/12s_dada2_rdpraw_phylo.rds")
+
+# :::::::::::::::::::::::::::::::::::::::::::: COI MARKER GENE :::::::::::::::::::::::::::::::::::::::::::::::::
+
+path = "/home/kvilleneuve/fish_edna/raw/coi"
+
+myfiles = list.files(path = path, pattern="fastq.gz")
+
+fnFs = sort(list.files(path,pattern = "_R1_001.fastq.gz",full.names=TRUE))
+fnRs = sort(list.files(path,pattern = "_R2_001.fastq.gz",full.names=TRUE))
+
+################################################################################
+#### ------------------------ Finding primers ----------------------------- ####
+################################################################################
+
+FWD = "CGTATTTGGYGCYTGRGCCGGRATAGT"
+REV = "CARAARCTYATRTTRTTYATTCG"
+
+allOrients<-function(primer){
+  require(Biostrings)
+  dna = DNAString(primer)
+  orients = c(Forward = dna, Complement = complement(dna), Reverse = reverse(dna), RevComp = reverseComplement(dna))
+  return(sapply(orients,toString))
+}
+
+FWD.orients = allOrients(FWD)
+REV.orients = allOrients(REV)
+
+primerHits = function(primer,fn){
+  nhits<-vcountPattern(primer,sread(readFastq(fn)),fixed = FALSE)
+  return(sum(nhits>0))
+}
+
+rbind(FWD.ForwardReads = sapply(FWD.orients,primerHits,fnFs[[1]]),
+      FWD.ReverseReads = sapply(FWD.orients,primerHits,fnRs[[1]]),
+      REV.ForwardReads = sapply(REV.orients,primerHits,fnFs[[1]]),
+      REV.ReverseReads = sapply(REV.orients,primerHits,fnRs[[1]]))
+
+################################################################################
+#### ------------------------ Removing primers ---------------------------- ####
+################################################################################
+
+cutadapt = "/home/kvilleneuve/anaconda/envs/cutadapt/bin/cutadapt"
+system2(cutadapt, args = '--version')
+
+path.cut = file.path(path,"cutadapt")
+if(!dir.exists(path.cut))dir.create(path.cut)
+fnFs.cut = file.path(path.cut,basename(fnFs))
+fnRs.cut = file.path(path.cut,basename(fnRs))
+
+FWD.RC = dada2:::rc(FWD)
+REV.RC = dada2:::rc(REV)
+
+R1.flags = paste("-g",FWD,"-a",REV.RC)
+R2.flags = paste("-G",REV,"-A",FWD.RC)
+
+
+for(i in seq_along(fnFs)){
+  system2(cutadapt, arg = c(R1.flags,R2.flags,"-n",2,"-m",10,"-o",fnFs.cut[i],"-p",fnRs.cut[i],fnFs[i],fnRs[i]))
+}
+
+rbind(FWD.ForwardReads = sapply(FWD.orients,primerHits,fnFs.cut[[1]]),
+      FWD.ReverseReads = sapply(FWD.orients,primerHits,fnRs.cut[[1]]),
+      REV.ForwardReads = sapply(REV.orients,primerHits,fnFs.cut[[1]]),
+      REV.ReverseReads = sapply(REV.orients,primerHits,fnRs.cut[[1]])
+)
+
+cutFs = sort(list.files(path.cut,pattern="_R1_001.fastq.gz",full.names=TRUE))
+cutRs = sort(list.files(path.cut,pattern="_R2_001.fastq.gz",full.names=TRUE))
+get.sample.name = function(fname)strsplit(basename(fname),"_L001")[[1]][1]
+sample.names = unname(sapply(cutFs,get.sample.name))
+head(sample.names)
+
+plotQualityProfile(cutFs[1:4])#most reads very short, but of longer reads quality remains pretty high until 250bp
+plotQualityProfile(cutRs[1:4])#most reads very short, long read quality drops around 225bp
+
+filtFs = file.path(path,"filtered",basename(cutFs))
+filtRs = file.path(path,"filtered",basename(cutRs))
+
+################################################################################
+#### ------------------------- Filter and trim ---------------------------- ####
+################################################################################
+
+out = filterAndTrim(cutFs, filtFs, cutRs, filtRs, maxN = 0, maxEE = c(2,2), truncQ = 2,
+                   minLen = 50, rm.phix = TRUE, compress = TRUE)
+
+head(out)
+exists = file.exists(filtFs)#all files have reads
+
+errF = learnErrors(filtFs[exists],multithread = TRUE)
+errR = learnErrors(filtRs[exists],multithread = TRUE)
+
+plotErrors(errF,nominalQ=TRUE)
+plotErrors(errR,nominalQ=TRUE)
+
+derepFs = derepFastq(filtFs[exists], verbose = TRUE)
+derepRs = derepFastq(filtRs[exists], verbose = TRUE)
+
+dadaFs = dada(derepFs, err = errF, multithread = TRUE, pool = "pseudo")
+dadaRs = dada(derepRs, err = errR, multithread = TRUE, pool = "pseudo")
+
+mergers = mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose = TRUE)
+names(mergers) = sample.names[exists]
+seqtab = makeSequenceTable(mergers)
+sort(table(nchar(getSequences(seqtab))))#no clear pattern of sequence length distribution, remove products under 100bp
+# seqtab2<-seqtab[,nchar(colnames(seqtab)) %in% 100:457]
+
+seqtab.nochim = removeBimeraDenovo(seqtab, method = "consensus", multithread = TRUE, verbose = TRUE)
+sum(seqtab.nochim)/sum(seqtab) #91% of reads remain
+
+getN = function(x) sum(getUniques(x))
+out_ex = row.names(out)[exists]
+track = cbind(out,sapply(dadaFs, getN),sapply(dadaRs,getN), sapply(mergers, getN), rowSums(seqtab.nochim))
+colnames(track) = c("input", "filtered", "denoisedF", "denoisedR", "merged", "nochim")
+
+
+ps_base = phyloseq(otu_table(seqtab.nochim,taxa_are_rows = FALSE))
+dna = Biostrings::DNAStringSet(taxa_names(ps_base))
+names(dna) = taxa_names(ps_base)
+ps_base = merge_phyloseq(ps_base, dna)
+taxa_names(ps_base) = paste0("ASV", seq(ntaxa(ps_base)))
+
+ps_sub = prune_taxa(taxa_sums(ps_base) > 2, ps_base) # remove singleton and doubletons, 1/3 of taxa removed
+
+taxa_names(ps_sub) = paste0("ASV", seq(ntaxa(ps_sub)))
+
+ps_sub %>%
+  refseq() %>%
+  Biostrings::writeXStringSet("/home/kvilleneuve/fish_edna/results/coi_dada2_biostring4annotation.fna", append = FALSE,
+                              compress = FALSE, compression_level = NA, format = "fasta")
+saveRDS(ps_sub, file = "/home/kvilleneuve/fish_edna/results/coi_dada2_rdpraw_phylo.rds")
+```
+
+## barque {-}
+
+NB. Barque will only work on GNU Linux or OSX
+
+1. Required dependencies
+
+- bash 4+
+- python 3.5+ (you can use miniconda3 to install python)
+- python distutils package
+- R 3+ (ubuntu/mint: sudo apt-get install r-base-core)
+- java (ubuntu/mint: sudo apt-get install default-jre)
+- gnu parallel
+- flash (read merger) v1.2.11+
+   - Add the following to bashrc configuration file  `export PATH=/home/user/FLASH-1.2.11:$PATH`
+- vsearch v2.14.2+ (Barque will not work with older versions of vsearch)
+   - Depending on how vsearch is installed either export PATH to location of vsearch or activate base conda environnement
+
+2. Download a copy of the Barque repository
+
+```{bash, eval = FALSE}
+git clone https://github.com/enormandeau/barque
+```
+
+3. Get or prepare the database(s) (see Formatting database section below) and deposit the fasta.gz file in the 03_databases folder and give it a name that matches the information of the 02_info/primers.csv file.
+
+ - [Link](https://www.ibis.ulaval.ca/services/bioinformatique/barque_databases/) to BOLD database 
+
+4. Modify the following parameters :
+
+**In the 02_info/primers.csv**
+
+- for COI marker : 
+
+`COI_kv,CGTATTTGGYGCYTGRGCCGGRATAGT,CARAARCTYATRTTRTTYATTCG,100,450,bold,0.97,0.9,0.85`
+
+- for 12S marker 
+
+`12s200pb,GTCGGTAAAACTCGTGCCAGC,CATAGTGGGGTATCTAATCCCAGTTTG,150,350,12S,0.98,0.9,0.85`
+
+**In the 02_info/barque_config.sh**
+NCPUS=40
+CROP_LENGTH=500 
+MAX_PRIMER_DIFF=11   Maximum number of differences allowed between primer and sequence
+
+
+(MAX_PRIMER_DIFF=9)
+
+5. Launch Barque 
+
+Recommended parameters : 
+
+From the Github directory
+```{bash, eval = FALSE}
+./barque 02_info/barque_config.sh
+```
+
+Once the pipeline has finished running, all result files are found in the 12_results folder.
+After a run, it is recommended to make a copy of this folder with some additional info
+
+```{bash, eval = FALSE}
+cp -r 12_results results_PROJECT_NAME_DATE_SOME_ADDITIONAL_INFO
+``` 
+
+
